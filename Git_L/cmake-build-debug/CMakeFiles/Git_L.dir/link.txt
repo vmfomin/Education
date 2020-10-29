@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/Git_L.dir/main.cpp.o  -o Git_L.exe -Wl,--out-implib,libGit_L.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
