@@ -1,2 +1,2 @@
-# vmf0min_Skillbox
+# Skillbox
 # Репозиторий домашних заданий
