@@ -1,4 +1,5 @@
 #include <iostream>
+// Комментарий для отображения в GitHub
 
 int main() {
 #pragma region  Задание 1. Улучшаем гонщика
