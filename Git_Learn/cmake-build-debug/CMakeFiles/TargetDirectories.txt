@@ -1,3 +1,0 @@
-/cygdrive/d/Fomin/SkillBox/C++/vmf0min_Skillbox/Git_Learn/cmake-build-debug/CMakeFiles/edit_cache.dir
-/cygdrive/d/Fomin/SkillBox/C++/vmf0min_Skillbox/Git_Learn/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/d/Fomin/SkillBox/C++/vmf0min_Skillbox/Git_Learn/cmake-build-debug/CMakeFiles/Git_Learn.dir
