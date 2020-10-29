@@ -35,15 +35,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae08b273-28dc-4d8f-99a2-8d2601b1f3f5" name="Default Changelist" comment="Пытаюсь отменить2">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vmf0min_Skillbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vmf0min_Skillbox.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Git_Learn/.idea/Git_Learn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Git_Learn/.idea/Git_Learn.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Git_Learn/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Git_Learn/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Git_Learn/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Git_Learn/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Git_Learn/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Git_Learn/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +47,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/vmf0min/vmf0min_Skillbox" />
+      </set>
+    </option>
   </component>
   <component name="ProjectId" id="1jY4ajPoBrJQHZy6hZeANoey1dx" />
   <component name="ProjectViewState">
@@ -78,6 +76,8 @@
       <updated>1603967757807</updated>
       <workItem from="1603967759543" duration="564000" />
       <workItem from="1603968357117" duration="6000" />
+      <workItem from="1603968369101" duration="289000" />
+      <workItem from="1603968673187" duration="4000" />
     </task>
     <task id="LOCAL-00001" summary="Пытаюсь отменить">
       <created>1603968014022</created>
@@ -93,7 +93,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603968277256</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Пытаюсь отменить2">
+      <created>1603968614114</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603968614114</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,24 +133,25 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Пытаюсь отменить" />
     <MESSAGE value="Revert &quot;изменения&quot;&#10;&#10;This reverts commit 1b2ca945" />
-    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;изменения&quot;&#10;&#10;This reverts commit 1b2ca945" />
+    <MESSAGE value="Пытаюсь отменить2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Пытаюсь отменить2" />
   </component>
   <component name="WindowStateProjectService">
     <state x="592" y="91" key="CommitChangelistDialog2" timestamp="1603968276891">
       <screen x="0" y="0" width="1920" height="1036" />
     </state>
     <state x="592" y="91" key="CommitChangelistDialog2/0.0.1920.1036@0.0.1920.1036" timestamp="1603968276891" />
-    <state x="605" y="286" key="MultipleFileMergeDialog" timestamp="1603968317388">
+    <state x="605" y="286" key="MultipleFileMergeDialog" timestamp="1603968557813">
       <screen x="0" y="0" width="1920" height="1036" />
     </state>
-    <state x="605" y="286" key="MultipleFileMergeDialog/0.0.1920.1036@0.0.1920.1036" timestamp="1603968317388" />
-    <state x="556" y="255" key="Vcs.Push.Dialog.v2" timestamp="1603968278860">
+    <state x="605" y="286" key="MultipleFileMergeDialog/0.0.1920.1036@0.0.1920.1036" timestamp="1603968557813" />
+    <state x="556" y="255" key="Vcs.Push.Dialog.v2" timestamp="1603968617678">
       <screen x="0" y="0" width="1920" height="1036" />
     </state>
-    <state x="556" y="255" key="Vcs.Push.Dialog.v2/0.0.1920.1036@0.0.1920.1036" timestamp="1603968278860" />
-    <state x="786" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603967972041">
+    <state x="556" y="255" key="Vcs.Push.Dialog.v2/0.0.1920.1036@0.0.1920.1036" timestamp="1603968617678" />
+    <state x="786" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603968525158">
       <screen x="0" y="0" width="1920" height="1036" />
     </state>
-    <state x="786" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1036@0.0.1920.1036" timestamp="1603967972041" />
+    <state x="786" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1036@0.0.1920.1036" timestamp="1603968525158" />
   </component>
 </project>
