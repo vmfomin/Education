@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/cygdrive/d/Fomin/SkillBox/C++/Skillbox/7_module/7.6_module/main.cpp" "/cygdrive/d/Fomin/SkillBox/C++/Skillbox/7_module/7.6_module/cmake-build-debug/CMakeFiles/7_6_module.dir/main.cpp.o"
+  "/cygdrive/d/Документы/ВМФ/SkillBox/C++/7_module/7.6_module/main.cpp" "/cygdrive/d/Документы/ВМФ/SkillBox/C++/7_module/7.6_module/cmake-build-debug/CMakeFiles/7_6_module.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
