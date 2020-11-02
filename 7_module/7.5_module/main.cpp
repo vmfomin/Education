@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-    int a, b, remainder;
+    int a, b;
 
     std::cout << "Проверка деления на целое\n"
               << "Введите делимое: ";
