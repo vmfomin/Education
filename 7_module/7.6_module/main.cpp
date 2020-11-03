@@ -20,7 +20,7 @@ int main() {
     int reqBarber = men / menPerBarberPerMonth;
 
     // Проверка на целое. Если есть дробная часть, значит добавляем.
-    if (men / menPerBarberPerMonth != 0) reqBarber++;
+    if (men % menPerBarberPerMonth != 0) reqBarber++;
 
     std::cout << "Необходимое число барберов: " << reqBarber << "\n";
 
