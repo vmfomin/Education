@@ -15,11 +15,11 @@ int main() {
     if (expPoints < 1000) {
         std::cout << "Ваш уровень: " << level << "\n"
                   << "Для получения уровня " << level + 1 << ", Вам надо набрать " << 1000 - expPoints << " опыта\n";
-    } else if (expPoints >= 1000 && expPoints < 2500) {
+    } else if (expPoints < 2500) {
         level++;
         std::cout << "Ваш уровень: " << level << "\n"
                   << "Для получения уровня " << level + 1 << ", Вам надо набрать " << 2500 - expPoints << " опыта\n";
-    } else if (expPoints >= 2500 && expPoints < 5000) {
+    } else if (expPoints < 5000) {
         level += 2;
         std::cout << "Ваш уровень: " << level << "\n"
                   << "Для получения уровня " << level + 1 << ", Вам надо набрать " << 5000 - expPoints << " опыта\n";
