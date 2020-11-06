@@ -6,18 +6,18 @@
 #include <iostream>
 
 int main() {
+    int dayInMonth;
     int day;
-    int dayInWeek;
 
     std::cout << "Введите число в месяца ""Май"": ";
-    std::cin >> day;
+    std::cin >> dayInMonth;
 
-    // Проверка на остаток,
-    dayInWeek = day % 7;
+    // Остаток от деления -- искомый день.
+    day = dayInMonth % 7;
 
-    if (day >= 1 && day <= 5 || day >= 8 && day <= 10 || dayInWeek >= 6 && dayInWeek <= 7 || dayInWeek == 0)
+    if (dayInMonth >= 1 && dayInMonth <= 5 || dayInMonth >= 8 && dayInMonth <= 10 || day >= 6 && day <= 7 || day == 0)
         std::cout << "Выходной.\n";
-    else if (day == 0 || day > 31) std::cout << "В мае всего 31 день и отчет начинается с 1.\n";
+    else if (dayInMonth == 0 || dayInMonth > 31) std::cout << "В мае всего 31 день и отчет начинается с 1.\n";
     else std::cout << "Рабочий день.\n";
 
     return 0;
