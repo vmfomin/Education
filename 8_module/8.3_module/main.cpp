@@ -7,12 +7,15 @@
 
 int main() {
     int day;
+    int dayInWeek;
 
     std::cout << "Введите число в месяца ""Май"": ";
     std::cin >> day;
 
-    /// Сразу ввел до 10, т.к. 6, 7 суббота и воскресенье.
-    if (day >= 1 && day <= 10 || day == 13 || day == 14 || day == 20 || day == 21 || day == 27 || day == 28)
+    // Проверка на остаток,
+    dayInWeek = day % 7;
+
+    if (day >= 1 && day <= 5 || day >= 8 && day <= 10 || dayInWeek >= 6 && dayInWeek <= 7 || dayInWeek == 0)
         std::cout << "Выходной.\n";
     else if (day == 0 || day > 31) std::cout << "В мае всего 31 день и отчет начинается с 1.\n";
     else std::cout << "Рабочий день.\n";
