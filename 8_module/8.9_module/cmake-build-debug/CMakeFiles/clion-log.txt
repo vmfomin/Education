@@ -1,4 +1,4 @@
-C:\Users\123\AppData\Local\JetBrains\CLion2020.2\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/d/Fomin/SkillBox/C++/Skillbox/8_module/8.9_module
+C:\Users\vlifo\AppData\Local\JetBrains\CLion2020.2\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/d/Документы/ВМФ/SkillBox/C++/8_module/8.9_module
 -- The C compiler identification is GNU 10.2.0
 -- The CXX compiler identification is GNU 10.2.0
 -- Check for working C compiler: /usr/bin/cc
@@ -15,4 +15,4 @@ C:\Users\123\AppData\Local\JetBrains\CLion2020.2\cygwin_cmake\bin\cmake.exe -DCM
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /cygdrive/d/Fomin/SkillBox/C++/Skillbox/8_module/8.9_module/cmake-build-debug
+-- Build files have been written to: /cygdrive/d/Р”РѕРєСѓРјРµРЅС‚С‹/Р’РњР¤/SkillBox/C++/8_module/8.9_module/cmake-build-debug
