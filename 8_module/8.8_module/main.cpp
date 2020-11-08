@@ -23,13 +23,17 @@ int main() {
     month--;      // Уменьшаю на 1, чтобы приравнять к tm_mon, т.к. он 0 - 10;
     year -= 1900; // Привожу к tm_year. он с 1900 года
 
-        // Если нет 18, то нечего проверять
+    // Если нет 18, то нечего проверять
     if ((timeInfo->tm_year - year) < 18) std::cout << "Нельзя. Нет 18: " << timeInfo->tm_year - year << " лет\n";
         // Проверяем месяц и день
-    else if ((timeInfo->tm_year - year) == 18 && month >= timeInfo->tm_mon && day >= timeInfo->tm_mday)
-        std::cout << (month > timeInfo->tm_mon ? "Нельзя по месяцу\n" : "Нельзя по дню рождения\n");
+    else if (timeInfo->tm_year - year == 18) {
+        if (month > timeInfo->tm_mon) {
+            std::cout << "Нельзя по месяцу.\n";
+        } else if (month == timeInfo->tm_mon && day >= timeInfo->tm_mday)
+            std::cout << "Нельзя по дню рождения.\n";
+        else std::cout << "Можно.\n";
         // Во всех остальных случаях можно
-    else std::cout << "Можно. Возраст: " << timeInfo->tm_year - year << " лет\n";;
+    } else std::cout << "Можно. Возраст: " << timeInfo->tm_year - year << " лет\n";;
 
     return 0;
 }
