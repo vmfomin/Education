@@ -17,8 +17,7 @@ int main() {
     std::cout << "Введите размер 2 коробки M, N, K: ";
     std::cin >> m >> n >> k;
 
-    //if (a < m && b < m && c < m || a < n && b < n && c < n || a < k && b < k && c < k)
-    if (a < m && b < n && c < k || a < n && b < m && c < n || a < k && b < k && c < k)
+    if ((a < m || a < n || a < k) && (b < m || b < n || b < k) && (c < m || c < n || c < k))
         std::cout << "Можно.\n";
     else std::cout << "Нельзя.\n";
 
