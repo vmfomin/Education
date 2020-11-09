@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/8_6_module.dir/main.cpp.o  -o 8_6_module.exe -Wl,--out-implib,lib8_6_module.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

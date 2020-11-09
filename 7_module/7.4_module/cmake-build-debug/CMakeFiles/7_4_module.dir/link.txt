@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/7_4_module.dir/main.cpp.o  -o 7_4_module.exe -Wl,--out-implib,lib7_4_module.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

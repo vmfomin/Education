@@ -1,3 +1,0 @@
-/cygdrive/d/Fomin/SkillBox/C++/Skillbox/3_module/3.5_module/cmake-build-debug/CMakeFiles/edit_cache.dir
-/cygdrive/d/Fomin/SkillBox/C++/Skillbox/3_module/3.5_module/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/d/Fomin/SkillBox/C++/Skillbox/3_module/3.5_module/cmake-build-debug/CMakeFiles/3_5_module.dir

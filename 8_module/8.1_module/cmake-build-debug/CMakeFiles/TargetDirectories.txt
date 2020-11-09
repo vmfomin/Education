@@ -1,3 +1,0 @@
-/cygdrive/d/Fomin/SkillBox/C++/Skillbox/8_module/8.1_module/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/d/Fomin/SkillBox/C++/Skillbox/8_module/8.1_module/cmake-build-debug/CMakeFiles/edit_cache.dir
-/cygdrive/d/Fomin/SkillBox/C++/Skillbox/8_module/8.1_module/cmake-build-debug/CMakeFiles/8_1_module.dir
