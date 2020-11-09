@@ -13,8 +13,8 @@
 
 // Решил сделать структуру, так будет проще работать. Массив структур решил не делать, читаться будет сложнее.
 struct Point {
-    float x;
-    float y;
+    int x;
+    int y;
 }; // point[3]; Например, так можно было добавить
 
 int main() {
@@ -36,10 +36,11 @@ int main() {
         return -1;
     }
 
-    // Пытался сначала использовать "%", чтобы использовать int, но получалась полная ерунда.
-    float ab = (a.x - b.x) / (a.y - b.y);
-    float ac = (a.x - c.x) / (a.y - c.y);
-    float bc = (b.x - c.x) / (b.y - c.y);
+    // Пытался сначала использовать "%", чтобы использовать int, но получалась полная ерунда. Сохранил точки как int,
+    // но решил сделать static_cast по стилю C++, а не (int) () как в Си.
+    float ab = static_cast<float>((a.x - b.x)) / static_cast<float>((a.y - b.y));
+    float ac = static_cast<float>((a.x - c.x)) / static_cast<float>((a.y - c.y));
+    float bc = static_cast<float>((b.x - c.x)) / static_cast<float>((b.y - c.y));
 
     std::cout << (ab == bc || ab == ac || ac == bc ? "No\n" : "Yes\n");
 
