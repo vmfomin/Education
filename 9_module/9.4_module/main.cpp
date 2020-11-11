@@ -18,7 +18,7 @@ int main() {
     bool isPaid;
 
     while (!isPaid) {
-        std::cout << name << ", ваша задолженность составляет " << debt << " рублей\n"
+        std::cout << name << ", ваша задолженность составляет " << debt << " рублей.\n"
                   << "Сколько рублей вы внесете прямо сейчас, чтобы ее погасить?\n";
         std::cin >> debtRepayment;
 
@@ -28,7 +28,7 @@ int main() {
         debtRepayment = 0;
     }
 
-    std::cout << name << ", вы выплатили долг! Остаток по счету: " << abs(debt) << "\n";
+    std::cout << name << ", вы выплатили долг! Остаток по счету: " << abs(debt) << " рублей.\n";
 
     return 0;
 }
