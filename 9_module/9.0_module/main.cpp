@@ -217,31 +217,23 @@ int main() {
 /// роботы понимают только нули и единицы, других цифр для них не существует.
 /// Напишите программу, которая проверяет, состоит ли число только из нулей и
 /// единиц.
-/*
-    int number; // Введенное число. Изменяется в процессе. Делится на 10.
+
+    int number; // Введенное число.
     std::cout << "Введите число состоящее из 0 и 1: ";
     std::cin >> number;
 
-    int inNumber = number;   // Входящее число. Для вывода в консоль.
-    int tempNumber = number; // Промежуточные расчеты.
-
     // Если в числе есть значения отличные от 0 и 1 -- возводим флаг.
     bool isNumber;
-    while (0 != tempNumber) {
-        tempNumber %= 10;
-
-        if (0 == tempNumber || 1 == tempNumber) {
-            tempNumber = number /= 10;
-        } else {
-            std::cout << "Число " << inNumber << " НЕ состоит из из 0 и 1.\n";
-            isNumber = true;
-            break;
-        }
+    while (0 != number && !isNumber) {
+        isNumber = number % 10 > 1;
+        number /= 10;
     }
 
-    if (!isNumber)
-        std::cout << "Число " << inNumber << " состоит из из 0 и 1.\n";
-*/
+    if (isNumber)
+        std::cout << "Число НЕ состоит из из 0 и 1.\n";
+    else
+        std::cout << "Число состоит ТОЛЬКО из из 0 и 1.\n";
+
 #pragma endregion
 
 #pragma region Задача 4. Военное время.
@@ -250,26 +242,19 @@ int main() {
 /// читали. Как вы понимаете, для генералов текст выглядел зеркально отраженным,
 /// поэтому специальных людей учили писать задом наперед. Напишите программу,
 /// упрощающую им жизнь: она должна выводить введенное число задом наперед.
-
-    int sendNumber, tempNumber;
+/*
+    int sendNumber;
     int getNumber = 0;
     std::cout << "Введите число для отправки: ";
     std::cin >> sendNumber;
 
-    tempNumber = sendNumber;
-
-    while (0 != tempNumber) {
-        tempNumber %= 10;
-
-        getNumber = (getNumber + tempNumber) * 10;
-        tempNumber = sendNumber /= 10;
-
-        if (tempNumber == 0)
-            getNumber /= 10;
+    while (0 != sendNumber) {
+        getNumber = getNumber * 10 + sendNumber % 10;
+        sendNumber /= 10;
     }
 
     std::cout << "Получено число: " << getNumber << "\n";
-
+*/
 #pragma endregion
 
     return 0;
