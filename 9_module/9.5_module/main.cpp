@@ -23,6 +23,7 @@ int main() {
             lastThreeDigitsOfTicket += ticket % 10;
         else
             firstThreeDigitsOfTicket += ticket % 10;
+        
         ticket /= 10;
         isHappyTicket = firstThreeDigitsOfTicket == lastThreeDigitsOfTicket;
 
