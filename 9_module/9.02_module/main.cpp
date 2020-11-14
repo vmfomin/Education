@@ -18,7 +18,7 @@ int main() {
     std::cin >> name >> debt;
 
     // флажок погашения. По умолчанию false.
-    bool isPaid;
+    bool isPaid = false;
 
     while (!isPaid) {
         std::cout << name << ", ваша задолженность составляет " << debt << " рублей\n"
