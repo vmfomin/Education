@@ -23,12 +23,13 @@ int main() {
             lastThreeDigitsOfTicket += ticket % 10;
         else
             firstThreeDigitsOfTicket += ticket % 10;
-        
+
         ticket /= 10;
-        isHappyTicket = firstThreeDigitsOfTicket == lastThreeDigitsOfTicket;
 
         count++;
     }
+
+    isHappyTicket = firstThreeDigitsOfTicket == lastThreeDigitsOfTicket;
 
     if (isHappyTicket)
         std::cout << "Счастливый!\n";
