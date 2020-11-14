@@ -28,7 +28,7 @@ int main() {
 
     int denominator = 2; // С чего начнем сокращать.
 
-    while (denominator < 20) {
+    while (denominator < 100) {
         isReduce = (a % denominator == 0) && (b % denominator == 0);
 
         if (isReduce) {
