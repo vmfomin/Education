@@ -9,17 +9,15 @@
 int main() {
     // int насчитает 10 цифр максимум, т.к. int 4 байта всего (чуть больше 2000000000)
     // для чисел "не помещаются на бумаге" нужен дабл. Там 8 байт. В long double 10
-    double number;
+    long long int number;
 
     std::cout << "Введите число: ";
     std::cin >> number;
 
-    bool isDigit;
+    bool isDigit = false;
     int countDigits = 0;
     while (!isDigit) {
-        // Если использвать дабл, то нужен статик_каст, т.к, появляется дробная часть.
-        // Тогда можно использовать намного большее число/
-        isDigit = static_cast<int>((number /= 10)) == 0;
+        isDigit = (number /= 10) == 0;
         ++countDigits;
     }
 
