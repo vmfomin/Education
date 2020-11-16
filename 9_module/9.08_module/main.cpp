@@ -20,35 +20,28 @@ int main() {
 
     std::cout << "До:    " << a << " / " << b << "\n";
 
-    // Если ни разу не сократили, то флаг остается.
-    bool isEqual = true;
-
     // Проверка на сокращение числителя и знаменателя.
-    bool isReduce;
+    bool isReduce = false;
 
-    int denominator = 2; // С чего начнем сокращать.
+    int denominator = a; // С чего начнем сокращать.
 
-    while (denominator < 100) {
+    /// Повел цикл в обратном направлении до нахождения НОД.
+    while (denominator > 1) {
         isReduce = (a % denominator == 0) && (b % denominator == 0);
 
         if (isReduce) {
             a /= denominator;
             b /= denominator;
-
-            // Прохожу еще раз на случай, если можно еще раз сократить
-            // Начинаю с 1, т.к. дальше инкремент.
-            denominator = 1;
-
-            isEqual = false; // снимаем флаг.
+            denominator = 0; // Для завершения цикла
         }
 
-        denominator++;
+        denominator--;
     }
 
-    if (isEqual)
-        std::cout << "Нельзя сократить!\n";
-    else
+    if (isReduce)
         std::cout << "После: " << a << " / " << b << "\n";
+    else
+        std::cout << "Нельзя сократить!\n";
 
     return 0;
 }
