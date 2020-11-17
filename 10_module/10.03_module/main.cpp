@@ -10,7 +10,7 @@
 #include <iostream>
 
 int main() {
-    int16_t milk = 0, water = 0; // Остаток молока в кофемашине.
+    int16_t milk{}, water{}; // Остаток молока в кофемашине.
 
     std::string coffee[]{"американо", "латте"};
     std::string userCoffeeChoice;
