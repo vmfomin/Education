@@ -7,18 +7,16 @@
 #include <iostream>
 
 int main() {
-    int16_t nameLength; // Длина символов в имени.
     int16_t height{3}; // Высота по умолчанию.
-    std::string name{};
 
     // Заметил, что кириллица в 2 раза длиньше, чем латиница.
     std::cout << "Введите имя разработчика на литинице: ";
+    std::string name{};
     std::cin >> name;
 
-    nameLength = name.length();
+    int16_t nameLength = name.length(); // Длина символов в имени.
 
     bool isWriteName{}; // Проверка записи имени в консоль.
-
     for (int i = 0; i < height; i++) {
         std::cout << "|";
         for (int j = 0; j < nameLength; j++) {
