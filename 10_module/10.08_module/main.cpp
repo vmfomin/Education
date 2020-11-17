@@ -7,7 +7,7 @@
 #include <iostream>
 
 int main() {
-    int16_t nameLength{}; // Длина символов в имени.
+    int16_t nameLength; // Длина символов в имени.
     int16_t height{3}; // Высота по умолчанию.
     std::string name{};
 
@@ -19,9 +19,9 @@ int main() {
 
     bool isWriteName{}; // Проверка записи имени в консоль.
 
-    for (int i{}; i < height; i++) {
+    for (int i = 0; i < height; i++) {
         std::cout << "|";
-        for (int j{}; j < nameLength; j++) {
+        for (int j = 0; j < nameLength; j++) {
             if (i == 0 || i == height - 1)
                 std::cout << "-";
             else if (!isWriteName) {
