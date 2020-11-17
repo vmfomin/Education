@@ -14,7 +14,7 @@
 #include <iostream>
 
 int main() {
-    int n, x;
+    int n{}, x{};
     std::cout << "Сколько бактерий и капель антибиотика? ";
     std::cin >> n >> x;
 
@@ -23,10 +23,10 @@ int main() {
         return -1;
     }
 
-    int16_t bacteriaEfficiency = 10; // Сколько может убить 1 капля.
+    int16_t bacteriaEfficiency{10}; // Сколько может убить 1 капля.
 
     for (int hour = 1;; hour++) {
-        int tempN = n; // Для вывода в консоль.
+        int tempN{n}; // Для вывода в консоль.
 
         n -= x * bacteriaEfficiency;
 
