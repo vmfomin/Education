@@ -10,8 +10,8 @@
 #include <iostream>
 
 int main() {
-    int16_t amountBuckwheat = 100;
-    int buckwheat = amountBuckwheat;
+    int16_t amountBuckwheat{100};
+    int buckwheat{amountBuckwheat};
 
     for (int month = 1; month < amountBuckwheat / 4; month++) {
         buckwheat -= 4;
