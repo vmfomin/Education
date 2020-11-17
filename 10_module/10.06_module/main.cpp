@@ -6,7 +6,7 @@
 #include <iostream>
 
 int main() {
-    int16_t a, b;
+    int16_t a{}, b{};
     std::cout << "Введите ширину и высоту рамки: ";
     std::cin >> a >> b;
 
