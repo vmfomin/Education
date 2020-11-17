@@ -7,8 +7,8 @@
 #include <iostream>
 
 int main() {
-    for (int x = 0; x <= 20; x++) {
-        for (int y = 0; y <= 50; y++) {
+    for (int x{}; x <= 20; x++) {
+        for (int y{}; y <= 50; y++) {
             if (x == 10 && y == 25)
                 std::cout << "+";
 
