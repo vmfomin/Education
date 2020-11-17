@@ -14,13 +14,13 @@
 #include <iostream>
 
 int main() {
-    int16_t milk = 0, water = 0; // Остаток молока в кофемашине.
+    int16_t milk{}, water{}; // Остаток молока в кофемашине.
 
     std::string coffee[]{"американо", "латте"};
     std::string userCoffeeChoice;
 
     while (true) {
-        int16_t inMilk = 0, inWater = 0;
+        int16_t inMilk{}, inWater{};
 
         std::cout << "Добавьте молоко и воду в кофемашину: ";
         std::cin >> inMilk >> inWater;
