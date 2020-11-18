@@ -29,12 +29,12 @@ int main() {
             else {
                 if (countSharps < sharpInLine)
                     if (countSharps == 0 && i == 0) {
-                        std::cout << "*";
+                        std::cout << "\033[1;33m" << "*" << "\033[0m";
                     } else if (countSharps == 0 || countSharps == sharpInLine - 1
                                || countSharps % 4 == 0) {
-                        std::cout << "o";
+                        std::cout << "\033[1;31m" << "o" << "\033[0m";
                     } else
-                        std::cout << "#";
+                        std::cout << "\033[1;36m" << "#" << "\033[0m";
                 else
                     std::cout << " ";
                 countSharps++;
