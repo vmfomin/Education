@@ -29,70 +29,43 @@ int main() {
         std::cout << "[Оператор]: ";
         std::cin >> command;
 
-        for (;;) {
-            // Написал так, хоть больше break-ов, но мне читается легче. Вариант с if внизу (75 строка)
-            switch (command) {
-                case 'w' :
-                    if (y == b)
-                        break;
-                    else
-                        y++;
+        switch (command) {
+            case 'w' :
+                if (y == b)
                     break;
+                else
+                    y++;
+                break;
 
-                case 'a' :
-                    if (x == 0)
-                        break;
-                    else
-                        x--;
+            case 'a' :
+                if (x == 0)
                     break;
+                else
+                    x--;
+                break;
 
-                case 's' :
-                    if (y == 0)
-                        break;
-                    else
-                        y--;
+            case 's' :
+                if (y == 0)
                     break;
+                else
+                    y--;
+                break;
 
-                case 'd' :
-                    if (x == a)
-                        break;
-                    else
-                        x++;
+            case 'd' :
+                if (x == a)
                     break;
+                else
+                    x++;
+                break;
 
-                case '0' :
-                    isPowerOff = true;
-                    std::cout << "Выключение марсохода...\n";
-                    // Тут перейдет к дефолту и выполнится брейк.
-                default :
-                    break;
-            }
-            break;
+            case '0' :
+                isPowerOff = true;
+                std::cout << "Выключение марсохода...\n";
+                // Тут перейдет к дефолту и выполнится брейк.
+            default :
+                break;
         }
     }
 
     return 0;
 }
-/*
-            if ('w' == command) {
-                if (y == b)
-                    break;
-                else y++;
-            } else if ('a' == command) {
-                if (x == 0)
-                    break;
-                else x--;
-            } else if ('s' == command) {
-                if (y == 0)
-                    break;
-                else y--;
-            } else if ('d' == command) {
-                if (x == a)
-                    break;
-                else x++;
-            } else if ('0' == command) {
-                isPowerOff = true;
-                std::cout << "Выключение марсохода...\n";
-                break;
-            } else break;
-*/
