@@ -7,7 +7,6 @@
 /// #####
 
 #include <iostream>
-#include <windows.h>
 
 int main() {
     std::cout << "Введите высоту равнобедренного треугольника: ";
@@ -29,12 +28,12 @@ int main() {
             else {
                 if (countSharps < sharpInLine)
                     if (countSharps == 0 && i == 0) {
-                        std::cout << "\033[1;33m" << "*" << "\033[0m";
+                        std::cout << "\033[33;1m" << "*";
                     } else if (countSharps == 0 || countSharps == sharpInLine - 1
                                || countSharps % 4 == 0) {
-                        std::cout << "\033[1;31m" << "o" << "\033[0m";
+                        std::cout << "\033[31;6m" << "o";
                     } else
-                        std::cout << "\033[1;36m" << "#" << "\033[0m";
+                        std::cout << "\033[36;1m" << "#" << "\033[0m";
                 else
                     std::cout << " ";
                 countSharps++;
