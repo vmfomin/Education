@@ -13,6 +13,15 @@
 
 #include <iostream>
 
+// Вычисление биномиального коэффициента.
+double cnk(int n, int k) {
+    double pascal{1};
+    for (int i = 1; i <= k; i++)
+        pascal *= static_cast<float>(n - i + 1) / static_cast<float>(i);
+
+    return pascal;
+}
+
 int main() {
     std::cout << "Введите количество 1 строк тругольника Паскаля: ";
     int16_t n{};
@@ -22,40 +31,22 @@ int main() {
     int16_t baseTriangle = n * 2; // Основание треугольника.
     int16_t centerTriangle = baseTriangle / 2;
 
-    int pascal{};
-    int firstPascal{1}, secondPascal{1}, temp{};
     int16_t countValue{}; // Счетчик значений в строке.
 
     for (int i = 0; i < n; i++) {
         // Высчитываю сколько должно быть # в строке
-        int16_t inLineCount = i * 2 + 1;
+        int16_t inLineCount = i + 1;
         for (int j = 0; j < baseTriangle; j++) {
             if (j < centerTriangle - inLineCount || j > centerTriangle + inLineCount)
                 std::cout << " ";
             else {
-                if (countValue < inLineCount)
-                    if (countValue == 0) {
-                        firstPascal = 1;
-                        std::cout << firstPascal;
-                    } else if (countValue == inLineCount - 1) {
-                        secondPascal = 1;
-                        std::cout << secondPascal;
-                    } else if (countValue % 2 != 0) {
-                        firstPascal = secondPascal;
-                        secondPascal = pascal;
-                        std::cout << " ";
-                    } else {
-                        std::cout << pascal;
-                    }
-                else {
-                    pascal = firstPascal + secondPascal;
-                    std::cout << " ";
+                if (countValue < inLineCount) {
+                    std::cout << cnk(i, countValue) << " ";
+                    countValue++;
                 }
-                countValue++;
             }
         }
         countValue = 0;
-        centerTriangle++;
         std::cout << "\n";
     }
 
