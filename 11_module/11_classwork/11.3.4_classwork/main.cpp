@@ -21,26 +21,47 @@
 #include <iostream>
 
 class Coordinates {
+private:
+    float x_, y_;
+
 public:
-    float x, y;
+    float getX() const {
+        return x_;
+    }
+
+    void setX(float x) {
+        x_ = x;
+    }
+
+    float getY() const {
+        return y_;
+    }
+
+    void setY(float y) {
+        y_ = y;
+    }
 };
 
 int main() {
-    std::cout << "Ввод:\nВведите местоположение фигуры: ";
     Coordinates coord{};
-    std::cin >> coord.x >> coord.y;
+    std::cout << "Ввод:\nВведите местоположение фигуры: ";
+    float x, y;
+    std::cin >> x >> y;
 
-    if (coord.x < 0 || coord.y < 0 || coord.x > 0.8 || coord.y > 0.8) {
+    coord.setX(x);
+    coord.setY(y);
+
+    if (coord.getX() < 0 || coord.getY() < 0 || coord.getX() > 0.8 || coord.getY() > 0.8) {
         std::cout << "Вышли за границы!\n";
         return -1;
     }
 
-    std::cout << "Вывод:\nФигура находится в клетке (" << static_cast<int>(coord.x * 10)
-              << ", " << static_cast<int>(coord.y * 10) << ").\n";
+    std::cout << "Вывод:\nФигура находится в клетке (" << static_cast<int>(coord.getX() * 10)
+              << ", " << static_cast<int>(coord.getY() * 10) << ").\n";
 
     std::cout << "Поправьте положение фигуры на ("
-              << (0.5 - (coord.x * 10 - static_cast<int>(coord.x * 10))) / 10
-              << ", " << (0.5 - (coord.y * 10 - static_cast<int>(coord.y * 10))) / 10
+              << (0.5 - (coord.getX() * 10 - static_cast<int>(coord.getX() * 10))) / 10
+              << ", " << (0.5 - (coord.getY() * 10 - static_cast<int>(coord.getY() * 10))) / 10
               << ").\n";
 
     return 0;
