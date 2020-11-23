@@ -45,11 +45,14 @@ public:
 int main() {
     Coordinates coord{};
     std::cout << "Ввод:\nВведите местоположение фигуры: ";
-    float x, y;
-    std::cin >> x >> y;
 
-    coord.setX(x);
-    coord.setY(y);
+    {
+        float x, y;
+        std::cin >> x >> y;
+
+        coord.setX(x);
+        coord.setY(y);
+    }
 
     if (coord.getX() < 0 || coord.getY() < 0 || coord.getX() > 0.8 || coord.getY() > 0.8) {
         std::cout << "Вышли за границы!\n";
