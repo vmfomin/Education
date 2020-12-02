@@ -13,35 +13,33 @@
 
 // Модель звездолета.
 class Starship {
-private:
-    float force_; // Сила тяги в нютонах
-    float mass_;  // масса звездолета в кг
-    float time_;  // время запуска в сек
-
 public:
     /// Конструктор по умолчанию.
-    Starship() : force_{-1000}, mass_{1000}, time_{5} {}
+    Starship() : _force{-1000}, _mass{1000}, _time{5} {}
 
     /// Конструктор класса через список с юниформ присваиванием.
+    /// \param force -- Сила тяги в нютонах;
+    /// \param mass -- Масса звездолета в кг;
+    /// \param time -- Время запуска в сек;
     Starship(float force, float mass, float time)
-            : force_{force}, mass_{mass}, time_{time} {}
+            : _force{force}, _mass{mass}, _time{time} {}
 
     /// Метод расчета расстояния.
     // Вычитал, что методы, которые не изменяют объект должны быть const.
     // CLion тоже предложил так сделать.
     float distance() const {
-        return (time_ * time_ * force_) / (2 * mass_);
+        return (_time * _time * _force) / (2 * _mass);
     }
 
     /// Метод вывода расстояния на экран.
     inline void printDistance() const {
-        std::cout << "Звездолет с силой тяги " << force_ << " Н, массой " << mass_
+        std::cout << "Звездолет с силой тяги " << _force << " Н, массой " << _mass
                   << " кг, преодолеет расстояние в " << distance() << " метров за "
-                  << time_ << " секунд\n";
+                  << _time << " секунд\n";
     }
 
     /// Общая проверка массы на 0 или отрицание.
-    // inline для быстроты. Чтобы не вызывать часто метод.
+    /// \param mass -- масса звездолета
     inline static void isCheckMass(float mass) {
         if (mass <= 0) {
             std::cout << "Масса не может быть отрицательной или равна 0!\n";
@@ -50,7 +48,7 @@ public:
     }
 
     /// Общая проверка времени на 0 или отрицание.
-    // inline для быстроты.
+    /// \param time -- время
     inline static void isCheckTime(float time) {
         if (time <= 0) {
             std::cout << "Время не может быть отрицательным или равным 0!\n";
@@ -59,26 +57,32 @@ public:
     }
 
     /// Геттеры и сеттеры.
-    float getForce() const { return force_; }
+    float getForce() const { return _force; }
 
-    void setForce(float force) { force_ = force; }
+    void setForce(float force) { _force = force; }
 
-    float getMass() const { return mass_; }
+    float getMass() const { return _mass; }
 
     void setMass(float mass) {
         isCheckMass(mass);
-        mass_ = mass;
+        _mass = mass;
     }
 
-    float getTime() const { return time_; }
+    float getTime() const { return _time; }
 
     void setTime(float time) {
         isCheckTime(time);
-        time_ = time;
+        _time = time;
     }
 
     /// Деструктор объекта Starship.
     ~Starship() = default;
+
+private:
+    /// Объекты класса.
+    float _force; // Сила тяги в нютонах
+    float _mass;  // масса звездолета в кг
+    float _time;  // время запуска в сек
 };
 
 int main() {
