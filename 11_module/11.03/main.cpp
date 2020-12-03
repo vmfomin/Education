@@ -38,7 +38,7 @@ public:
     /// \param fireball -- входящий урон
     // чтобы не плодить переменные исправляю (добавляю резист) значению полученному
     // по ссылке.
-    void computeDamage(float &fireball) {
+    inline void computeDamage(float &fireball) {
         _healthPoint -= fireball *= (1 - _magicResistance);
         std::cout << "По орку " << _name << " нанесено урона " << fireball * 100
                   << "\n";
@@ -46,7 +46,7 @@ public:
 
 
     /// Метод вывода на экран текущих характеристик орка
-    void printStats() const {
+    inline void printStats() const {
         std::cout << "Орк по имени " << _name << " имеет "
                   << _healthPoint * 100 << " % очков здоровья и "
                   << _magicResistance * 100 << " % сопротивления магии\n";
@@ -62,7 +62,9 @@ public:
         std::cout << "Вождем было принято решение дать ему посмертное звание! Какое "
                      "звание дадим храброму орку? ";
         std::string rank;
-        std::cin >> rank;
+        // Составное звание, например, " - Герой Орды".
+        std::cin.ignore(80, '\n');
+        std::getline(std::cin, rank);
 
         _name += " - " + rank;
 
@@ -70,6 +72,8 @@ public:
     }
 
 
+    /// Возврат текущего здоровья орка.
+    /// \return Здоровье орка.
     float getHealthPoint() const { return _healthPoint; }
 
 
