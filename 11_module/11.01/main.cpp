@@ -15,27 +15,27 @@
 class Starship {
 public:
     /// Конструктор по умолчанию.
-    Starship() : _force{-1000}, _mass{1000}, _time{5} {}
+    Starship() : force_{-1000}, mass_{1000}, time_{5} {}
 
     /// Конструктор класса через список с юниформ присваиванием.
     /// \param force -- Сила тяги в нютонах;
     /// \param mass -- Масса звездолета в кг;
     /// \param time -- Время запуска в сек;
     Starship(float force, float mass, float time)
-            : _force{force}, _mass{mass}, _time{time} {}
+            : force_{force}, mass_{mass}, time_{time} {}
 
     /// Метод расчета расстояния.
     // Вычитал, что методы, которые не изменяют объект должны быть const.
     // CLion тоже предложил так сделать.
     float distance() const {
-        return (_time * _time * _force) / (2 * _mass);
+        return (time_ * time_ * force_) / (2 * mass_);
     }
 
     /// Метод вывода расстояния на экран.
     inline void printDistance() const {
-        std::cout << "Звездолет с силой тяги " << _force << " Н, массой " << _mass
+        std::cout << "Звездолет с силой тяги " << force_ << " Н, массой " << mass_
                   << " кг, преодолеет расстояние в " << distance() << " метров за "
-                  << _time << " секунд\n";
+                  << time_ << " секунд\n";
     }
 
     /// Общая проверка массы на 0 или отрицание.
@@ -57,22 +57,22 @@ public:
     }
 
     /// Геттеры и сеттеры.
-    float getForce() const { return _force; }
+    float getForce() const { return force_; }
 
-    void setForce(float force) { _force = force; }
+    void setForce(float force) { force_ = force; }
 
-    float getMass() const { return _mass; }
+    float getMass() const { return mass_; }
 
     void setMass(float mass) {
         isCheckMass(mass);
-        _mass = mass;
+        mass_ = mass;
     }
 
-    float getTime() const { return _time; }
+    float getTime() const { return time_; }
 
     void setTime(float time) {
         isCheckTime(time);
-        _time = time;
+        time_ = time;
     }
 
     /// Деструктор объекта Starship.
@@ -80,9 +80,9 @@ public:
 
 private:
     /// Объекты класса.
-    float _force; // Сила тяги в нютонах
-    float _mass;  // масса звездолета в кг
-    float _time;  // время запуска в сек
+    float force_; // Сила тяги в нютонах
+    float mass_;  // масса звездолета в кг
+    float time_;  // время запуска в сек
 };
 
 int main() {

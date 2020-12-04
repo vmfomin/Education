@@ -14,24 +14,24 @@
 class CodeLock {
 public:
     /// Конструктор по умолчанию
-    CodeLock() : _n{1}, _k{1}, _time{0.01} {}
+    CodeLock() : n_{1}, k_{1}, time_{0.01} {}
 
     /// Конструктор с инициализацией переменных
     /// \param n -- количество ручек;
     /// \param k -- количество положений ручки;
     /// \param time -- среднее время.
-    CodeLock(int n, int k, float time) : _n{n}, _k{k}, _time{time} {}
+    CodeLock(int n, int k, float time) : n_{n}, k_{k}, time_{time} {}
 
     /// Метод расчета общего времени.
     /// \return Общее время.
     float computeTime() const {
         return // для удобства чтения перенес на следующую строку.
-                static_cast<float>(_n) * static_cast<float>(_k) * _time;
+                static_cast<float>(n_) * static_cast<float>(k_) * time_;
     }
 
     /// Метод вывода на экран.
     inline void printCodeLock() const {
-        std::cout << "На переборку всех комбинаций " << _n << " ручек с " << _k
+        std::cout << "На переборку всех комбинаций " << n_ << " ручек с " << k_
                   << " положениями уходит " << computeTime() << " секунд.\n";
     }
 
@@ -39,9 +39,9 @@ public:
     ~CodeLock() = default;
 
 private:
-    int _n; // можно ли так объявлять? или нужно все-таки int m_n;
-    int _k;
-    float _time;
+    int n_;
+    int k_;
+    float time_;
 };
 
 int main() {

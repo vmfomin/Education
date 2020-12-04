@@ -20,7 +20,7 @@
 class Ork {
 public:
     /// Констркутор по умолчанию.
-    Ork() : _name{"Thrall"}, _healthPoint{1}, _magicResistance{0} {}
+    Ork() : name_{"Thrall"}, healthPoint_{1}, magicResistance_{0} {}
 
     /// Конструктор.
     /// \param name -- имя орка
@@ -29,9 +29,9 @@ public:
     // Освежил знания передачи в метод (функцию) по ссылкам и указателям, по
     // значению.
     Ork(std::string &name, float healthPoint, float magicResistance)
-            : _name{name},
-              _healthPoint{healthPoint},
-              _magicResistance{magicResistance} {}
+            : name_{name},
+              healthPoint_{healthPoint},
+              magicResistance_{magicResistance} {}
 
 
     /// Метод расчета урона от огненого шара.
@@ -39,23 +39,23 @@ public:
     // чтобы не плодить переменные исправляю (добавляю резист) значению полученному
     // по ссылке.
     inline void computeDamage(float &fireball) {
-        _healthPoint -= fireball *= (1 - _magicResistance);
-        std::cout << "По орку " << _name << " нанесено урона " << fireball * 100
+        healthPoint_ -= fireball *= (1 - magicResistance_);
+        std::cout << "По орку " << name_ << " нанесено урона " << fireball * 100
                   << "\n";
     }
 
 
     /// Метод вывода на экран текущих характеристик орка
     inline void printStats() const {
-        std::cout << "Орк по имени " << _name << " имеет "
-                  << _healthPoint * 100 << " % очков здоровья и "
-                  << _magicResistance * 100 << " % сопротивления магии\n";
+        std::cout << "Орк по имени " << name_ << " имеет "
+                  << healthPoint_ * 100 << " % очков здоровья и "
+                  << magicResistance_ * 100 << " % сопротивления магии\n";
     }
 
 
     /// Метод вывода на экран титров после смерти орка.
     void printTitre() {
-        std::cout << "\nСын Орды по имени " << _name << " пал в бою! Он бился"
+        std::cout << "\nСын Орды по имени " << name_ << " пал в бою! Он бился"
                                                         " с честью!\n";
 
         // Почитание предков и все такое... Но это уже мои доразмышлизмы)))
@@ -66,24 +66,24 @@ public:
         std::cin.ignore(80, '\n');
         std::getline(std::cin, rank);
 
-        _name += " - " + rank;
+        name_ += " - " + rank;
 
-        std::cout << "Отныне его будут звать " << _name << "\nЛок’тар огар!\n";
+        std::cout << "Отныне его будут звать " << name_ << "\nЛок’тар огар!\n";
     }
 
 
     /// Возврат текущего здоровья орка.
     /// \return Здоровье орка.
-    float getHealthPoint() const { return _healthPoint; }
+    float getHealthPoint() const { return healthPoint_; }
 
 
     /// Деструктор
     virtual ~Ork() = default;
 
 private:
-    std::string _name; // Имя орка.
-    float _healthPoint; // Количество hp.
-    float _magicResistance; // Сопротивление магии.
+    std::string name_; // Имя орка.
+    float healthPoint_; // Количество hp.
+    float magicResistance_; // Сопротивление магии.
 };
 
 int main() {
