@@ -29,45 +29,45 @@
 /// \param danger -- максимально допустимый уровень опасности.
 /// \return x -- глубина кладки
 float computeCubicEquation(float &danger) {
-    // x^3 - 3x^2 - 12x + 10 - D = 0
-    float const a{-3}, b{-12};
-    float c = 10 - danger;
+  // x^3 - 3x^2 - 12x + 10 - D = 0
+  float const a{-3}, b{-12};
+  float c = 10 - danger;
 
-    // (a^2 - 3b) / 9
-    float q = (a * a - 3 * b) / 9;
+  // (a^2 - 3b) / 9
+  float q = (a * a - 3 * b) / 9;
 
-    // (2a^3 - 9ab + 27)/ 54
-    float r = (2 * powf(a, 3) - 9 * a * b + 27 * c) / 54;
+  // (2a^3 - 9ab + 27)/ 54
+  float r = (2 * powf(a, 3) - 9 * a * b + 27 * c) / 54;
 
-    // q^3 - r^2
-    float s = powf(q, 3) - r * r;
+  // q^3 - r^2
+  float s = powf(q, 3) - r * r;
 
-    // 1/3 * arccos(r / sqrt(q^3))
-    float fi = 1.f / 3.f * acosf(r / sqrtf(powf(q, 3)));
+  // 1/3 * arccos(r / sqrt(q^3))
+  float fi = 1.f / 3.f * acosf(r / sqrtf(powf(q, 3)));
 
-    float x1 = -2 * sqrtf(q) * cosf(fi) - a / 3;
+  float x1 = -2 * sqrtf(q) * cosf(fi) - a / 3;
 
-    float x2 = -2 * sqrtf(q) * cosf(fi + 2.f / 3.f * static_cast<float>(M_PI))
-               - a / 3;
+  float x2 = -2 * sqrtf(q) * cosf(fi + 2.f / 3.f * static_cast<float>(M_PI))
+             - a / 3;
 
-    float x3 = -2 * sqrtf(q) * cosf(fi - 2.f / 3.f * static_cast<float>(M_PI))
-               - a / 3;
+  float x3 = -2 * sqrtf(q) * cosf(fi - 2.f / 3.f * static_cast<float>(M_PI))
+             - a / 3;
 
-    if (x1 > 0 && x1 < 4)
-        return x1;
-    else if (x2 > 0 && x2 < 4)
-        return x2;
-    else
-        return x3;
+  if (x1 > 0 && x1 < 4)
+    return x1;
+  else if (x2 > 0 && x2 < 4)
+    return x2;
+  else
+    return x3;
 }
 
 int main() {
-    std::cout << "Ввод:\nВведите максимально допустимый уровень опасности: ";
-    float danger;
-    std::cin >> danger;
+  std::cout << "Ввод:\nВведите максимально допустимый уровень опасности: ";
+  float danger;
+  std::cin >> danger;
 
-    std::cout << "Вывод:\nПриблизительная глубина безопасной кладки: "
-              << computeCubicEquation(danger) << " метра";
+  std::cout << "Вывод:\nПриблизительная глубина безопасной кладки: "
+            << computeCubicEquation(danger) << " метра";
 
-    return 0;
+  return 0;
 }

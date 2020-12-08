@@ -28,43 +28,43 @@
 #include <cmath>
 
 int main() {
-    std::cout << "Ввод:\nПривет, Сэм! Сколько километров ты сегодня пробежал? ";
-    int distance;
-    std::cin >> distance;
+  std::cout << "Ввод:\nПривет, Сэм! Сколько километров ты сегодня пробежал? ";
+  int distance;
+  std::cin >> distance;
 
-    if (distance <= 0) {
-        std::cout << "Расстояние не может быть меньше или равно 0!\n";
-        return -1;
+  if (distance <= 0) {
+    std::cout << "Расстояние не может быть меньше или равно 0!\n";
+    return -1;
+  }
+
+  float averagePace;
+  int kilometer = 1;
+  for (; kilometer <= distance; ++kilometer) {
+    std::cout << "Какой у тебя был темп на километре " << kilometer << "? ";
+    int pace;
+    std::cin >> pace;
+
+    if (pace <= 0) {
+      std::cout << "Время не может быть меньше или равно 0!\n";
+      --kilometer;
+      continue;
     }
 
-    float averagePace;
-    int kilometer = 1;
-    for (; kilometer <= distance; ++kilometer) {
-        std::cout << "Какой у тебя был темп на километре " << kilometer << "? ";
-        int pace;
-        std::cin >> pace;
+    averagePace += static_cast<float>(pace);
+  }
+  --kilometer; // Корректирую последний км при выходе с цикла.
 
-        if (pace <= 0) {
-            std::cout << "Время не может быть меньше или равно 0!\n";
-            --kilometer;
-            continue;
-        }
+  // Нахожу средний темп.
+  averagePace /= static_cast<float>(kilometer);
+  // Привожу к минутам с секундами в виде мантиссы.
+  averagePace /= 60;
 
-        averagePace += static_cast<float>(pace);
-    }
-    --kilometer; // Корректирую последний км при выходе с цикла.
+  float minutes;
+  // Разделяю минуты и секунды.
+  float seconds = std::modf(averagePace, &minutes);
+  seconds = roundf(seconds * 60.f);
+  std::cout << "Вывод:\nТвой средний темп за тренировку: " << minutes
+            << " минуты " << seconds << " секунд.";
 
-    // Нахожу средний темп.
-    averagePace /= static_cast<float>(kilometer);
-    // Привожу к минутам с секундами в виде мантиссы.
-    averagePace /= 60;
-
-    float minutes;
-    // Разделяю минуты и секунды.
-    float seconds = std::modf(averagePace, &minutes);
-    seconds = roundf(seconds * 60.f);
-    std::cout << "Вывод:\nТвой средний темп за тренировку: " << minutes
-              << " минуты " << seconds << " секунд.";
-
-    return 0;
+  return 0;
 }

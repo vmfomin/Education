@@ -18,47 +18,47 @@
 const float astronomicalUnit{1.496e11};
 
 int main() {
-    std::cout << "[Программа]: Марсоход начинает работу...\n"
-              << "[Программа]: Для отключения Марсохода нажмите \"0\".\n";
+  std::cout << "[Программа]: Марсоход начинает работу...\n"
+            << "[Программа]: Для отключения Марсохода нажмите \"0\".\n";
 
-    // Начальная позиция.
-    float x = 0.001f * astronomicalUnit;
-    float y{0.0};
+  // Начальная позиция.
+  float x = 0.001f * astronomicalUnit;
+  float y{0.0};
 
-    bool isPowerOff{};
-    while (!isPowerOff) {
-        char command{};
+  bool isPowerOff{};
+  while (!isPowerOff) {
+    char command{};
 
-        std::cout << "[Программа]: Марсоход находится на позиции [" << x << ", "
-                  << y << "], введите команду:\n";
-        std::cout << "[Оператор]: ";
-        std::cin >> command;
+    std::cout << "[Программа]: Марсоход находится на позиции [" << x << ", "
+              << y << "], введите команду:\n";
+    std::cout << "[Оператор]: ";
+    std::cin >> command;
 
-        switch (command) {
-            case 'w' :
-                y += 1.0f / astronomicalUnit;
-                break;
+    switch (command) {
+      case 'w' :
+        y += 1.0f / astronomicalUnit;
+        break;
 
-            case 'a' :
-                x -= 1.0f / astronomicalUnit;
-                break;
+      case 'a' :
+        x -= 1.0f / astronomicalUnit;
+        break;
 
-            case 's' :
-                y -= 1.0f / astronomicalUnit;
-                break;
+      case 's' :
+        y -= 1.0f / astronomicalUnit;
+        break;
 
-            case 'd' :
-                x += 1.0f / astronomicalUnit;
-                break;
+      case 'd' :
+        x += 1.0f / astronomicalUnit;
+        break;
 
-            case '0' :
-                isPowerOff = true;
-                std::cout << "Выключение марсохода...\n";
-                // Тут перейдет к дефолту и выполнится брейк.
-            default :
-                break;
-        }
+      case '0' :
+        isPowerOff = true;
+        std::cout << "Выключение марсохода...\n";
+        // Тут перейдет к дефолту и выполнится брейк.
+      default :
+        break;
     }
+  }
 
-    return 0;
+  return 0;
 }

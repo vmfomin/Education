@@ -25,14 +25,14 @@ public:
     /// Метод расчета общего времени.
     /// \return Общее время.
     float computeTime() const {
-        return // для удобства чтения перенес на следующую строку.
-                static_cast<float>(n_) * static_cast<float>(k_) * time_;
+      return // для удобства чтения перенес на следующую строку.
+          static_cast<float>(n_) * static_cast<float>(k_) * time_;
     }
 
     /// Метод вывода на экран.
     inline void printCodeLock() const {
-        std::cout << "На переборку всех комбинаций " << n_ << " ручек с " << k_
-                  << " положениями уходит " << computeTime() << " секунд.\n";
+      std::cout << "На переборку всех комбинаций " << n_ << " ручек с " << k_
+                << " положениями уходит " << computeTime() << " секунд.\n";
     }
 
     /// Деструктор.
@@ -45,20 +45,20 @@ private:
 };
 
 int main() {
-    std::cout << "Введите количество крутящихся ручек, количество положений и "
-                 "время нахождения 1 комбинации: ";
-    int n, k;
-    float time;
-    std::cin >> n >> k >> time;
+  std::cout << "Введите количество крутящихся ручек, количество положений и "
+               "время нахождения 1 комбинации: ";
+  int n, k;
+  float time;
+  std::cin >> n >> k >> time;
 
-    if (n <= 0 || k <= 0 || time <= 0)
-        return -1;
+  if (n <= 0 || k <= 0 || time <= 0)
+    return -1;
 
-    // Инициализаия кодового замка.
-    CodeLock codeLock{n, k, time};
+  // Инициализаия кодового замка.
+  CodeLock codeLock{n, k, time};
 
-    codeLock.computeTime();
-    codeLock.printCodeLock();
+  codeLock.computeTime();
+  codeLock.printCodeLock();
 
-    return 0;
+  return 0;
 }

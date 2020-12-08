@@ -14,16 +14,16 @@
 /// \return -- максимальное значение.
 // Ссылки, чтобы не делать копию переданных переменных.
 inline float findMaximumOfTwoNumbers(float &a, float &b) {
-    return std::max(a, b);
+  return std::max(a, b);
 }
 
 int main() {
-    std::cout << "Введите 2 числа: ";
-    float a, b;
-    std::cin >> a >> b;
+  std::cout << "Введите 2 числа: ";
+  float a, b;
+  std::cin >> a >> b;
 
-    std::cout << "Минимум из " << a << " и " << b << " равен "
-              << findMaximumOfTwoNumbers(a, b);
+  std::cout << "Минимум из " << a << " и " << b << " равен "
+            << findMaximumOfTwoNumbers(a, b);
 
-    return 0;
+  return 0;
 }

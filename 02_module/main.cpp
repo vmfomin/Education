@@ -84,42 +84,42 @@ int main() {
 
 #pragma region Задание 4. Непонятная квитанция
 
-    int fullResult = 0; // Сумма в квитанции
-    int entrance = 0;   // Количество подъездов
-    int flats = 0;      // Количество квартир
-    int eachFlat = 0;   // Сколько должна заплатить каждая квартира
+  int fullResult = 0; // Сумма в квитанции
+  int entrance = 0;   // Количество подъездов
+  int flats = 0;      // Количество квартир
+  int eachFlat = 0;   // Сколько должна заплатить каждая квартира
 
-    std::cout << "Приветствуем вас в калькуляторе квартплаты!\n"
-              << "Введите сумму, указанную в квитанции: ";
-    std::cin >> fullResult;
+  std::cout << "Приветствуем вас в калькуляторе квартплаты!\n"
+            << "Введите сумму, указанную в квитанции: ";
+  std::cin >> fullResult;
 
-    entrance:
-    std::cout << "Сколько подъездов в вашем доме? ";
-    std::cin >> entrance;
+  entrance:
+  std::cout << "Сколько подъездов в вашем доме? ";
+  std::cin >> entrance;
 
-    if (entrance == 0) {
-        entrance = 1;
-        std::cout << "Количество подъездов не может быть 0.\n";
-        goto entrance;
-    }
+  if (entrance == 0) {
+    entrance = 1;
+    std::cout << "Количество подъездов не может быть 0.\n";
+    goto entrance;
+  }
 
-    flats:
-    std::cout << "Сколько квартир в каждом подъезде? ";
-    std::cin >> flats;
+  flats:
+  std::cout << "Сколько квартир в каждом подъезде? ";
+  std::cin >> flats;
 
-    if (flats == 0) {
-        flats = 1;
-        std::cout << "Количество кваритр не может быть 0.\n";
-        goto flats;
-    }
+  if (flats == 0) {
+    flats = 1;
+    std::cout << "Количество кваритр не может быть 0.\n";
+    goto flats;
+  }
 
-    std::cout << "----Считаем-----\n";
+  std::cout << "----Считаем-----\n";
 
-    eachFlat = fullResult / (entrance * flats);
+  eachFlat = fullResult / (entrance * flats);
 
-    std::cout << "Каждая квартира должна заплатить по " << eachFlat << " руб.";
+  std::cout << "Каждая квартира должна заплатить по " << eachFlat << " руб.";
 
 #pragma endregion
 
-    return 0;
+  return 0;
 }

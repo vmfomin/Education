@@ -18,23 +18,23 @@
 #include <cmath>
 
 int main() {
-    std::cout << "Сколько капель воды, антибиотика и бактерий? ";
-    float w, d, n;
-    std::cin >> w >> d >> n;
+  std::cout << "Сколько капель воды, антибиотика и бактерий? ";
+  float w, d, n;
+  std::cin >> w >> d >> n;
 
-    if (n <= 0 || w <= 0) {
-        std::cout << "Бактерий и воды должно быть больше 0!\n";
-        return -1;
-    }
+  if (n <= 0 || w <= 0) {
+    std::cout << "Бактерий и воды должно быть больше 0!\n";
+    return -1;
+  }
 
-    float nOld; // Предыдущее количество бактерий.
-    for (int minute = 1; minute <= 20; minute++) {
-        nOld = n;
-        n = 2 * nOld - nOld * d / w;
-        std::cout << "За " << minute << " минуту осталось " << std::floor(n)
-                  << " бактерий. Эффективность антбиотика " << d << "\n";
-        d -= (d * 0.2f);
-    }
+  float nOld; // Предыдущее количество бактерий.
+  for (int minute = 1; minute <= 20; minute++) {
+    nOld = n;
+    n = 2 * nOld - nOld * d / w;
+    std::cout << "За " << minute << " минуту осталось " << std::floor(n)
+              << " бактерий. Эффективность антбиотика " << d << "\n";
+    d -= (d * 0.2f);
+  }
 
-    return 0;
+  return 0;
 }

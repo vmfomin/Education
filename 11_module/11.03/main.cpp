@@ -29,9 +29,9 @@ public:
     // Освежил знания передачи в метод (функцию) по ссылкам и указателям, по
     // значению.
     Ork(std::string &name, float healthPoint, float magicResistance)
-            : name_{name},
-              healthPoint_{healthPoint},
-              magicResistance_{magicResistance} {}
+        : name_{name},
+          healthPoint_{healthPoint},
+          magicResistance_{magicResistance} {}
 
 
     /// Метод расчета урона от огненого шара.
@@ -39,36 +39,36 @@ public:
     // чтобы не плодить переменные исправляю (добавляю резист) значению полученному
     // по ссылке.
     inline void computeDamage(float &fireball) {
-        healthPoint_ -= fireball *= (1 - magicResistance_);
-        std::cout << "По орку " << name_ << " нанесено урона " << fireball * 100
-                  << "\n";
+      healthPoint_ -= fireball *= (1 - magicResistance_);
+      std::cout << "По орку " << name_ << " нанесено урона " << fireball * 100
+                << "\n";
     }
 
 
     /// Метод вывода на экран текущих характеристик орка
     inline void printStats() const {
-        std::cout << "Орк по имени " << name_ << " имеет "
-                  << healthPoint_ * 100 << " % очков здоровья и "
-                  << magicResistance_ * 100 << " % сопротивления магии\n";
+      std::cout << "Орк по имени " << name_ << " имеет "
+                << healthPoint_ * 100 << " % очков здоровья и "
+                << magicResistance_ * 100 << " % сопротивления магии\n";
     }
 
 
     /// Метод вывода на экран титров после смерти орка.
     void printTitre() {
-        std::cout << "\nСын Орды по имени " << name_ << " пал в бою! Он бился"
-                                                        " с честью!\n";
+      std::cout << "\nСын Орды по имени " << name_ << " пал в бою! Он бился"
+                                                      " с честью!\n";
 
-        // Почитание предков и все такое... Но это уже мои доразмышлизмы)))
-        std::cout << "Вождем было принято решение дать ему посмертное звание! Какое "
-                     "звание дадим храброму орку? ";
-        std::string rank;
-        // Составное звание, например, " - Герой Орды".
-        std::cin.ignore(80, '\n');
-        std::getline(std::cin, rank);
+      // Почитание предков и все такое... Но это уже мои доразмышлизмы)))
+      std::cout << "Вождем было принято решение дать ему посмертное звание! Какое "
+                   "звание дадим храброму орку? ";
+      std::string rank;
+      // Составное звание, например, " - Герой Орды".
+      std::cin.ignore(80, '\n');
+      std::getline(std::cin, rank);
 
-        name_ += " - " + rank;
+      name_ += " - " + rank;
 
-        std::cout << "Отныне его будут звать " << name_ << "\nЛок’тар огар!\n";
+      std::cout << "Отныне его будут звать " << name_ << "\nЛок’тар огар!\n";
     }
 
 
@@ -87,39 +87,39 @@ private:
 };
 
 int main() {
-    std::cout << "Введите имя, количество здоровья и сопротивление магии орка: ";
-    std::string name;
-    float healthPoint, magicResistance;
-    std::cin >> name >> healthPoint >> magicResistance;
-    std::cout << "\n";
+  std::cout << "Введите имя, количество здоровья и сопротивление магии орка: ";
+  std::string name;
+  float healthPoint, magicResistance;
+  std::cin >> name >> healthPoint >> magicResistance;
+  std::cout << "\n";
 
-    if (healthPoint > 1 || magicResistance > 1) {
-        std::cout << "Значения здоровья и сопротивления магии должны быть "
-                     "от 0 до 1!\n";
-        return -1;
-    }
+  if (healthPoint > 1 || magicResistance > 1) {
+    std::cout << "Значения здоровья и сопротивления магии должны быть "
+                 "от 0 до 1!\n";
+    return -1;
+  }
 
-    // Создаю орка.
-    Ork ork{name, healthPoint, magicResistance};
-    ork.printStats();
+  // Создаю орка.
+  Ork ork{name, healthPoint, magicResistance};
+  ork.printStats();
 
-    // Цикл нанесения урона.
-    float fireball{};
-    do {
-        std::cout << "Введите урон от огненного шара: ";
-        std::cin >> fireball;
+  // Цикл нанесения урона.
+  float fireball{};
+  do {
+    std::cout << "Введите урон от огненного шара: ";
+    std::cin >> fireball;
 
-        if (fireball <= 1) {
-            ork.computeDamage(fireball);
-            // Выводим пока не убили. Как только убили перестаем выводить.
-            // И так понятно что будет или - или 0 в hp.
-            if (ork.getHealthPoint() > 0)
-                ork.printStats();
-        } else
-            std::cout << "Урон от огненного шара должен быть меньше 1!\n";
-    } while (ork.getHealthPoint() > 0);
+    if (fireball <= 1) {
+      ork.computeDamage(fireball);
+      // Выводим пока не убили. Как только убили перестаем выводить.
+      // И так понятно что будет или - или 0 в hp.
+      if (ork.getHealthPoint() > 0)
+        ork.printStats();
+    } else
+      std::cout << "Урон от огненного шара должен быть меньше 1!\n";
+  } while (ork.getHealthPoint() > 0);
 
-    ork.printTitre();
+  ork.printTitre();
 
-    return 0;
+  return 0;
 }

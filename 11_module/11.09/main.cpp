@@ -11,23 +11,23 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Введите начальную и конечную амплитуду маятника: ";
-    float firstAmplitude, lastAmplitude;
-    std::cin >> firstAmplitude >> lastAmplitude;
+  std::cout << "Введите начальную и конечную амплитуду маятника: ";
+  float firstAmplitude, lastAmplitude;
+  std::cin >> firstAmplitude >> lastAmplitude;
 
-    if (0 == firstAmplitude) {
-        std::cout << "Маятник не кочнулся ни разу.\n";
-        return -1;
-    } else if (firstAmplitude < lastAmplitude) {
-        std::cout << "Начальная амплитуда должна быть больше конечной!\n";
-        return -1;
-    }
+  if (0 == firstAmplitude) {
+    std::cout << "Маятник не кочнулся ни разу.\n";
+    return -1;
+  } else if (firstAmplitude < lastAmplitude) {
+    std::cout << "Начальная амплитуда должна быть больше конечной!\n";
+    return -1;
+  }
 
-    int oscillation = 0;
-    for (; firstAmplitude >= lastAmplitude; ++oscillation)
-        firstAmplitude -= (firstAmplitude * 8.4f / 100.f);
+  int oscillation = 0;
+  for (; firstAmplitude >= lastAmplitude; ++oscillation)
+    firstAmplitude -= (firstAmplitude * 8.4f / 100.f);
 
-    std::cout << "Маятник кочнулся " << oscillation << " раз\n";
+  std::cout << "Маятник кочнулся " << oscillation << " раз\n";
 
-    return 0;
+  return 0;
 }

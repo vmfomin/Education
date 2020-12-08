@@ -22,53 +22,53 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Ввод:\nУкажите размер файла для скачивания: ";
-    float sizeUpdate;
-    std::cin >> sizeUpdate;
+  std::cout << "Ввод:\nУкажите размер файла для скачивания: ";
+  float sizeUpdate;
+  std::cin >> sizeUpdate;
 
-    if (sizeUpdate <= 0) {
-        std::cout << "Размер обновления не может быть равным 0!\n";
-        return -1;
+  if (sizeUpdate <= 0) {
+    std::cout << "Размер обновления не может быть равным 0!\n";
+    return -1;
+  }
+
+  std::cout << "Какова скорость вашего соединения? ";
+  float speed;
+  std::cin >> speed;
+
+  if (speed <= 0) {
+    std::cout << "Скорость загрузки не может быть равна 0!\n";
+    return -1;
+  }
+
+  std::cout << "\nЗагрузка...\n";
+  float download;
+  float downloadPercent;
+  int seconds = 1;
+  for (; download < sizeUpdate; ++seconds) {
+    download += speed;
+
+    if (download > sizeUpdate) {
+      download -= speed;
+      download += sizeUpdate - download;
     }
 
-    std::cout << "Какова скорость вашего соединения? ";
-    float speed;
-    std::cin >> speed;
+    // Нахожу процент скачивания. Не округляю, т.к. при скачивании больших
+    // файлов теряется точность.
+    downloadPercent = download / sizeUpdate * 100;
+    std::cout << "Прошло " << seconds << " сек. Скачано " << download
+              << " из " << sizeUpdate << " Мб (" << downloadPercent
+              << "%).\n";
+  }
+  // Убираю одну секунду после выхода из цикла. т.к. при выходе из цикла он
+  // на последней итерации увеличил значение.
+  --seconds;
+  std::cout << "\n";
+  if (seconds >= 60) {
+    std::cout << "Файл обновления размером " << sizeUpdate << " Мб скачался за "
+              << seconds / 60 << " минут и " << seconds % 60 << " секунд.\n";
+  } else
+    std::cout << "Файл обновления размером " << sizeUpdate << " Мб скачался за "
+              << seconds << " секунд.\n";
 
-    if (speed <= 0) {
-        std::cout << "Скорость загрузки не может быть равна 0!\n";
-        return -1;
-    }
-
-    std::cout << "\nЗагрузка...\n";
-    float download;
-    float downloadPercent;
-    int seconds = 1;
-    for (; download < sizeUpdate; ++seconds) {
-        download += speed;
-
-        if (download > sizeUpdate) {
-            download -= speed;
-            download += sizeUpdate - download;
-        }
-
-        // Нахожу процент скачивания. Не округляю, т.к. при скачивании больших
-        // файлов теряется точность.
-        downloadPercent = download / sizeUpdate * 100;
-        std::cout << "Прошло " << seconds << " сек. Скачано " << download
-                  << " из " << sizeUpdate << " Мб (" << downloadPercent
-                  << "%).\n";
-    }
-    // Убираю одну секунду после выхода из цикла. т.к. при выходе из цикла он
-    // на последней итерации увеличил значение.
-    --seconds;
-    std::cout << "\n";
-    if (seconds >= 60) {
-        std::cout << "Файл обновления размером " << sizeUpdate << " Мб скачался за "
-                  << seconds / 60 << " минут и " << seconds % 60 << " секунд.\n";
-    } else
-        std::cout << "Файл обновления размером " << sizeUpdate << " Мб скачался за "
-                  << seconds << " секунд.\n";
-
-    return 0;
+  return 0;
 }
