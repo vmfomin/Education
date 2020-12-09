@@ -14,41 +14,43 @@
 // Примечание: поверхность планеты считать плоской.
 
 #include <iostream>
+#include <iomanip>
 
-const float astronomicalUnit{1.496e11};
+const double astronomicalUnit{1.496e11};
 
 int main() {
   std::cout << "[Программа]: Марсоход начинает работу...\n"
             << "[Программа]: Для отключения Марсохода нажмите \"0\".\n";
 
   // Начальная позиция.
-  float x = 0.001f * astronomicalUnit;
-  float y{0.0};
+  double x = 0.001 * astronomicalUnit;
+  double y{0.};
 
   bool isPowerOff{};
   while (!isPowerOff) {
     char command{};
 
-    std::cout << "[Программа]: Марсоход находится на позиции [" << x << ", "
-              << y << "], введите команду:\n";
+    std::cout << "[Программа]: Марсоход находится на позиции [" << std::fixed
+              << std::setprecision(0) << x << ", " << y
+              << "], введите команду:\n";
     std::cout << "[Оператор]: ";
     std::cin >> command;
 
     switch (command) {
       case 'w' :
-        y += 1.0f / astronomicalUnit;
+        y += 1;
         break;
 
       case 'a' :
-        x -= 1.0f / astronomicalUnit;
+        x -= 1;
         break;
 
       case 's' :
-        y -= 1.0f / astronomicalUnit;
+        y -= 1;
         break;
 
       case 'd' :
-        x += 1.0f / astronomicalUnit;
+        x += 1;
         break;
 
       case '0' :

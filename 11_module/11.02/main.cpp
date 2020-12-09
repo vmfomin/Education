@@ -9,6 +9,7 @@
 // Обеспечьте контроль ввода.
 
 #include <iostream>
+#include <cmath>
 
 /// Кодовый замок
 class CodeLock {
@@ -23,10 +24,10 @@ public:
     CodeLock(int n, int k, float time) : n_{n}, k_{k}, time_{time} {}
 
     /// Метод расчета общего времени.
+    /// n^k - количество размещений с повторениями.
     /// \return Общее время.
     float computeTime() const {
-      return // для удобства чтения перенес на следующую строку.
-          static_cast<float>(n_) * static_cast<float>(k_) * time_;
+      return powf(static_cast<float>(n_), static_cast<float>(k_)) * time_;
     }
 
     /// Метод вывода на экран.
@@ -56,8 +57,6 @@ int main() {
 
   // Инициализаия кодового замка.
   CodeLock codeLock{n, k, time};
-
-  codeLock.computeTime();
   codeLock.printCodeLock();
 
   return 0;

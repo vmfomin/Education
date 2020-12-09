@@ -20,6 +20,7 @@
 Прошло 5 сек. Скачано 123 из 123 Мб (100%).*/
 
 #include <iostream>
+#include <cmath>
 
 int main() {
   std::cout << "Ввод:\nУкажите размер файла для скачивания: ";
@@ -52,9 +53,8 @@ int main() {
       download += sizeUpdate - download;
     }
 
-    // Нахожу процент скачивания. Не округляю, т.к. при скачивании больших
-    // файлов теряется точность.
-    downloadPercent = download / sizeUpdate * 100;
+    // Нахожу процент скачивания.
+    downloadPercent = roundf(download / sizeUpdate * 100);
     std::cout << "Прошло " << seconds << " сек. Скачано " << download
               << " из " << sizeUpdate << " Мб (" << downloadPercent
               << "%).\n";

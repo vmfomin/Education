@@ -46,19 +46,31 @@ int main() {
   }
 
   // Отсекаем дробную часть.
-  x = floorf(x);
-  y = floorf(y);
-  z = floorf(z);
+  x = std::floor(x);
+  y = std::floor(y);
+  z = std::floor(z);
 
-  // Находим объем бруска и делим его на кубик 5 * 5 * 5 см.
-  int cubes = static_cast<int>(x * y * z / powf(5, 3));
+  // Учитываю лишние см для вырезания 1 кубика.
+  int excessX = static_cast<int>(x) % 5;
+  int excessY = static_cast<int>(y) % 5;
+  int excessZ = static_cast<int>(z) % 5;
+
+  // Находим объем бруска с учетом излишков материала и делим его на
+  // кубик 5 * 5 * 5 см.
+  int cubes = static_cast<int>((x - static_cast<float>(excessX)) *
+                               (y - static_cast<float>(excessY)) *
+                               (z - static_cast<float>(excessZ)) /
+                               powf(5, 3));
   std::cout << "Вывод:\nИз этого бруска можно изготовить " << cubes
             << " кубиков.\n";
 
   // Извлекаю кубический корень из всего количества кубиков. Отсекаю дробную
   // часть (можно при желании статик_каст<инт>). Возвожу в куб. Получаю набор.
   int set = std::pow(std::floor(std::cbrt(cubes)), 3);
-  std::cout << "Из них можно составить набор из " << set << " кубиков.\n";
+
+  set <= 1 ? std::cout << "Нельзя составить набор из 1 кубика.\n"
+           : std::cout << "Из них можно составить набор из " << set
+                       << " кубиков.\n";
 
   return 0;
 }
