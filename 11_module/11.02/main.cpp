@@ -13,36 +13,36 @@
 
 /// Кодовый замок
 class CodeLock {
-public:
-    /// Конструктор по умолчанию
-    CodeLock() : n_{1}, k_{1}, time_{0.01} {}
+ public:
+  /// Конструктор по умолчанию
+  CodeLock() : n_{1}, k_{1}, time_{0.01} {}
 
-    /// Конструктор с инициализацией переменных
-    /// \param n -- количество ручек;
-    /// \param k -- количество положений ручки;
-    /// \param time -- среднее время.
-    CodeLock(int n, int k, float time) : n_{n}, k_{k}, time_{time} {}
+  /// Конструктор с инициализацией переменных
+  /// \param n -- количество ручек;
+  /// \param k -- количество положений ручки;
+  /// \param time -- среднее время.
+  CodeLock(int n, int k, float time) : n_{n}, k_{k}, time_{time} {}
 
-    /// Метод расчета общего времени.
-    /// n^k - количество размещений с повторениями.
-    /// \return Общее время.
-    float computeTime() const {
-      return powf(static_cast<float>(n_), static_cast<float>(k_)) * time_;
-    }
+  /// Метод расчета общего времени.
+  /// n^k - количество размещений с повторениями.
+  /// \return Общее время.
+  float computeTime() const {
+    return std::pow(static_cast<float>(k_), static_cast<float>(n_)) * time_;
+  }
 
-    /// Метод вывода на экран.
-    inline void printCodeLock() const {
-      std::cout << "На переборку всех комбинаций " << n_ << " ручек с " << k_
-                << " положениями уходит " << computeTime() << " секунд.\n";
-    }
+  /// Метод вывода на экран.
+  inline void printCodeLock() const {
+    std::cout << "На переборку всех комбинаций " << n_ << " ручек с " << k_
+              << " положениями уходит " << computeTime() << " секунд.\n";
+  }
 
-    /// Деструктор.
-    ~CodeLock() = default;
+  /// Деструктор.
+  ~CodeLock() = default;
 
-private:
-    int n_;
-    int k_;
-    float time_;
+ private:
+  int n_;
+  int k_;
+  float time_;
 };
 
 int main() {
