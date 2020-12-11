@@ -48,19 +48,13 @@ int main() {
   for (; download < sizeUpdate; ++seconds) {
     download += speed;
 
-    // Нахожу процент скачивания.
-    downloadPercent = std::round(download / sizeUpdate * 100);
-
-    // Для больших файлов пишем 99% пока не скачалось.
-    if (100 == downloadPercent)
-      downloadPercent = 99;
-
     if (download > sizeUpdate) {
       download -= speed;
       download += sizeUpdate - download;
-      // Скачивание завершено.
-      downloadPercent = 100;
     }
+
+    // Нахожу процент скачивания.
+    downloadPercent = std::floor(download / sizeUpdate * 100);
 
     std::cout << "Прошло " << seconds << " сек. Скачано " << download
               << " из " << sizeUpdate << " Мб (" << downloadPercent
