@@ -31,13 +31,15 @@ abcd abce skjc ahdy
 int main() {
   std::cout << "\nThis program for counting words in a line. "
                "To exit, enter exit\n";
-  bool isExit{};
   do {
     std::cout << "\nEnter the string: ";
     std::string str;
     std::getline(std::cin, str);
 
-    if (str == "exit") break;
+    if (str == "exit") {
+      std::cout << "exiting..." << std::endl;
+      break;
+    }
 
     // чтобы правильно считывалось последнее значение.
     if (!isspace(str[str.length() - 1])) str += " ";
@@ -60,7 +62,7 @@ int main() {
 
     std::cout << "Answer: " << counter << '\n';
 
-  } while (!isExit);
+  } while (true);
 
   return 0;
 }
