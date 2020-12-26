@@ -3,12 +3,11 @@
  * часов DD минут. Сколько часов и минут он находится в пути?
  * Напишите программу, которая принимает от пользователя две строки — время
  * отправления и время прибытия поезда. Время задается строкой из 5 символов в
- * формате HH:MM. Обеспечьте контроль ввода, проверьте также, что время корректно.
- * Программа должна ответить, сколько часов и минут поезд находится в пути. Если
- * время отправления больше времени прибытия, считайте, что поезд прибывает в
- * пункт назначения на следующий день.
- * Примеры:
- * Введите время отправления: 07:15
+ * формате HH:MM. Обеспечьте контроль ввода, проверьте также, что время
+ * корректно. Программа должна ответить, сколько часов и минут поезд находится в
+ * пути. Если время отправления больше времени прибытия, считайте, что поезд
+ * прибывает в пункт назначения на следующий день.
+ * Примеры: Введите время отправления: 07:15
  * Введите время прибытия: 16:55
  * Поезд находится в пути 9 часов 40 минут
  * Введите время отправления: 21:10
@@ -17,84 +16,53 @@
 
 #include <iostream>
 
+// Функция чтения времени.
+bool parseTime(std::string &timeStr, int &hours, int &minutes) {
+  for (int i = 0; i < timeStr.length(); ++i) {
+    if (timeStr[i] >= '0' && timeStr[i] <= '9') {
+      // Отделяю часы от минут и учитываю значения на своем месте.
+      if (i <= 1)
+        if (i == 0)
+          hours += (timeStr[i] - '0') * 10;
+        else
+          hours += timeStr[i] - '0';
+      else if (i == 3)
+        minutes += (timeStr[i] - '0') * 10;
+      else
+        minutes += (timeStr[i] - '0');
+    } else if (timeStr[i] == ':' || timeStr[i] == '.') {
+      continue;
+    } else {
+      return false;
+    }
+
+    if (hours > 24 || minutes > 60) {
+      std::cout << "Error! Time format is \"HH:MM\" in 24 hours.\n";
+      hours = 0;
+      minutes = 0;
+      return false;
+    }
+  }
+
+  return true;
+}
+
 int main() {
   do {
     // время отправки.
     int departureHours{}, departureMinutes{};
-    bool isTimeDeparture{};
+    std::string timeStr;
     do {
       std::cout << "Enter the departure time: ";
-      std::string departureTime;
-      std::cin >> departureTime;
-
-      for (int i = 0; i < departureTime.length(); ++i) {
-        if (departureTime[i] >= '0' && departureTime[i] <= '9') {
-          // Отделяю часы от минут и учитываю значения на своем месте.
-          if (i <= 1)
-            if (i == 0)
-              departureHours += (departureTime[i] - '0') * 10;
-            else
-              departureHours += departureTime[i] - '0';
-          else if (i == 3)
-            departureMinutes += (departureTime[i] - '0') * 10;
-          else
-            departureMinutes += (departureTime[i] - '0');
-
-          isTimeDeparture = true;
-        } else if (departureTime[i] == ':' || departureTime[i] == '.')
-          continue;
-        else {
-          isTimeDeparture = false;
-          break;
-        }
-
-        if (departureHours > 24 || departureMinutes > 60) {
-          std::cout << "Error! Time format is \"HH:MM\" in 24 hours.\n";
-          departureHours = 0;
-          departureMinutes = 0;
-          isTimeDeparture = false;
-          break;
-        }
-      }
-    } while (!isTimeDeparture);
+      std::cin >> timeStr;
+    } while (!parseTime(timeStr, departureHours, departureMinutes));
 
     // время прибытия
     int arrivalHours{}, arrivalMinutes{};
-    bool isTimeArrival{};
     do {
       std::cout << "Enter your arrival time: ";
-      std::string arrivalTime;
-      std::cin >> arrivalTime;
-
-      for (int i = 0; i < arrivalTime.length(); ++i) {
-        if (arrivalTime[i] >= '0' && arrivalTime[i] <= '9') {
-          if (i <= 1)
-            if (i == 0)
-              arrivalHours += (arrivalTime[i] - '0') * 10;
-            else
-              arrivalHours += arrivalTime[i] - '0';
-          else if (i == 3)
-            arrivalMinutes += (arrivalTime[i] - '0') * 10;
-          else
-            arrivalMinutes += (arrivalTime[i] - '0');
-
-          isTimeArrival = true;
-        } else if (arrivalTime[i] == ':' || arrivalTime[i] == '.')
-          continue;
-        else {
-          isTimeArrival = false;
-          break;
-        }
-
-        if (arrivalHours > 24 || arrivalMinutes > 60) {
-          std::cout << "Error! Time format is \"HH:MM\" in 24 hours.\n";
-          arrivalHours = 0;
-          arrivalMinutes = 0;
-          isTimeArrival = false;
-          break;
-        }
-      }
-    } while (!isTimeArrival);
+      std::cin >> timeStr;
+    } while (!parseTime(timeStr, arrivalHours, arrivalMinutes));
 
     // Время в пути
     int wayHours;

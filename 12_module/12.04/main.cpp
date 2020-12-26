@@ -30,34 +30,28 @@ abcd abce skjc ahdy
 
 int main() {
   std::cout << "\nThis program for counting words in a line. "
-               "To exit, enter exit\n";
+               "To exit, enter exit or \"q\"\n";
   do {
     std::cout << "\nEnter the string: ";
     std::string str;
     std::getline(std::cin, str);
 
-    if (str == "exit") {
+    if (str == "exit" || str == "q") {
       std::cout << "exiting..." << std::endl;
       break;
     }
 
-    // чтобы правильно считывалось последнее значение.
-    if (!isspace(str[str.length() - 1])) str += " ";
-
+    // Счетчик слов.
     int counter{};
-    for (int i = 0; i < str.length(); ++i) {
-      if (isspace(str[i])) {
-        if (i == str.length() - 1) {
-          if (isspace(str[i - 1]))
-            continue;
-          else
-            ++counter;
-        } else if (isspace(str[i + 1])) {
-          continue;
-        } else {
+    if (!str.empty()) {
+      // Проверка 1 символа.
+      if (!isspace(str[0])) ++counter;
+
+      for (int i = 0; i < str.length(); ++i)
+        if (isspace(str[i]) && i != str.length() - 1 && !isspace(str[i + 1]))
           ++counter;
-        }
-      }
+    } else {
+      counter = 0;
     }
 
     std::cout << "Answer: " << counter << '\n';

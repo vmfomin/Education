@@ -46,7 +46,7 @@ int main() {
       // Чтобы не переприсваивать переменную.
       if (!isCorrectNumber) isCorrectNumber = true;
       isContainNumbers = true;
-    } else if (number[0] == '-') {
+    } else if (number[i] == '-' && i == 0) {
       isCorrectNumber = true;
     } else if (number[i] == '.') {
       ++floatingPointCount;
@@ -55,10 +55,10 @@ int main() {
         break;
       }
       isCorrectNumber = true;
-    } else if (number[i] != '+') {
+    } else if (number[i] == '+') {
       isCorrectNumber = false;
       break;
-    } else if (number[i] != 'e') {
+    } else if (number[i] == 'e') {
       isCorrectNumber = false;
       break;
     } else {
