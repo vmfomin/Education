@@ -1,5 +1,5 @@
-///  Задача 2. Быки и коровы
-/* В логической игре “быки и коровы” первый игрок загадывает четырехзначное
+/** Задача 2. Быки и коровы
+ * В логической игре “быки и коровы” первый игрок загадывает четырехзначное
  * число (оно может начинаться и с нулей), а второй игрок должен его отгадать.
  * Отгадывание происходит так: своим ходом второй игрок называет любое
  * четырехзначное число, а первый ему отвечает, сколько в этом числе “быков” и
@@ -23,16 +23,31 @@
 
 #include <iostream>
 
-/// Прототипы функций
-// Сделал функции, чтобы не повторяться принцип "DRY".
+/*********** Прототипы функций ***********/
 
-// Проверка на количество чисел.
+/** Проверка на количество чисел.
+ * @param  &number: значение числа.
+ */
 bool isFourDigits(std::string &number);
 
-// Парсер числа. Реализовал через указатель.
+/** Парсер числа. Реализовал через указатель.
+ * @param  *number: указатель на массив для записи числа.
+ */
 bool parserDigitsOfNumber(int *number);
 
-/// Функции
+/** Функция для выхода из цикла.
+ @param  &exitNumber: Если на входе введены 0, тогда выходим.
+ */
+inline bool exitLoop(int &exitNumber);
+
+/** Нахожу повторяющиеся значения.
+ * @param  &nEquals: количество повторяющихся значений
+ * @param  number[]: массив с числами
+ * @param  sizeNumber: размер массива
+ */
+inline void nEquals(int &nEquals, int number[], int sizeNumber);
+
+/*********** Функции ***********/
 
 bool isFourDigits(std::string &number) {
   if (4 != number.length()) {
@@ -50,12 +65,12 @@ bool parserDigitsOfNumber(int *number) {
   // Проверка на 4-хзначное число
   if (!isFourDigits(numberStr)) return false;
 
-  for (int i = 0; i < numberStr.length(); ++i) {
-    if (numberStr[i] >= '0' && numberStr[i] <= '9') {
+  for (char iNumber : numberStr) {
+    if (iNumber >= '0' && iNumber <= '9') {
       // присваиваю значение в массиве чисел через разыменовывание
-      *number = numberStr[i] - '0';
+      *number = iNumber - '0';
       // смещаю адрес указателя на следующее значение в массиве (тоже самое,
-      // что использовать индекс в массиве).
+      // что использовать индекс в массиве). Можно убрать к ++i.
       ++number;
     } else {
       std::cout << "Error: nan found!\n";
@@ -66,39 +81,74 @@ bool parserDigitsOfNumber(int *number) {
   return true;
 }
 
-int main() {
-  // Объявляю массив чисел для 1 числа.
-  int firstNumber[4]{};
-  // Вводим и парсим 1 число
-  do {
-    std::cout << "Enter the intended number: ";
-  } while (!parserDigitsOfNumber(firstNumber));
-
-  // Объявляю массив чисел для 2 числа.
-  int secondNumber[4]{};
-  // Вводим и парсим 2 число
-  do {
-    std::cout << "Enter the second number: ";
-  } while (!parserDigitsOfNumber(secondNumber));
-
-  int bullsCount{}, cowsCount{}, sum{4};
-  // Вычисление коров и быков.
-  for (int i = 0; i < sizeof(firstNumber) / sizeof(firstNumber[0]); ++i) {
-    if (firstNumber[i] == secondNumber[i]) {
-      ++bullsCount;
-      continue;
-    }
-
-    for (int j = 0; j < sizeof(secondNumber) / sizeof(secondNumber[0]); ++j) {
-      // Когда повторяются числа
-      if (firstNumber[i] == firstNumber[j])
-        continue;
-      else if (firstNumber[i] == secondNumber[j])
-        ++cowsCount;
-    }
+inline bool exitLoop(int &exitNumber) {
+  if (0 == exitNumber) {
+    std::cout << "Exiting...\n" << std::endl;
+    return true;
   }
+  return false;
+}
 
-  std::cout << "Быков: " << bullsCount << ", коров: " << cowsCount << '\n';
+inline void nEquals(int &nEquals, int number[], int sizeNumber) {
+  for (int i = 0; i < sizeNumber; ++i)
+    if (i != sizeNumber - 1 && number[i] == number[i + 1]) ++nEquals;
+}
+
+int main() {
+  std::cout << "For quit from the loop enter \"0000\"\n";
+  while (true) {
+    // Объявляю массив чисел для 1 числа. Вводим и парсим 1 число
+    int firstNumber[4]{};
+    do {
+      std::cout << "Enter the intended number: ";
+    } while (!parserDigitsOfNumber(firstNumber));
+
+    // Объявляю массив чисел для 2 числа. Вводим и парсим 2 число
+    int secondNumber[4]{};
+    do {
+      std::cout << "Enter the second number:   ";
+    } while (!parserDigitsOfNumber(secondNumber));
+
+    // Длина чисел.
+    int sizeNumber = sizeof(firstNumber) / sizeof(firstNumber[0]);
+
+    // Нахожу повторяющиеся значения.
+    int nFirstEquals{};
+    nEquals(nFirstEquals, firstNumber, sizeNumber);
+
+    // Нахожу повторяющиеся значения.
+    int nSecondEquals{};
+    nEquals(nSecondEquals, secondNumber, sizeNumber);
+
+    int nBulls{}, nCows{};
+    for (int i = 0; i < sizeNumber; ++i) {
+      if (firstNumber[i] == secondNumber[i]) {
+        ++nBulls;
+        continue;
+      }
+
+      for (int j = 0; j < sizeNumber; ++j) {
+        if (firstNumber[i] == secondNumber[j] && i != j) {
+          ++nCows;
+          break;
+        }
+      }
+    }
+    // Корректирую вывод коров.
+    if (nFirstEquals != 0 && nCows != 0)
+      nCows = nCows - abs(nFirstEquals - nSecondEquals);
+
+    std::cout << "Bulls: " << nBulls << ", cows: " << nCows << "\n\n";
+
+    // Обрабатываю выход из бесконечного цикла при вводе 0000.
+    int exitNumber{};
+    for (int i = 0; i < sizeNumber; i++) exitNumber += firstNumber[i];
+    if (exitLoop(exitNumber)) return 0;
+
+    exitNumber = 0;
+    for (int i = 0; i < sizeNumber; i++) exitNumber += secondNumber[i];
+    if (exitLoop(exitNumber)) return 0;
+  }
 
   return 0;
 }
