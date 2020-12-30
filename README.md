@@ -12,9 +12,9 @@
    - [Модуль 10](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/10_module)
    - [Модуль 11](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/11_module)
    - [Модуль 12](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/12_module)
-   - [Книги Столярова А.В.](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Stolyarov%20A.V)
+   - [Книги Столярова А.В.](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Stolyarov%20A.V)  
+         [Сайт автора](http://www.stolyarov.info/books/programming_intro)
    - [Рекомендация по Emacs](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Emacs_config)
-
 2. Как сгенерировать ключ для SSH в Windows 10 для [Git](https://github.com/vmf0min/Skillbox/tree/master/Git)
 3. Первые 3 модуля презентации по тестированию [QA](https://github.com/vmf0min/Skillbox/tree/master/QA)
 4. Решение домашнего задания по [SQL](https://github.com/vmf0min/Skillbox/tree/master/SQL)
