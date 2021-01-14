@@ -26,12 +26,11 @@ int main() {
 
   float selfIsolationPercent = sumFloorResidents * 100 / residents;
 
-  if (selfIsolationPercent > 100)
-    std::cout << "The house has more people than residents by "
-              << selfIsolationPercent - 100 << " percent!!!\n";
-  else
-    std::cout << "Percentage of self-isolation in the house "
-              << selfIsolationPercent << "\n";
+  selfIsolationPercent > 100
+      ? std::cout << "The house has more people than residents by "
+                  << selfIsolationPercent - 100 << " percent!!!\n"
+      : std::cout << "Percentage of self-isolation in the house "
+                  << selfIsolationPercent << "\n";
 
   return 0;
 }
