@@ -25,11 +25,9 @@ int main() {
   int skyscraper[50]{};
   size_t skyscrapperSize{sizeof(skyscraper) / sizeof(skyscraper[0])};
 
-  float averageNumberOfFloors{};
-  averageNumberOfFloors =
-      static_cast<float>((fitnessClubSize + shopSize + cottageSize +
-                          ApartmentBuildingSize + skyscrapperSize) /
-                         static_cast<float>(5));
+  float averageNumberOfFloors{(fitnessClubSize + shopSize + cottageSize +
+                               ApartmentBuildingSize + skyscrapperSize) /
+                              5.f};
   std::cout << "Average number of floors is " << averageNumberOfFloors
             << std::endl;
 
