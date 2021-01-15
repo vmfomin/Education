@@ -13,6 +13,7 @@
    - [Модуль 11](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/11_module)
    - [Модуль 12](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/12_module)
    - [Модуль 15](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/15_module)
+   - [Модуль 16](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/16_module)
    - [Книги Столярова А.В.](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Stolyarov%20A.V)  
          [Сайт автора](http://www.stolyarov.info/books/programming_intro)
    - [Рекомендация по Emacs](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Emacs_config)
