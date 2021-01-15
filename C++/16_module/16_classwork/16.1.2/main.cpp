@@ -18,6 +18,11 @@ int main() {
   int n;
   std::cin >> n;
 
+  if (n <= 0) {
+    std::cout << "Error\n";
+    return -1;
+  }
+
   std::vector<float> vectorFloat(n);
   std::cout << "Enter floats:\n";
   for (auto &vec : vectorFloat) std::cin >> vec;

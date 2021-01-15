@@ -17,6 +17,11 @@ int main() {
   int n;
   std::cin >> n;
 
+  if (n <= 0) {
+    std::cout << "Error\n";
+    return -1;
+  }
+
   std::vector<int> vectorInt(n);
   std::cout << "Enter integers: ";
   for (auto &vec : vectorInt) std::cin >> vec;
