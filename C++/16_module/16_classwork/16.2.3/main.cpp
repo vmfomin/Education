@@ -11,13 +11,12 @@
  * очереди.
  * Реализуйте функцию
  * std::vector<int> add_to_position(std::vector vec, int val, int position)
- * @version 0.1
+ * @version 0.2
  * @date 18-01-2021
  * @copyright Copyright (c) 2021
  */
 
 #include <iostream>
-#include <iterator>
 #include <vector>
 
 /**
@@ -58,7 +57,7 @@ int main() {
     std::cout << "Enter your place in the queue: ";
     std::cin >> queue;
 
-    if (queue >= 0)
+    if (0 == queue)
       std::cout
           << "The queue starts at 1.\nYou were directed to the end of the "
              "queue.\n";
@@ -72,9 +71,7 @@ int main() {
 
     vectorInt = add_to_possition(vectorInt, num, queue);
 
-    std::copy(vectorInt.begin(), vectorInt.end(),
-              std::ostream_iterator<int>(std::cout, " "));
-    // for (const auto &i : vectorInt) std::cout << i << " ";
+    for (const auto &i : vectorInt) std::cout << i << " ";
     std::cout << "\n\n";
   }
 
