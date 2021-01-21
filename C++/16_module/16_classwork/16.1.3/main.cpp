@@ -10,6 +10,7 @@
  */
 
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <vector>
 
@@ -27,12 +28,7 @@ int main() {
   std::cout << "Enter integers:\n";
   for (auto &vec : vectorInt) std::cin >> vec;
 
-  // тип сортировки с использование лямбды. Сделал локально, чтобы переменная
-  // удалилась.
-  {
-    auto comparator{[](int a, int b) { return a > b; }};
-    std::sort(vectorInt.begin(), vectorInt.end(), comparator);
-  }
+  std::sort(vectorInt.begin(), vectorInt.end(), std::greater{});
 
   std::cout << "The vector is sorted by STL algorithm\n";
   for (const auto &vec : vectorInt) std::cout << vec << " ";
