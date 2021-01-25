@@ -22,17 +22,16 @@
 int main() {
   std::vector<float> prices{2.5f, 4.25f, 3.0f, 10.0f};
   std::cout << "\e[2JPrices:   \e[32m";
-  for (const auto &price : prices) std::cout << price << " ";
+  for (const auto& price : prices) std::cout << price << " ";
 
   std::cout << "\e[0m\n";  // Сброс цвета перевод коретки.
 
   std::vector<int> purchases{1, 1, 0, 3};
   std::cout << "Purchase: \e[32m";
-  for (const auto &purchase : purchases) std::cout << purchase << " ";
+  for (const auto& purchase : purchases) std::cout << purchase << " ";
 
-  // Здесь читаю индекс в списке покупок и по нему считываю цены.
   float sum{};
-  for (const auto &i : purchases) sum += prices[i];
+  for (const auto& i : purchases) sum += prices[i];
 
   std::cout << "\n\e[36mPurchase amount: " << sum << "\e[0m\n";
 
