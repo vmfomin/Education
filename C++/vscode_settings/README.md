@@ -36,17 +36,15 @@
         "-g",
         "${file}",
         "-o",
-        "-I",
-        "${workspaceFolder}",
         "${fileDirname}\\${fileBasenameNoExtension}.exe"
       ],
    ~~~
 
-добавить, если нет.
+заменить на
 
    ~~~json
-      "-I",
-      "${workspaceFolder}",
+      "-g",
+      "${workspaceFolder}/*.cpp",
    ~~~
 
    В таком случае, отладчик будет знать, какие файлы еще брать во время компиляции.
