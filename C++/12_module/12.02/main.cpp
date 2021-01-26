@@ -28,28 +28,21 @@
 /** Проверка на количество чисел.
  * @param  &number: значение числа.
  */
-bool isFourDigits(std::string &number);
+bool isFourDigits(std::string& number);
 
 /** Парсер числа. Реализовал через указатель.
  * @param  *number: указатель на массив для записи числа.
  */
-bool parserDigitsOfNumber(int *number);
+bool parserDigitsOfNumber(int* number);
 
 /** Функция для выхода из цикла.
  @param  &exitNumber: Если на входе введены 0, тогда выходим.
  */
-inline bool exitLoop(int &exitNumber);
-
-/** Нахожу повторяющиеся значения.
- * @param  &nEquals: количество повторяющихся значений
- * @param  number[]: массив с числами
- * @param  sizeNumber: размер массива
- */
-inline void nEquals(int &nEquals, int number[], int sizeNumber);
+inline bool exitLoop(int& exitNumber);
 
 /*********** Функции ***********/
 
-bool isFourDigits(std::string &number) {
+bool isFourDigits(std::string& number) {
   if (4 != number.length()) {
     std::cout << "Error: input number greater than or less than 4 digits\n";
     return false;
@@ -58,7 +51,7 @@ bool isFourDigits(std::string &number) {
   }
 }
 
-bool parserDigitsOfNumber(int *number) {
+bool parserDigitsOfNumber(int* number) {
   std::string numberStr;
   std::cin >> numberStr;
 
@@ -81,7 +74,7 @@ bool parserDigitsOfNumber(int *number) {
   return true;
 }
 
-inline bool exitLoop(int &exitNumber) {
+inline bool exitLoop(int& exitNumber) {
   if (0 == exitNumber) {
     std::cout << "Exiting...\n" << std::endl;
     return true;
@@ -89,13 +82,8 @@ inline bool exitLoop(int &exitNumber) {
   return false;
 }
 
-inline void nEquals(int &nEquals, int number[], int sizeNumber) {
-  for (int i = 0; i < sizeNumber; ++i)
-    if (i != sizeNumber - 1 && number[i] == number[i + 1]) ++nEquals;
-}
-
 int main() {
-  std::cout << "For quit from the loop enter \"0000\"\n";
+  std::cout << "\e[2JFor quit from the loop enter \"0000\"\n";
   while (true) {
     // Объявляю массив чисел для 1 числа. Вводим и парсим 1 число
     int firstNumber[4]{};
@@ -112,31 +100,22 @@ int main() {
     // Длина чисел.
     int sizeNumber = sizeof(firstNumber) / sizeof(firstNumber[0]);
 
-    // Нахожу повторяющиеся значения.
-    int nFirstEquals{};
-    nEquals(nFirstEquals, firstNumber, sizeNumber);
-
-    // Нахожу повторяющиеся значения.
-    int nSecondEquals{};
-    nEquals(nSecondEquals, secondNumber, sizeNumber);
-
     int nBulls{}, nCows{};
-    for (int i = 0; i < sizeNumber; ++i) {
+    for (int i = 0; i < sizeNumber; i++) {
       if (firstNumber[i] == secondNumber[i]) {
-        ++nBulls;
-        continue;
-      }
-
-      for (int j = 0; j < sizeNumber; ++j) {
-        if (firstNumber[i] == secondNumber[j] && i != j) {
-          ++nCows;
-          break;
+        nBulls++;
+      } else {
+        for (int j = 0; j < sizeNumber; j++) {
+          if (firstNumber[i] == secondNumber[j] &&
+              firstNumber[i] != firstNumber[j]) {
+            if (secondNumber[j] != secondNumber[j - 1] ||
+                firstNumber[i] != firstNumber[i - 1]) {
+              nCows++;
+            }
+          }
         }
       }
     }
-    // Корректирую вывод коров.
-    if (nFirstEquals != 0 && nCows != 0)
-      nCows = nCows - abs(nFirstEquals - nSecondEquals);
 
     std::cout << "Bulls: " << nBulls << ", cows: " << nCows << "\n\n";
 
@@ -149,6 +128,4 @@ int main() {
     for (int i = 0; i < sizeNumber; i++) exitNumber += secondNumber[i];
     if (exitLoop(exitNumber)) return 0;
   }
-
-  return 0;
 }
