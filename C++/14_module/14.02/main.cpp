@@ -116,8 +116,7 @@ inline void printWhoWon(const char& symbol, const int& index) {
 inline bool checkWhoWon(const std::string& str1, const std::string& str2,
                         const std::string& str3) {
   for (size_t i{}; i < str1.length(); ++i) {
-    if (str1[i] == str2[i] && str2[i] == str3[i] && str1[i] == str3[i] &&
-        str1[i] != '.') {
+    if (str1[i] != '.' && str1[i] == str2[i] && str1[i] == str3[i]) {
       printWhoWon(str1[i], 0);
       return true;
     }
@@ -137,7 +136,7 @@ inline bool checkWhoWon(const std::string& str) {
 
 inline bool checkWhoWon(const char& symbol1, const char& symbol2,
                         const char& symbol3) {
-  if (symbol1 == symbol2 && symbol1 == symbol3 && symbol1 != '.') {
+  if (symbol1 != '.' && symbol1 == symbol2 && symbol1 == symbol3) {
     printWhoWon(symbol1, 2);
     return true;
   }
