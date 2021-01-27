@@ -12,6 +12,7 @@
    - [Модуль 10](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/10_module)
    - [Модуль 11](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/11_module)
    - [Модуль 12](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/12_module)
+   - [Модуль 14](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/14_module)
    - [Модуль 15](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/15_module)
    - [Модуль 16](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/16_module)
    - [Книги Столярова А.В.](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Stolyarov%20A.V)  
