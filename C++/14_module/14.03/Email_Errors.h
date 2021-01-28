@@ -16,7 +16,7 @@
 
 /****Коды ошибок при тестированнии email.****/
 
-#define ERROR_SPACE 100  // space symbol finded.
+#define ERROR_SPACE 100  // space symbol found.
 #define ERROR_FIRST_DOT_IN_EMAIL \
   101  // symbol '@' or '.' at the first or last position.
 #define ERROR_TWO_DOTS_IN_ROW 102  // two dots in a row.
@@ -32,13 +32,13 @@
 class Email_Errors {
  public:
   /**
-   * @brief Construct a new Email_Errors object
+   * @brief Construct a new email error check.
    * @param email the email address for check errors.
    */
   Email_Errors(std::string& email) : email_{email} {}
 
   /**
-   * @brief Construct a new Email_Errors::Email_Errors object
+   * @brief Construct a new email and additional error map.
    * @param email the email address for check errors.
    * @param errorsMap new error added in the error's map.
    */
@@ -52,6 +52,11 @@ class Email_Errors {
    * @param emails A list of email addresses.
    */
   Email_Errors(std::vector<std::string>& emails);
+
+  /**
+   * @brief Destroy the Email_Errors object
+   */
+  ~Email_Errors() = default;
 
   /**
    * @brief A method for the user to check the email is valid.
@@ -82,16 +87,11 @@ class Email_Errors {
     }
   }
 
-  /**
-   * @brief Destroy the Email_Errors object
-   */
-  ~Email_Errors() = default;
-
  private:
   const std::string email_;  // const, чтобы нельзя было изменить email и
                              // допустить ошибку при решении.
   std::map<int, std::string> errorsMap_{
-      {ERROR_SPACE, "\e[31mError: space symbol finded.\e[37m\n"},
+      {ERROR_SPACE, "\e[31mError: space symbol found.\e[37m\n"},
       {ERROR_FIRST_DOT_IN_EMAIL,
        "\e[31mError: symbol '@' or '.' at the first or last position\e[37m\n"},
       {ERROR_TWO_DOTS_IN_ROW, "\e[31mError: two dots in a row.\e[37m\n"},
