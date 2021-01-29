@@ -16,16 +16,38 @@
  * @version 0.1
  * @date 27-01-2021
  * @copyright Copyright (c) 2021
-TODO 3: символы в самом email.английские буквы, цифры и знак - (дефис), а также
-точка.
-TODO 4: В первой части(которая предшествует символу @), кроме
-вышеперечисленных, разрешены еще следующие символы: !#$%&'*+-/=?^_`{|}~
  */
 
-#include "Email_Errors.h"
+#include "EmailValidCheck.h"
+
+/**
+ * @brief user email address check
+ */
+void userEmailCheck() {
+  std::cout << "Enter the email address to check: \e[32m";
+  std::string email;
+  std::cin >> email;
+
+  std::cout << "\e[37m";
+  EmailValidCheck error(email);
+  std::cout << error.getEmail() << "  ";
+  if (!error.testEmail()) std::cout << "\e[32mYes\e[37m\n";
+}
+
+/**
+ * @brief example emails to check
+ * @param exampleEmails example emails to check
+ */
+void examplesEmailCheck(std::vector<std::string>& exampleEmails) {
+  std::cout << "\nChecking for valid example emails:\n\n";
+  EmailValidCheck example(exampleEmails);
+
+  // std::cout << "\nChecking for invalid japaneese emails:\n\n";
+  // EmailValidCheck incorrect(japaneeseEmails);
+}
 
 int main() {
-  std::vector<std::string> correctExampleEmails{
+  std::vector<std::string> exampleEmails{
       "simple@example.com",
       "very.common@example.com",
       "disposable.style.email.with+symbol@example.com",
@@ -38,9 +60,7 @@ int main() {
       "example@s.example",
       "mailhost!username@example.org",
       "user%example.com@example.org",
-  };
-
-  std::vector<std::string> incorrectExampleEmails{
+      "example-indeed@strange-example.com",
       "John..Doe@example.com",
       "Abc.example.com",
       "A@b@c@example.com",
@@ -48,25 +68,32 @@ int main() {
       "1234567890123456789012345678901234567890123456789012345678901234+x@"
       "example.com",
       "i_like_underscore@but_its_not_allow_in _this_part.example.com",
-      "1@8904+67124124214124214214890123456789012345678901234567890example.com",
+      "18904+6@"
+      "12512557124124214124214214890123456789012345678901234567890example.com",
   };
 
-  // TODO Выбор проверки. из шаблона или от ввода.
-  std::cout << "\e[2J";
+  std::cout << "\e[2JDo you want to check email address or see examples?\n"
+            << "1 - check your email address.\n"
+            << "2 - see the examples.\n";
 
-  // std::cout << "Enter the email address to check: ";
-  // std::string email;
-  // // std::cin >> email;
-  // email = incorrectExampleEmails[6];
-  // Email_Errors error(email);
-  // std::cout << error.getEmail() << "  ";
-  // if (!error.testEmail()) std::cout << "\e[32mYes\e[37m\n";
+  int choice;
+  do {
+    std::cout << "Enter your choice: ";
+    std::cin >> choice;
+  } while (choice < 1 && choice > 2);
 
-  std::cout << "Checking for valid emails:\n\n";
-  Email_Errors correct(correctExampleEmails);
+  switch (choice) {
+    case 1:
+      userEmailCheck();
+      break;
 
-  std::cout << "\nChecking for invalid emails:\n\n";
-  Email_Errors incorrect(incorrectExampleEmails);
+    case 2:
+      examplesEmailCheck(exampleEmails);
+      break;
+
+    default:
+      break;
+  }
 
   return 0;
 }

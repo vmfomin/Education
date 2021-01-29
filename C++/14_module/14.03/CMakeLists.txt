@@ -3,4 +3,4 @@ project(14_03)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(14_03 main.cpp Email_Errors.h Email_Errors.cpp)
+add_executable(14_03 main.cpp EmailValidCheck.h EmailValidCheck.cpp)
