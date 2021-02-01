@@ -96,7 +96,7 @@ bool checkIpNumbers(const std::string& strIn) {
     pos = str.find('.');
     partOfIpStr = str.substr(0, pos);
 
-    if (partOfIpStr.length() >= 2 && '0' == partOfIpStr[0]) {
+    if (partOfIpStr.length() > 1 && '0' == partOfIpStr[0]) {
       std::cerr << strIn << "\t"
                 << "\e[31mError: there are leading zeros\e[37m\n";
       return false;
