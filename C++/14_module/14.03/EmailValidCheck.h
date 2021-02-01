@@ -38,7 +38,7 @@ class EmailValidCheck {
    * @brief Construct a new email error check.
    * @param email the email address for check errors.
    */
-  EmailValidCheck(std::string& email) : email_{email} {}
+  explicit EmailValidCheck(std::string& email) : email_{email} {}
 
   /**
    * @brief Construct a new email and additional error map.
@@ -54,7 +54,7 @@ class EmailValidCheck {
    * @brief Construct for check the emails in the loop.
    * @param emails A list of email addresses.
    */
-  EmailValidCheck(std::vector<std::string>& emails);
+  explicit EmailValidCheck(std::vector<std::string>& emails);
 
   /**
    * @brief Destroy the EmailValidCheck object
