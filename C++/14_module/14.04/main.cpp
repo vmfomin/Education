@@ -23,7 +23,15 @@
  * @param str ip-address.
  * @return true 3 dots and not dots in a row in the ip.
  */
-bool dotsCheck(std::string& str);
+bool dotsCheck(const std::string& str);
+
+/**
+ * @brief Check ip address numbers
+ * @param strIn string to console
+ * @return true numbers correct.
+ * @return false
+ */
+bool checkIpNumbers(const std::string& strIn);
 
 /**
  * @brief check examples ip address in the loop.
@@ -34,11 +42,18 @@ void checkIpAddress();
  * @brief check user's ip address.
  * @param str
  */
-void checkIpAddress(std::string& str);
+void checkIpAddress(const std::string& str);
+
+/**
+ * @brief Search char in ip
+ * @param str ip
+ * @return true found
+ */
+bool isChar(const std::string& str);
 
 /*****************Functions*****************/
 
-bool dotsCheck(std::string& str) {
+bool dotsCheck(const std::string& str) {
   int dots{};
   for (auto i{str.begin()}; i != str.end(); ++i) {
     if ('.' == *i) ++dots;
@@ -51,14 +66,27 @@ bool dotsCheck(std::string& str) {
 
   if (dots != 3) {
     std::cerr << str << "\t"
-              << "\e[31mError: there are more than 3 dots.\e[37m\n";
+              << "\e[31mError: Not 3 dots in the IP.\e[37m\n";
     return false;
   }
 
   return true;
 }
 
-bool checkIpNumbers(std::string& strIn) {
+bool isChar(const std::string& str) {
+  for (auto& i : str) {
+    if (i >= '0' && i <= '9' || '.' == i) {
+    } else {
+      std::cerr << str << "\t"
+                << "\e[31mError: NaN in part of IP\e[37m\n";
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool checkIpNumbers(const std::string& strIn) {
   std::string str{strIn};
   std::string partOfIpStr{};
   int partOfIp{};
@@ -74,18 +102,15 @@ bool checkIpNumbers(std::string& strIn) {
       return false;
     }
 
-    try {
-      partOfIp = std::stoi(partOfIpStr);
-    } catch (const std::exception& e) {
-      std::cerr << strIn << "\t\t"
-                << "\e[31mError: NaN in part of IP\e[37m\n";
-      return false;
-    }
+    partOfIp = std::stoi(partOfIpStr);
 
-    if (partOfIp < 0 || partOfIp > 255) {
-      std::cerr
-          << strIn << "\t"
-          << "\e[31mError: part of IP greater than 255 or less than 0\e[37m\n";
+    if (partOfIp < 0) {
+      std::cerr << strIn << "\t"
+                << "\e[31mError: part of IP less than 0\e[37m\n";
+      return false;
+    } else if (partOfIp > 255) {
+      std::cerr << strIn << "\t"
+                << "\e[31mError: part of IP greater than 255 \e[37m\n";
       return false;
     }
 
@@ -103,29 +128,68 @@ void checkIpAddress() {
 
   // Check ip addresses in the loop.
   for (auto i_ip{ipAddresses.begin()}; i_ip != ipAddresses.end(); ++i_ip) {
-    if (i_ip->length() > 15) {
-      std::cerr << *i_ip << "\t"
-                << "\e[31mError: ip Length more than 15 digits.\e[37m\n";
-      continue;
-    }
-
-    if (!dotsCheck(*i_ip)) continue;
-
-    if (!checkIpNumbers(*i_ip)) continue;
-
-    std::cout << *i_ip << "\t\e[32mYes\e[37m\n";
+    checkIpAddress(*i_ip);
   }
 }
 
-void checkIpAddress(std::string& str) {}
+void checkIpAddress(const std::string& str) {
+  if (str.length() > 15) {
+    std::cerr << str << "\t"
+              << "\e[31mError: ip Length more than 15 digits.\e[37m\n";
+    return;
+  }
+
+  if (!isChar(str)) return;
+
+  if (!dotsCheck(str)) return;
+
+  if (!checkIpNumbers(str)) return;
+
+  std::cout << str << "\t\e[32mYes\e[37m\n";
+}
 
 int main() {
   std::cout << "\e[2J";
-  
-  // TODO: сделать вызов 
-  checkIpAddress();
 
-  // std::cout << "Enter IP-address: ";
+  std::cout << "\e[2JDo you want to check IP-address or see examples?\n"
+            << "1 - check your IP-address.\n"
+            << "2 - see the examples.\n";
+
+  int choice;
+  do {
+    std::cout << "Enter your choice: ";
+    std::string choiceStr;
+    std::cin >> choiceStr;
+
+    try {
+      choice = std::stoi(choiceStr);
+    } catch (const std::exception& e) {
+      std::cerr << "\e[31mError in the entered number.\e[37m\n";
+    }
+
+    if (1 == choice || 2 == choice)
+      break;
+    else
+      std::cout << "\e[31mEnter the number 1 or 2\e[37m\n";
+  } while (true);
+
+  std::cout << "\n";
+  std::string ip;
+  switch (choice) {
+    case 1:
+      std::cout << "Enter the IP:\e[32m ";
+      std::cin >> ip;
+      checkIpAddress(ip);
+      std::cout << "\e[37m";
+      break;
+
+    case 2:
+      checkIpAddress();
+      break;
+
+    default:
+      break;
+  }
 
   return 0;
 }
