@@ -35,9 +35,9 @@ bool EmailValidCheck::testEmail() {
     return true;
   }
 
-  // Check invalid symbols of 1 part. Check length.
-  size_t positionPart{};
   {
+    // Check invalid symbols of 1 part. Check length.
+    size_t positionPart{};
     if (validSymbols(positionPart)) {
       std::cout << getErrorStr(ERROR_INCORRECT_SYMBOLS);
       return true;
@@ -47,9 +47,8 @@ bool EmailValidCheck::testEmail() {
       std::cout << getErrorStr(ERROR_LENGTH_1);
       return true;
     }
-  }
-  // Check invalid symbols of 2 part. Check length.
-  {
+
+    // Check invalid symbols of 2 part. Check length.
     if (validSymbols(positionPart)) {
       std::cout << getErrorStr(ERROR_INCORRECT_SYMBOLS);
       return true;
@@ -110,15 +109,15 @@ bool EmailValidCheck::validSymbols(const size_t& pos) {
   for (auto i{email_.begin() + pos}; i != email_.end(); ++i) {
     if (validLetters(*i)) continue;
     /* !#$%&'*+-/=?^_`{|}~ */  // allowed characters for 1 part
-    else if (0 == pos && '!' == *i || *i >= '#' && *i <= '\'')
+    else if (0 == pos && ('!' == *i || *i >= '#' && *i <= '\''))
       continue;
-    else if (0 == pos && *i >= '*' && *i <= '+')
+    else if (0 == pos && (*i >= '*' && *i <= '+'))
       continue;
-    else if (0 == pos && '/' == *i || '=' == *i || '?' == *i)
+    else if (0 == pos && ('/' == *i || '=' == *i || '?' == *i))
       continue;
-    else if (0 == pos && *i >= '^' && *i <= '`')
+    else if (0 == pos && (*i >= '^' && *i <= '`'))
       continue;
-    else if (0 == pos && *i >= '{' && *i <= '~')
+    else if (0 == pos && (*i >= '{' && *i <= '~'))
       continue;
     else
       return true;

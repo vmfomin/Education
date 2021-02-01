@@ -36,17 +36,8 @@ void userEmailCheck() {
 
 /**
  * @brief example emails to check
- * @param exampleEmails example emails to check
  */
-void examplesEmailCheck(std::vector<std::string>& exampleEmails) {
-  std::cout << "\nChecking for valid example emails:\n\n";
-  EmailValidCheck example(exampleEmails);
-
-  // std::cout << "\nChecking for invalid japaneese emails:\n\n";
-  // EmailValidCheck incorrect(japaneeseEmails);
-}
-
-int main() {
+void examplesEmailCheck() {
   std::vector<std::string> exampleEmails{
       "simple@example.com",
       "very.common@example.com",
@@ -72,6 +63,11 @@ int main() {
       "12512557124124214124214214890123456789012345678901234567890example.com",
   };
 
+  std::cout << "\nChecking for valid example emails:\n\n";
+  EmailValidCheck example(exampleEmails);
+}
+
+int main() {
   std::cout << "\e[2JDo you want to check email address or see examples?\n"
             << "1 - check your email address.\n"
             << "2 - see the examples.\n";
@@ -79,8 +75,21 @@ int main() {
   int choice;
   do {
     std::cout << "Enter your choice: ";
-    std::cin >> choice;
-  } while (choice < 1 && choice > 2);
+    std::string choiceStr;
+    std::cin >> choiceStr;
+    // Т.к. могут ввести случайно строку вместо цифр, и тогда программа уходит в
+    // бесконечный цикл.
+    try {
+      choice = std::stoi(choiceStr);
+    } catch (const std::exception& e) {
+      std::cerr << "\e[31mError in the entered number.\e[37m\n";
+    }
+
+    if (1 == choice || 2 == choice)
+      break;
+    else
+      std::cout << "\e[31mEnter the number 1 or 2\e[37m\n";
+  } while (true);
 
   switch (choice) {
     case 1:
@@ -88,7 +97,7 @@ int main() {
       break;
 
     case 2:
-      examplesEmailCheck(exampleEmails);
+      examplesEmailCheck();
       break;
 
     default:

@@ -97,7 +97,6 @@ class EmailValidCheck {
 
   std::string getErrorStr(const int& error) {
     auto it{errorsMap_.find(error)};
-
     if (it != errorsMap_.end()) {
       return it->second;
     } else {
@@ -140,7 +139,6 @@ class EmailValidCheck {
     if ('@' == email_[0] || '@' == email_[email_.length() - 1] ||
         '.' == email_[0] || '.' == email_[email_.length() - 1])
       return true;
-
     return false;
   }
 
@@ -152,7 +150,6 @@ class EmailValidCheck {
   bool findDotsInARow() {
     for (auto i{email_.begin()}; i != email_.end() - 1; ++i)
       if ('.' == *i && '.' == *(i + 1)) return true;
-
     return false;
   }
 
@@ -167,7 +164,6 @@ class EmailValidCheck {
       if ('@' == c) ++count;
 
     if (count > 1 || 0 == count) return true;
-
     return false;
   }
 
