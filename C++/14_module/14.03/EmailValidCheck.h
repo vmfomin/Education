@@ -135,12 +135,7 @@ class EmailValidCheck {
    * @return true found
    * @return false
    */
-  bool findDotAtFirstPosition() {
-    if ('@' == email_[0] || '@' == email_[email_.length() - 1] ||
-        '.' == email_[0] || '.' == email_[email_.length() - 1])
-      return true;
-    return false;
-  }
+  bool findDotAtFirstPosition();
 
   /**
    * @brief Search two symbols '.' in a row.

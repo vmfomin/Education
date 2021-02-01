@@ -20,13 +20,10 @@ EmailValidCheck::EmailValidCheck(std::vector<std::string>& emails) {
 }
 
 bool EmailValidCheck::testEmail() {
-  if (findDotAtFirstPosition()) {
-    std::cout << getErrorStr(ERROR_FIRST_DOT_IN_EMAIL);
-    return true;
-  }
+  if (findDotAtFirstPosition()) return true;
 
   if (computeLength()) {
-    std::cout << getErrorStr(ERROR_FIRST_DOT_IN_EMAIL);
+    std::cout << "Error length";
     return true;
   }
 
@@ -65,6 +62,15 @@ bool EmailValidCheck::testEmail() {
     return true;
   }
 
+  return false;
+}
+
+bool EmailValidCheck::findDotAtFirstPosition() {
+  if ('@' == email_[0] || '@' == email_[email_.length() - 1] ||
+      '.' == email_[0] || '.' == email_[email_.length() - 1]) {
+    std::cout << getErrorStr(ERROR_FIRST_DOT_IN_EMAIL);
+    return true;
+  }
   return false;
 }
 
