@@ -27,10 +27,12 @@
 /**
  * @brief Проверка на 3 числа в строке.
  * @param str Проверяемая строка.
+ * @param nX_Out Количество X в строке.
+ * @param nO_Out Количество O в строке.
  * @return true если 3 числа в строке.
  * @return false
  */
-bool isCorrectLine(std::string& str);
+bool isCorrectLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out);
 
 /**
  * @brief Вывод строки на экран
@@ -42,7 +44,7 @@ inline void printLine(const std::string& str);
  * @brief Проверка победителя X или O
  * @param symbol X или O
  */
-inline void printWhoWon(const char& symbol, const int& index);
+inline void whoWon(const char& symbol, bool& winner);
 
 /**
  * @brief Проверка победы по вертикали.
@@ -53,7 +55,7 @@ inline void printWhoWon(const char& symbol, const int& index);
  * @return false
  */
 inline bool checkWhoWon(const std::string& str1, const std::string& str2,
-                        const std::string& str3);
+                        const std::string& str3, bool& winner);
 
 /**
  * @brief Проверка победы по горизонтали.
@@ -61,7 +63,7 @@ inline bool checkWhoWon(const std::string& str1, const std::string& str2,
  * @return true победа по горизонтали.
  * @return false
  */
-inline bool checkWhoWon(const std::string& str);
+inline bool checkWhoWon(const std::string& str, bool& winner);
 
 /**
  * @brief Проверка победы по диагонали.
@@ -72,11 +74,30 @@ inline bool checkWhoWon(const std::string& str);
  * @return false
  */
 inline bool checkWhoWon(const char& symbol1, const char& symbol2,
-                        const char& symbol3);
+                        const char& symbol3, bool& winner);
+
+/**
+ * @brief Check winner
+ * @param str1 first string
+ * @param str2 second string
+ * @param str3 third string
+ * @param winner
+ * @return true winner found
+ */
+bool check(const std::string& str1, const std::string& str2,
+           const std::string& str3, bool& winner);
+
+/**
+ * @brief Ввод строки.
+ * @param str Вводимая строка.
+ * @param nX_Out Количество X в строке.
+ * @param nO_Out Количество O в строке.
+ */
+void inputLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out);
 
 /******************Функции******************/
 
-bool isCorrectLine(std::string& str) {
+bool isCorrectLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out) {
   if (3 != str.length()) {
     std::cout << "\e[31mError: the string must contain 3 values\e[37m\n";
     return false;
@@ -86,12 +107,17 @@ bool isCorrectLine(std::string& str) {
     if (str[i] != 'X' && str[i] != 'O' && str[i] != 'x' && str[i] != 'o' &&
         str[i] != '.') {
       std::cout << "\e[31mIncorrect line\e[37m\n";
+
       return false;
     }
 
     if (std::islower(str[i])) str[i] = std::toupper(str[i]);
-  }
 
+    if ('X' == str[i])
+      ++nX_Out;
+    else if ('O' == str[i])
+      ++nO_Out;
+  }
   return true;
 }
 
@@ -100,70 +126,90 @@ inline void printLine(const std::string& str) {
   std::cout << "\n";
 }
 
-inline void printWhoWon(const char& symbol, const int& index) {
-  std::string typeWonStr[]{"vertically\n", "horizontally\n", "diaganally\n"};
-  std::cout << "\e[36m";
-
+inline void whoWon(const char& symbol, bool& winner) {
   if (symbol == 'X')
-    std::cout << "Petya won ";
+    winner = true;
   else if (symbol == 'O')
-    std::cout << "Vanya won ";
+    winner = false;
 
-  std::cout << typeWonStr[index];
   std::cout << "\e[37m";
 }
 
 inline bool checkWhoWon(const std::string& str1, const std::string& str2,
-                        const std::string& str3) {
+                        const std::string& str3, bool& winner) {
   for (size_t i{}; i < str1.length(); ++i) {
     if (str1[i] != '.' && str1[i] == str2[i] && str1[i] == str3[i]) {
-      printWhoWon(str1[i], 0);
+      whoWon(str1[i], winner);
       return true;
     }
   }
-
   return false;
 }
 
-inline bool checkWhoWon(const std::string& str) {
+inline bool checkWhoWon(const std::string& str, bool& winner) {
   if (str[0] != '.' && str[0] == str[1] && str[0] == str[2]) {
-    printWhoWon(str[0], 1);
+    whoWon(str[0], winner);
     return true;
   }
-
   return false;
 }
 
 inline bool checkWhoWon(const char& symbol1, const char& symbol2,
-                        const char& symbol3) {
+                        const char& symbol3, bool& winner) {
   if (symbol1 != '.' && symbol1 == symbol2 && symbol1 == symbol3) {
-    printWhoWon(symbol1, 2);
+    whoWon(symbol1, winner);
     return true;
   }
+  return false;
+}
+
+bool check(const std::string& str1, const std::string& str2,
+           const std::string& str3, bool& winner) {
+  // Нахождение победителя по вертикали.
+  if (checkWhoWon(str1, str2, str3, winner)) return true;
+
+  // Нахождение победителя по горизонтали.
+  if (checkWhoWon(str1, winner)) return true;
+  if (checkWhoWon(str2, winner)) return true;
+  if (checkWhoWon(str3, winner)) return true;
+
+  // Нахождение победителя по диагонали.
+  if (checkWhoWon(str1[0], str2[1], str3[2], winner)) return true;
+  if (checkWhoWon(str1[2], str2[1], str3[0], winner)) return true;
 
   return false;
+}
+
+void inputLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out) {
+  do {
+    std::cout << "Enter first line:  ";
+    std::cin >> str;
+    nX_Out = nO_Out = 0;
+  } while (!isCorrectLine(str, nX_Out, nO_Out));
 }
 
 int main() {
   std::cout << "\e[2J";
 
+  int16_t nX{};  // Общее количество крестиков
+  int16_t nO{};  // Общее количество ноликов
+
+  int16_t nX_Out{10}, nO_Out{};  // количество крестиков и ноликов в строке.
+
   std::string line_1;
-  do {
-    std::cout << "Enter first line:  ";
-    std::cin >> line_1;
-  } while (!isCorrectLine(line_1));
+  inputLine(line_1, nX_Out, nO_Out);
+  nX += nX_Out;
+  nO += nO_Out;
 
   std::string line_2;
-  do {
-    std::cout << "Enter second line: ";
-    std::cin >> line_2;
-  } while (!isCorrectLine(line_2));
+  inputLine(line_2, nX_Out, nO_Out);
+  nX += nX_Out;
+  nO += nO_Out;
 
   std::string line_3;
-  do {
-    std::cout << "Enter third line:  ";
-    std::cin >> line_3;
-  } while (!isCorrectLine(line_3));
+  inputLine(line_3, nX_Out, nO_Out);
+  nX += nX_Out;
+  nO += nO_Out;
 
   std::cout << "\ntic-tac-toe:\e[32m\n";
   printLine(line_1);
@@ -171,19 +217,18 @@ int main() {
   printLine(line_3);
   std::cout << "\e[37m\n";
 
-  // Нахождение победителя по вертикали.
-  if (checkWhoWon(line_1, line_2, line_3)) return 0;
+  bool victory{};  // Проверка победителя.
+  bool winner{};   // true X won, else O.
+  victory = check(line_1, line_2, line_3, winner);
 
-  // Нахождение победителя по горизонтали.
-  if (checkWhoWon(line_1)) return 0;
-  if (checkWhoWon(line_2)) return 0;
-  if (checkWhoWon(line_3)) return 0;
-
-  // Нахождение победителя по диагонали.
-  if (checkWhoWon(line_1[0], line_2[1], line_3[2])) return 0;
-  if (checkWhoWon(line_1[2], line_2[1], line_3[0])) return 0;
-
-  std::cout << "\e[36mNobody\e[37m\n";
+  // Results
+  if (victory && (nX - nO == 1 || nX - nO == 0)) {
+    std::cout << (winner ? "Petya won\n" : "Vanya won\n");
+  } else if (!victory && (nX - nO == 1 || nX - nO == 0)) {
+    std::cout << "\e[36mNobody\e[37m\n";
+  } else {
+    std::cout << "\e[31mIncorrect\e[37m\n";
+  }
 
   return 0;
 }
