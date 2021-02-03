@@ -81,11 +81,12 @@ inline bool checkWhoWon(const char& symbol1, const char& symbol2,
  * @param str1 first string
  * @param str2 second string
  * @param str3 third string
- * @param winner
+ * @param winner Победитель X или O
+ * @param countVictory количество побед. только 1.
  * @return true winner found
  */
 bool check(const std::string& str1, const std::string& str2,
-           const std::string& str3, bool& winner);
+           const std::string& str3, bool& winner, int16_t& countVictory);
 
 /**
  * @brief Ввод строки.
@@ -164,20 +165,23 @@ inline bool checkWhoWon(const char& symbol1, const char& symbol2,
 }
 
 bool check(const std::string& str1, const std::string& str2,
-           const std::string& str3, bool& winner) {
+           const std::string& str3, bool& winner, int16_t& countVictory) {
   // Нахождение победителя по вертикали.
-  if (checkWhoWon(str1, str2, str3, winner)) return true;
+  if (checkWhoWon(str1, str2, str3, winner)) ++countVictory;
 
   // Нахождение победителя по горизонтали.
-  if (checkWhoWon(str1, winner)) return true;
-  if (checkWhoWon(str2, winner)) return true;
-  if (checkWhoWon(str3, winner)) return true;
+  if (checkWhoWon(str1, winner)) ++countVictory;
+  if (checkWhoWon(str2, winner)) ++countVictory;
+  if (checkWhoWon(str3, winner)) ++countVictory;
 
   // Нахождение победителя по диагонали.
-  if (checkWhoWon(str1[0], str2[1], str3[2], winner)) return true;
-  if (checkWhoWon(str1[2], str2[1], str3[0], winner)) return true;
+  if (checkWhoWon(str1[0], str2[1], str3[2], winner)) ++countVictory;
+  if (checkWhoWon(str1[2], str2[1], str3[0], winner)) ++countVictory;
 
-  return false;
+  if (countVictory != 1)
+    return false;
+  else
+    return true;
 }
 
 void inputLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out) {
@@ -219,12 +223,14 @@ int main() {
 
   bool victory{};  // Проверка победителя.
   bool winner{};   // true X won, else O.
-  victory = check(line_1, line_2, line_3, winner);
+  // Количество побед. Только равен 1.
+  int16_t countVictory{};
+  victory = check(line_1, line_2, line_3, winner, countVictory);
 
   // Results
-  if (victory && (nX - nO == 1 || nX - nO == 0)) {
+  if (victory && countVictory == 1 && (nX - nO == 1 || nX - nO == 0)) {
     std::cout << (winner ? "Petya won\n" : "Vanya won\n");
-  } else if (!victory && (nX - nO == 1 || nX - nO == 0)) {
+  } else if (!victory && countVictory == 0 && (nX - nO == 1 || nX - nO == 0)) {
     std::cout << "\e[36mNobody\e[37m\n";
   } else {
     std::cout << "\e[31mIncorrect\e[37m\n";
