@@ -19,12 +19,19 @@
  */
 
 #include <iostream>
-
 /**
  * @brief Check the floating point number
  * @param number number to check
  * @return true Correct number.
  */
+bool checkFloatNumber(std::string& number);
+
+/**
+ * @brief Input the floating point number
+ * @param number number to check
+ */
+inline void inputFloatNumber(std::string& number);
+
 bool checkFloatNumber(std::string& number) {
   // Количество плавающих точек. Должно быть максимум 1. Иначе ошибка.
   int floatingPointCount{};
@@ -60,36 +67,36 @@ bool checkFloatNumber(std::string& number) {
   if (isCorrectNumber && isContainNumbers) {
     return true;
   } else {
-    std::cout << "\e[31mError: incorrect number.\e[37m\n";
+    std::cout << "\x1b[31mError: incorrect number.\x1b[37m\n";
     return false;
   }
 }
 
+inline void inputFloatNumber(std::string& number) {
+  do {
+    std::cout << "Enter the first number:  \x1b[32m";
+    std::cin >> number;
+    std::cout << "\x1b[37m";
+  } while (!checkFloatNumber(number));
+}
+
 int main() {
-  std::cout << "\e[2J";
+  std::cout << "\x1b[2J";
 
   float firstNumber{};
   std::string firstNumberStr;
-  do {
-    std::cout << "Enter the first number:  \e[32m";
-    std::cin >> firstNumberStr;
-    std::cout << "\e[37m";
-  } while (!checkFloatNumber(firstNumberStr));
+  inputFloatNumber(firstNumberStr);
   firstNumber = std::stof(firstNumberStr);
 
   float secondNumber{};
   std::string secondNumberStr;
-  do {
-    std::cout << "Enter the second number: \e[32m";
-    std::cin >> secondNumberStr;
-    std::cout << "\e[37m";
-  } while (!checkFloatNumber(secondNumberStr));
+  inputFloatNumber(secondNumberStr);
   secondNumber = std::stof(secondNumberStr);
 
   if (firstNumber == secondNumber)
-    std::cout << "\e[36mEqual\e[37m\n";
+    std::cout << "\x1b[36mEqual\x1b[37m\n";
   else if (firstNumber > secondNumber)
-    std::cout << "\e[36mMore\e[37m\n";
+    std::cout << "\x1b[36mMore\x1b[37m\n";
   else
-    std::cout << "\e[36mLess\e[37m\n";
+    std::cout << "\x1b[36mLess\x1b[37m\n";
 }
