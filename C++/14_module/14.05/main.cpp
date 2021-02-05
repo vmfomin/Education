@@ -19,6 +19,7 @@
  */
 
 #include <iostream>
+
 /**
  * @brief Check the floating point number
  * @param number number to check
