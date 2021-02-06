@@ -100,14 +100,14 @@ void inputLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out);
 
 bool isCorrectLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out) {
   if (3 != str.length()) {
-    std::cout << "\e[31mError: the string must contain 3 values\e[37m\n";
+    std::cout << "\x1b[31mError: the string must contain 3 values\x1b[37m\n";
     return false;
   }
 
   for (size_t i{}; i < str.length(); ++i) {
     if (str[i] != 'X' && str[i] != 'O' && str[i] != 'x' && str[i] != 'o' &&
         str[i] != '.') {
-      std::cout << "\e[31mIncorrect line\e[37m\n";
+      std::cout << "\x1b[31mIncorrect line\x1b[37m\n";
 
       return false;
     }
@@ -133,7 +133,7 @@ inline void whoWon(const char& symbol, bool& winner) {
   else if (symbol == 'O')
     winner = false;
 
-  std::cout << "\e[37m";
+  std::cout << "\x1b[37m";
 }
 
 inline bool checkWhoWon(const std::string& str1, const std::string& str2,
@@ -193,7 +193,7 @@ void inputLine(std::string& str, int16_t& nX_Out, int16_t& nO_Out) {
 }
 
 int main() {
-  std::cout << "\e[2J";
+  std::cout << "\x1b[2J";
 
   int16_t nX{};  // Общее количество крестиков
   int16_t nO{};  // Общее количество ноликов
@@ -215,25 +215,30 @@ int main() {
   nX += nX_Out;
   nO += nO_Out;
 
-  std::cout << "\ntic-tac-toe:\e[32m\n";
+  std::cout << "\ntic-tac-toe:\x1b[32m\n";
   printLine(line_1);
   printLine(line_2);
   printLine(line_3);
-  std::cout << "\e[37m\n";
+  std::cout << "\x1b[37m\n";
 
-  bool victory{};  // Проверка победителя.
-  bool winner{};   // true X won, else O.
+  bool victory;   // Проверка победителя.
+  bool winner{};  // true X won, else O.
   // Количество побед. Только равен 1.
   int16_t countVictory{};
   victory = check(line_1, line_2, line_3, winner, countVictory);
 
   // Results
-  if (victory && countVictory == 1 && (nX - nO == 1 || nX - nO == 0)) {
-    std::cout << (winner ? "Petya won\n" : "Vanya won\n");
+  if (victory && countVictory == 1) {
+    if (winner && nX - nO == 1)
+      std::cout << "\x1b[36mPetya won\x1b[37m\n";
+    else if (!winner && (nX - nO == 1 && nX + nO == 9 || nX - nO == 0))
+      std::cout << "\x1b[36mVanya won\x1b[37m\n";
+    else
+      std::cout << "\x1b[31mIncorrect\x1b[37m\n";
   } else if (!victory && countVictory == 0 && (nX - nO == 1 || nX - nO == 0)) {
-    std::cout << "\e[36mNobody\e[37m\n";
+    std::cout << "\x1b[36mNobody\x1b[37m\n";
   } else {
-    std::cout << "\e[31mIncorrect\e[37m\n";
+    std::cout << "\x1b[31mIncorrect\x1b[37m\n";
   }
 
   return 0;
