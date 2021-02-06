@@ -23,3 +23,4 @@
 2. Как сгенерировать ключ для SSH в Windows 10 для [Git](https://github.com/vmf0min/Skillbox/tree/master/Git)
 3. Первые 3 модуля презентации по тестированию [QA](https://github.com/vmf0min/Skillbox/tree/master/QA)
 4. Решение домашнего задания по [SQL](https://github.com/vmf0min/Skillbox/tree/master/SQL)
+5. Универсальные знания программиста [UKOTP](https://github.com/vmf0min/Skillbox/tree/master/UKOTP)
