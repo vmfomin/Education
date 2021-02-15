@@ -12,7 +12,7 @@
  * Если ввод некорректен (то есть такая таблица не могла получиться в ходе
  * настоящей игры), то надо написать в ответ слово Incorrect.
  * Если таблица корректна и выиграли крестики, то нужно вывести в ответ слова
- * Petya won, если нолики - то Vanya won, а иначе (то есть они не доиграли или
+ * Peter won, если нолики - то Ivan won, а иначе (то есть они не доиграли или
  * сыграли вничью) надо написать Nobody.
  * @version 0.1
  * @date 26-01-2021
@@ -230,9 +230,9 @@ int main() {
   // Results
   if (victory && countVictory == 1) {
     if (winner && nX - nO == 1)
-      std::cout << "\x1b[36mPetya won\x1b[37m\n";
-    else if (!winner && (nX - nO == 1 && nX + nO == 9 || nX - nO == 0))
-      std::cout << "\x1b[36mVanya won\x1b[37m\n";
+      std::cout << "\x1b[36mPeter won\x1b[37m\n";
+    else if (!winner && nX - nO == 0)
+      std::cout << "\x1b[36mIvan won\x1b[37m\n";
     else
       std::cout << "\x1b[31mIncorrect\x1b[37m\n";
   } else if (!victory && countVictory == 0 && (nX - nO == 1 || nX - nO == 0)) {
