@@ -19,9 +19,13 @@
 
 /**
  * @brief     writing the values of a vector of vectors
- * @param     vec           vector of int type vectors
+ * @tparam    T             type of vector of vectors
+ * @param     vec           vector of vectors
+ * Написал шаблон, т.к. забывал менять тип данных, а эти функции переходят из
+ * задачи в задачу.
  */
-void inputVector(std::vector<std::vector<int>>& vec) {
+template <typename T>
+void inputVector(std::vector<std::vector<T>>& vec) {
   for (size_t i{}; i < vec.size(); ++i) {
     for (size_t j{}; j < vec.size(); ++j) {
       int temp;
@@ -34,13 +38,15 @@ void inputVector(std::vector<std::vector<int>>& vec) {
 
 /**
  * @brief     output of a vector of vectors to the console
- * @param     vec           vector of int type vectors
+ * @tparam    T             type of vector of vectors
+ * @param     vec           vector of vectors
  */
-void outputVector(const std::vector<std::vector<int>>& vec) {
+template <typename T>
+void outputVector(const std::vector<std::vector<T>>& vec) {
   std::cout << "\x1b[37m";
   for (auto iter{vec.begin()}; iter != vec.end(); ++iter) {
     std::copy((*iter).begin(), (*iter).end(),
-              std::ostream_iterator<int>(std::cout, "\t"));
+              std::ostream_iterator<T>(std::cout, " "));
     std::cout << "\n";
   }
   std::cout << "\n";

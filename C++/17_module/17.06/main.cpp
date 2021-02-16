@@ -27,9 +27,11 @@
 
 /**
  * @brief     writing the values of a vector of vectors
- * @param     vec           vector of int type vectors
+ * @tparam    T             type of vector of vectors
+ * @param     vec           vector of vectors
  */
-void inputVector(std::vector<std::vector<float>>& vec) {
+template <typename T>
+void inputVector(std::vector<std::vector<T>>& vec) {
   for (size_t i{}; i < vec.size(); ++i) {
     for (size_t j{}; j < vec.size(); ++j) {
       int temp;
@@ -37,18 +39,20 @@ void inputVector(std::vector<std::vector<float>>& vec) {
       vec[i].push_back(temp);
     }
   }
-  std::cout << "\x1b[37m\n";
+  std::cout << "\x1b[37m";
 }
 
 /**
  * @brief     output of a vector of vectors to the console
- * @param     vec           vector of int type vectors
+ * @tparam    T             type of vector of vectors
+ * @param     vec           vector of vectors
  */
-void outputVector(const std::vector<std::vector<float>>& vec) {
+template <typename T>
+void outputVector(const std::vector<std::vector<T>>& vec) {
   std::cout << "\x1b[37m";
   for (auto iter{vec.begin()}; iter != vec.end(); ++iter) {
     std::copy((*iter).begin(), (*iter).end(),
-              std::ostream_iterator<int>(std::cout, "\t"));
+              std::ostream_iterator<T>(std::cout, " "));
     std::cout << "\n";
   }
   std::cout << "\n";
