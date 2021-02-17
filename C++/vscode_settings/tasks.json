@@ -2,8 +2,8 @@
   "tasks": [
     {
       "type": "cppbuild",
-      "label": "C/C++: g++.exe build active file",
-      "command": "C:\\cygwin64\\bin\\g++.exe",
+      "label": "C/C++: clang-8.exe build active file",
+      "command": "C:\\cygwin64\\bin\\clang-8.exe",
       "args": [
         "-g",
      	  "${workspaceFolder}/*.cpp"
