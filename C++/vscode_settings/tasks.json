@@ -2,14 +2,14 @@
   "tasks": [
     {
       "type": "cppbuild",
-      "label": "C/C++: clang-8.exe build active file",
-      "command": "C:\\cygwin64\\bin\\g++.exe",
+      "label": "C/C++: clang++.exe build active file",
+      "command": "C:\\msys64\\mingw64\\bin\\clang++.exe",
       "args": [
         "-g",
      	  "${workspaceFolder}/*.cpp"
       ],
       "options": {
-        "cwd": "C:\\cygwin64\\bin"
+        "cwd": "C:\\msys64\\mingw64\\bin"
       },
       "problemMatcher": [
         "$gcc"

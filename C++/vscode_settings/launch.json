@@ -11,11 +11,11 @@
       "program": "${command:cmake.launchTargetPath}",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "C:\\cygwin64\\bin",
+      "cwd": "C:\\msys64\\mingw64\\bin",
       "environment": [],
       "externalConsole": true,
       "MIMode": "gdb",
-      "miDebuggerPath": "C:\\cygwin64\\bin\\gdb.exe",
+      "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
       "setupCommands": [
         {
           "description": "Включить автоматическое форматирование для gdb",
