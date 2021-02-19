@@ -6,7 +6,7 @@
       "command": "C:\\msys64\\mingw64\\bin\\clang++.exe",
       "args": [
         "-g",
-     	  "${workspaceFolder}/*.cpp"
+        "${workspaceFolder}/*.cpp"
       ],
       "options": {
         "cwd": "C:\\msys64\\mingw64\\bin"
