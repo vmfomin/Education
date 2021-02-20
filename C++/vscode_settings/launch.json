@@ -23,7 +23,6 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "C/C++: clang++.exe сборка активного файла ver(1)"
     }
   ]
 }
