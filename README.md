@@ -21,6 +21,7 @@
      - [Мейерс Скотт](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Meyers%20Scott)  
      - [Столяров А.В.](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Stolyarov%20A.V)  
        [Сайт автора](http://www.stolyarov.info/books/programming_intro)
+     - [Саттер Герб](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Sutter%20Herb)  
    - [Рекомендация по Emacs](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Emacs_config)
    - [.vscode](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/vscode_settings)
 2. Как сгенерировать ключ для SSH в Windows 10 для [Git](https://github.com/vmf0min/Skillbox/tree/master/Git)
