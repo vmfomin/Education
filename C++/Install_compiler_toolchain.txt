@@ -6,6 +6,7 @@ pacman -S mingw-w64-x86_64-lldb
 pacman -S mingw-w64-x86_64-polly
 pacman -S mingw-w64-x86_64-compiler-rt
 pacman -S mingw-w64-x86_64-clang-analyzer
+pacman -S mingw-w64-x86_64-clang-tools-extra
 
 https://github.com/lldb-tools/lldb-mi:
 clone, compile and move lldb-mi.exe in mingw64/bin
