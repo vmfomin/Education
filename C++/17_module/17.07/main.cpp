@@ -106,14 +106,8 @@ int main() {
       continue;
     }
 
-    for (size_t i{}; i < bubbleWrap.size(); ++i) {
-      for (size_t j{}; j < bubbleWrap.size(); ++j) {
-        if (i >= beginArea.x && i <= endArea.x && j >= beginArea.y &&
-            j <= endArea.y)
-          bubbleWrap[i][j] = false;
-      }
-    }
-
+    for (size_t i{beginArea.x}; i <= endArea.x; ++i)
+      for (size_t j{beginArea.y}; j <= endArea.y; ++j) bubbleWrap[i][j] = false;
   } while (true);
 
   std::cout << "\x1b[36mYou popped all the bubbles\x1b[37m\n";
