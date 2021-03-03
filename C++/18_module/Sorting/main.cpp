@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <iterator>
+#include <typeinfo>
 #include <vector>
 
 using std::vector;
@@ -47,10 +48,10 @@ void bubbleSort(T& array) {
  * @param     last          bigger digit
  */
 template <class T>
-void quickSort(T array, int last) {
-  int i{};
-  int j{last};
-  int pivot = *(array + (last >> 1));
+void quickSort(T array, int64_t last) {
+  int64_t i{};
+  int64_t j{last};
+  auto pivot = *(array + (last >> 1));
 
   while (i <= j) {
     while (*(array + i) < pivot) ++i;
