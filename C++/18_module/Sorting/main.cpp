@@ -45,7 +45,7 @@ void bubbleSort(T& array) {
  * @brief     Quick sorting
  * @tparam    T             Input class
  * @param     array         sorting vector
- * @param     last          bigger digit
+ * @param     last          length of part
  */
 template <class T>
 void quickSort(T array, int64_t last) {
