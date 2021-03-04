@@ -52,18 +52,19 @@ int main() {
   do {
     int32_t temp;
     std::cin >> temp;
-    if (-1 == temp) {
+    if (-1 == temp && vec.size() > 4) {
       quickSort(vec.begin(), vec.size() - 1);
       cout << "number at index [4]: " << vec[4] << "\n";
       cout << "Enter numbers: ";
       continue;
     }
-    vec.push_back(temp);
 
     if (-2 == temp) {
       cout << "Shutdown\n";
       break;
     }
+
+    if (temp != -1) vec.push_back(temp);
   } while (true);
 
   cout << "\n";
