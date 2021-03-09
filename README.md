@@ -17,6 +17,7 @@
    - [Модуль 16](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/16_module)
    - [Модуль 17](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/17_module)
    - [Модуль 18](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/18_module)
+   - [Модуль 19](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/19_module)
    - [Книги](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books)  
      - [Александреску Андрей](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Alexandrescu%20Andrei)  
      - [Мейерс Скотт](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Meyers%20Scott)  

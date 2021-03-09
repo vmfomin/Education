@@ -1,198 +1,101 @@
 /**
  * @file      Battleships.cpp
  * @author    vmf0min (vlifom@yandex.ru)
- * @brief     Battleships game
+ * @brief     The battleships game main class
  * @version   0.1
- * @date      25-02-2021
+ * @date      09-03-2021
  * @copyright Copyright (c) 2021
- *
  */
 
 #include "Battleships.h"
 
-void Battleships::printField() const {
+void Battleships::launchBattle() {
+  std::cout << "\x1b[2JThe first player will fill their battlefield:\n";
+  playerOne_.fillField();
+  std::cout << "\x1b[2JThe first player's battlefield:\n";
+  playerOne_.printField();
+
+  std::cout << "\x1b[2JThe second player will fill their battlefield:\n";
+  playerTwo_.fillField();
+  std::cout << "The second player's battlefield:\n";
+  playerTwo_.printField();
+
+  uint16_t countOne{}, countTwo{}, odd{};
+  while (true) {
+    if (odd % 2 == 0) {
+      std::cout << "\x1b[2J\t\t\t   First player's move\n";
+      printScreen(odd);
+      shoot(playerTwo_, playerScreenTwo_, countOne);
+    } else {
+      std::cout << "\x1b[2J\t\t\t  Second player's move\n";
+      printScreen(odd);
+      shoot(playerOne_, playerScreenOne_, countTwo);
+    }
+
+    if (20 == countOne) {
+      std::cout << "\x1b[2J";
+      printScreen(odd);
+      std::cout << "\n\x1b[36mThe first player won!\x1b[37m\n";
+      break;
+    } else if (20 == countTwo) {
+      std::cout << "\x1b[2J";
+      printScreen(odd);
+      std::cout << "\n\x1b[36mThe second player won!\x1b[37m\n";
+      break;
+    }
+    ++odd;
+  }
+}
+
+void Battleships::printScreen(const uint16_t& odd) {
+  std::cout
+      << (odd % 2 != 0
+              ? "\x1b[31m\t    Player one\x1b[37m\t\t\t\t    Player two\n"
+              : "\t    Player one\t\t\t\t    \x1b[31mPlayer two\n\x1b[37m");
+  std::cout << "\n";
   for (size_t i{}; i < 10; ++i) {
     if (0 == i) {
       std::cout << "   ";
       for (size_t j{}; j < 10; ++j) std::cout << j << "  ";
+      std::cout << "  ||\t    ";
+      for (size_t j{}; j < 10; ++j) std::cout << j << "  ";
       std::cout << "\n";
     }
     std::cout << i << "  ";
-    for (size_t j{}; j < 10; ++j) std::cout << field_[i][j] << "  ";
+    for (size_t j{}; j < 10; ++j) std::cout << playerScreenOne_[i][j] << "  ";
+    std::cout << "  ||    " << i << "  ";
+
+    for (size_t j{}; j < 10; ++j) std::cout << playerScreenTwo_[i][j] << "  ";
     std::cout << "\n";
   }
   std::cout << "\n";
 }
 
-void Battleships::fillField() {
-  size_t count{};
-  Coordinates coord{}, coordBegin{}, coordEnd{};
-  std::cout << "Place your ships on the battlefield\n";
+void Battleships::shoot(BattleshipsAdd& player, char playerScreen[10][10],
+                        uint16_t& nShoots) {
   do {
-    std::cout << "\n   The single-deck ship\n";
-    printField();
-    std::cout << "Enter coordinates of the \"" << count + 1
-              << "\" single-deck ship: ";
-    std::cin >> coord.x_ >> coord.y_;
-
-    if (fillShip(coord))
-      ++count;
-    else
-      printErrorIndex();
-  } while (count < 4);
-  count = 0;
-
-  do {
-    std::cout << "\n   The two-deck ship\n";
-    std::cout << "Enter coordinates of the \"" << count + 1
-              << "\" two-deck ship\n";
-    printField();
-    std::cout << "Begin coordinates of the ship:\t";
-    std::cin >> coordBegin.x_ >> coordBegin.y_;
-    std::cout << "End coordinates of the ship:\t";
-    std::cin >> coordEnd.x_ >> coordEnd.y_;
-
-    if (fillShip(coordBegin, coordEnd, 2))
-      ++count;
-    else
-      printErrorIndex();
-  } while (count < 3);
-  count = 0;
-
-  do {
-    std::cout << "\n   The three-deck ship\n";
-    std::cout << "Enter coordinates of the \"" << count + 1
-              << "\" three-deck ship\n";
-    printField();
-    std::cout << "Begin coordinates of the ship:\t";
-    std::cin >> coordBegin.x_ >> coordBegin.y_;
-    std::cout << "End coordinates of the ship:\t";
-    std::cin >> coordEnd.x_ >> coordEnd.y_;
-
-    if (fillShip(coordBegin, coordEnd, 3))
-      ++count;
-    else
-      printErrorIndex();
-  } while (count < 2);
-  count = 0;
-
-  do {
-    std::cout << "\n   The four-deck ship\n";
-    std::cout << "Enter coordinates of the four-deck ship\n";
-    printField();
-    std::cout << "Begin coordinates of the ship:\t";
-    std::cin >> coordBegin.x_ >> coordBegin.y_;
-    std::cout << "End coordinates of the ship:\t";
-    std::cin >> coordEnd.x_ >> coordEnd.y_;
-
-    if (fillShip(coordBegin, coordEnd, 4))
-      ++count;
-    else
-      printErrorIndex();
-  } while (count < 1);
-}
-
-bool Battleships::fillShip(const Coordinates& coord) {
-  if (coord.x_ > 9 || coord.y_ > 9) return false;
-
-  if (field_[coord.x_][coord.y_] == 'o') {
-    return false;
-  } else if (coord.x_ != 0 && field_[coord.x_ - 1][coord.y_] == 'o') {
-    return false;
-  } else if (coord.x_ != 9 && field_[coord.x_ + 1][coord.y_] == 'o') {
-    return false;
-  } else if (coord.y_ != 0 && field_[coord.x_][coord.y_ - 1] == 'o') {
-    return false;
-  } else if (coord.y_ != 9 && field_[coord.x_][coord.y_ + 1] == 'o') {
-    return false;
-  } else if (coord.x_ != 0 && coord.y_ != 0 &&
-             field_[coord.x_ - 1][coord.y_ - 1] == 'o') {
-    return false;
-  } else if (coord.x_ != 0 && coord.y_ != 9 &&
-             field_[coord.x_ - 1][coord.y_ + 1] == 'o') {
-    return false;
-  } else if (coord.x_ != 9 && coord.y_ != 0 &&
-             field_[coord.x_ + 1][coord.y_ - 1] == 'o') {
-    return false;
-  } else if (coord.x_ != 9 && coord.y_ != 9 &&
-             field_[coord.x_ + 1][coord.y_ + 1] == 'o') {
-    return false;
-  }
-
-  field_[coord.x_][coord.y_] = 'o';
-  return true;
-}
-
-bool Battleships::fillShip(const Coordinates& begin, const Coordinates& end,
-                           const uint16_t& shipSize) {
-  if (begin.x_ > 9 || begin.y_ > 9 || end.x_ > 9 || end.y_ > 9) return false;
-
-  if (begin.x_ == end.x_) {
-    if (end.y_ - begin.y_ != shipSize - 1) return false;
-
-    for (size_t i{begin.y_}; i <= end.y_; ++i) {
-      if (field_[begin.x_][i] == 'o') {
-        return false;
-      } else if (begin.x_ != 0 && field_[begin.x_ - 1][i] == 'o') {
-        return false;
-      } else if (begin.x_ != 9 && field_[begin.x_ + 1][i] == 'o') {
-        return false;
-      }
+    std::cout << "Enter the coordinates to shoot: ";
+    uint16_t x, y;
+    std::cin >> x >> y;
+    if (x > 9 || y > 9) {
+      std::cout << "\x1b[31mError: incorrect coordinates!\x1b[37m\n";
+      continue;
     }
 
-    if (begin.x_ != 0 && begin.y_ != 0 &&
-        field_[begin.x_ - 1][begin.y_ - 1] == 'o') {
-      return false;
-    } else if (begin.x_ != 0 && begin.y_ != 9 &&
-               field_[begin.x_ - 1][end.y_ + 1] == 'o') {
-      return false;
-    } else if (end.x_ != 9 && end.y_ != 0 &&
-               field_[begin.x_ + 1][begin.y_ - 1] == 'o') {
-      return false;
-    } else if (end.x_ != 9 && end.y_ != 9 &&
-               field_[begin.x_ + 1][end.y_ + 1] == 'o') {
-      return false;
-    } else if (begin.y_ != 0 && field_[begin.x_][begin.y_ - 1] == 'o') {
-      return false;
-    } else if (end.y_ != 9 && field_[begin.x_][end.y_ + 1] == 'o') {
-      return false;
+    if ('o' == player.getLocation(x, y) && playerScreen[x][y] != 'x') {
+      playerScreen[x][y] = 'x';
+      std::cout << "\x1b[32mYou hit him!\x1b[37m\n";
+      Sleep(350);
+      ++nShoots;
+      break;
+    } else if ('*' == playerScreen[x][y] || 'x' == playerScreen[x][y]) {
+      std::cout << "\x1b[31mYou've already shot at this place!\x1b[37m\n";
+      continue;
+    } else {
+      playerScreen[x][y] = '*';
+      std::cout << "You missed it!\n";
+      Sleep(350);
+      break;
     }
-
-  } else if (begin.y_ == end.y_) {
-    if (end.x_ - begin.x_ != shipSize - 1) return false;
-
-    for (size_t i{begin.x_}; i <= end.x_; ++i) {
-      if (begin.y_ != 0 && field_[i][begin.y_ - 1] == 'o') {
-        return false;
-      } else if (begin.y_ != 9 && field_[i][begin.y_ + 1] == 'o') {
-        return false;
-      }
-    }
-
-    if (begin.x_ != 0 && begin.y_ != 0 &&
-        field_[begin.x_ - 1][begin.y_ - 1] == 'o') {
-      return false;
-    } else if (begin.x_ != 0 && begin.y_ != 9 &&
-               field_[begin.x_ - 1][begin.y_ + 1] == 'o') {
-      return false;
-    } else if (end.x_ != 9 && end.y_ != 0 &&
-               field_[end.x_ + 1][end.y_ - 1] == 'o') {
-      return false;
-    } else if (end.x_ != 9 && end.y_ != 9 &&
-               field_[end.x_ + 1][end.y_ + 1] == 'o') {
-      return false;
-    } else if (begin.x_ != 0 && field_[begin.x_ - 1][begin.y_] == 'o') {
-      return false;
-    } else if (begin.x_ != 9 && field_[end.x_ + 1][begin.y_] == 'o') {
-      return false;
-    }
-  } else {
-    return false;
-  }
-
-  if (begin.x_ == end.x_)
-    for (size_t i{begin.y_}; i <= end.y_; ++i) field_[begin.x_][i] = 'o';
-  else
-    for (size_t i{begin.x_}; i <= end.x_; ++i) field_[i][begin.y_] = 'o';
-  return true;
+  } while (true);
 }

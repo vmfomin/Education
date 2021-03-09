@@ -1,84 +1,68 @@
 /**
  * @file      Battleships.h
  * @author    vmf0min (vlifom@yandex.ru)
- * @brief     Battleships game
+ * @brief     The battleships game main class
  * @version   0.1
- * @date      25-02-2021
+ * @date      09-03-2021
  * @copyright Copyright (c) 2021
- *
  */
 
 #ifndef INC_BATTLESHIPS_H
 #define INC_BATTLESHIPS_H
 
-#include <windows.h>
-
-#include <iostream>
+#include "BattleshipsAdd.h"
 
 class Battleships {
  public:
   /**
-   * @brief     Construct a new Battleships object
+   * @brief     Construct a new Battleships game object
    */
   Battleships() {
-    for (size_t i{}; i < 10; ++i)
-      for (size_t j{}; j < 10; ++j) field_[i][j] = '.';
+    for (size_t i{}; i < 10; ++i) {
+      for (size_t j{}; j < 10; ++j) {
+        playerScreenOne_[i][j] = '.';
+        playerScreenTwo_[i][j] = '.';
+      }
+    }
   }
 
   /**
-   * @brief     Destroy the Battleships object
+   * @brief     Destroy the Battleships game object
    */
-  ~Battleships() {}
-
-  char getLocation(uint16_t& x, uint16_t& y) { return field_[x][y]; }
+  virtual ~Battleships() {}
 
   /**
-   * @brief     Print battlefield on the screen
+   * @brief     launch of the sea battle game
    */
-  void printField() const;
-
-  /**
-   * @brief     Filling in the battlefield
-   * @param     field         battlefield
-   */
-  void fillField();
+  void launchBattle();
 
  private:
-  // the game field
-  char field_[10][10];
-
-  // Coordinates on the field
-  struct Coordinates {
-    uint16_t x_, y_;
-  };
+  /**
+   * @brief     location of player ships
+   */
+  BattleshipsAdd playerOne_;
+  BattleshipsAdd playerTwo_;
 
   /**
-   * @brief     Check valid coordinates.
+   * @brief     undefined fields before battle
    */
-  void printErrorIndex() {
-    std::cout << "\x1b[31mError: incorrect coordinates or this coordinates is "
-                 "busy\x1b[37m\n";
-    Sleep(600);
-  }
+  char playerScreenOne_[10][10];
+  char playerScreenTwo_[10][10];
 
   /**
-   * @brief     Fill the single-deck ship
-   * @param     coord         coordinates on the battlefield
-   * @return    true          Coordinates is valid
-   * @return    false
+   * @brief     printing the game screen
+   * @param     odd           whose move
    */
-  bool fillShip(const Coordinates& coord);
+  void printScreen(const uint16_t& odd);
 
   /**
-   * @brief     Fill the multi-decked ship
-   * @param     begin         Coordinates of the begining of the ship
-   * @param     end           Coordinates of the end of the ship
-   * @param     shipSize      size of the ship type
-   * @return    true          Coordinates is valid
-   * @return    false
+   * @brief     shooting routine
+   * @param     player        location of player ships
+   * @param     playerScreen  undefined fields before battle
+   * @param     nShoots       count of shoots for each player
    */
-  bool fillShip(const Coordinates& begin, const Coordinates& end,
-                const uint16_t& shipSize);
+  void shoot(BattleshipsAdd& player, char playerScreen[10][10],
+             uint16_t& nShoots);
 };
 
 #endif  // INC_BATTLESHIPS_H

@@ -29,119 +29,16 @@
  * заканчивается тогда, когда все корабли одной из сторон будут полностью
  * уничтожены. Как только это произойдёт в консоль выводится информация с
  * номером игрока, который победил.
- * @version   0.1
+ * @version   0.2
  * @date      20-02-2021
  * @copyright Copyright (c) 2021
  */
 
 #include "src/Battleships.h"
 
-void printScreen(char PlayerOne[10][10], char PlayerTwo[10][10],
-                 const uint16_t& odd) {
-  std::cout
-      << (odd % 2 != 0
-              ? "\x1b[31m\t    Player one\x1b[37m\t\t\t\t    Player two\n"
-              : "\t    Player one\t\t\t\t    \x1b[31mPlayer two\n\x1b[37m");
-  std::cout << "\n";
-  for (size_t i{}; i < 10; ++i) {
-    if (0 == i) {
-      std::cout << "   ";
-      for (size_t j{}; j < 10; ++j) std::cout << j << "  ";
-      std::cout << "  ||\t    ";
-      for (size_t j{}; j < 10; ++j) std::cout << j << "  ";
-      std::cout << "\n";
-    }
-    std::cout << i << "  ";
-    for (size_t j{}; j < 10; ++j) std::cout << PlayerOne[i][j] << "  ";
-    std::cout << "  ||    " << i << "  ";
-
-    for (size_t j{}; j < 10; ++j) std::cout << PlayerTwo[i][j] << "  ";
-    std::cout << "\n";
-  }
-  std::cout << "\n";
-}
-
-/**
- * @brief     Initialize screen players
- * @param     screen        what the player will see
- */
-inline void initPlayerScreen(char screen[10][10]) {
-  for (size_t i{}; i < 10; ++i)
-    for (size_t j{}; j < 10; ++j) screen[i][j] = '.';
-}
-
-void shoot(Battleships& player, char PlayerScreen[10][10], uint16_t& nShoots) {
-  do {
-    std::cout << "Enter the coordinates to shoot: ";
-    uint16_t x, y;
-    std::cin >> x >> y;
-    if (x > 9 || y > 9) {
-      std::cout << "\x1b[31mError: incorrect coordinates!\x1b[37m\n";
-      continue;
-    }
-
-    if ('o' == player.getLocation(x, y) && PlayerScreen[x][y] != 'x') {
-      PlayerScreen[x][y] = 'x';
-      std::cout << "\x1b[32mYou hit him!\x1b[37m\n";
-      Sleep(600);
-      ++nShoots;
-      break;
-    } else if ('*' == PlayerScreen[x][y] || 'x' == PlayerScreen[x][y]) {
-      std::cout << "\x1b[31mYou've already shot at this place!\x1b[37m\n";
-      continue;
-    } else {
-      PlayerScreen[x][y] = '*';
-      std::cout << "You missed it!\n";
-      Sleep(600);
-      break;
-    }
-  } while (true);
-}
-
 int main() {
-  Battleships playerOne;
-  std::cout << "\x1b[2JThe first player will fill their battlefield:\n";
-  playerOne.fillField();
-  std::cout << "\x1b[2JThe first player's battlefield:\n";
-  playerOne.printField();
-
-  Battleships playerTwo;
-  std::cout << "\x1b[2JThe second player will fill their battlefield:\n";
-  playerTwo.fillField();
-  std::cout << "The second player's battlefield:\n";
-  playerTwo.printField();
-
-  char PlayerScreenOne[10][10];
-  initPlayerScreen(PlayerScreenOne);
-
-  char PlayerScreenTwo[10][10];
-  initPlayerScreen(PlayerScreenTwo);
-
-  uint16_t countOne{}, countTwo{}, odd{};
-  while (true) {
-    if (odd % 2 == 0) {
-      std::cout << "\x1b[2J\t\t\t   First player's move\n";
-      printScreen(PlayerScreenOne, PlayerScreenTwo, odd);
-      shoot(playerTwo, PlayerScreenTwo, countOne);
-    } else {
-      std::cout << "\x1b[2J\t\t\t  Second player's move\n";
-      printScreen(PlayerScreenOne, PlayerScreenTwo, odd);
-      shoot(playerOne, PlayerScreenOne, countTwo);
-    }
-
-    if (20 == countOne) {
-      std::cout << "\x1b[2J";
-      printScreen(PlayerScreenOne, PlayerScreenTwo, odd);
-      std::cout << "\n\x1b[36mThe first player won!\x1b[37m\n";
-      break;
-    } else if (20 == countTwo) {
-      std::cout << "\x1b[2J";
-      printScreen(PlayerScreenOne, PlayerScreenTwo, odd);
-      std::cout << "\n\x1b[36mThe second player won!\x1b[37m\n";
-      break;
-    }
-    ++odd;
-  }
+  Battleships battleships;
+  battleships.launchBattle();
 
   std::cout << "\x1b[37m\n";
   return 0;
