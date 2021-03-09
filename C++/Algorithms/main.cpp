@@ -7,7 +7,6 @@
  * @copyright Copyright (c) 2021
  */
 
-#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
@@ -73,11 +72,12 @@ void quickSort(T array, int64_t last) {
  */
 bool approximatelyEqualAbsRel(double a, double b, double absEpsilon,
                               double relEpsilon) {
-  double diff = fabs(a - b);
+  double diff = std::abs(a - b);
   if (diff <= absEpsilon) return true;
 
   // Knuth algorithm
-  return diff <= ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * relEpsilon);
+  return diff <=
+         ((std::abs(a) < std::abs(b) ? std::abs(b) : std::abs(a)) * relEpsilon);
 }
 
 int main() {
