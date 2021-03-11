@@ -17,6 +17,7 @@
  * @copyright Copyright (c) 2021
  */
 
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 
@@ -61,7 +62,8 @@ int main() {
       break;
     }
 
-    speedometr << currentSpeed << "\x1b[32m\tKm/h\x1b[0m\n";
+    speedometr << std::fixed << std::setprecision(1) << currentSpeed
+               << "\x1b[32m\tKm/h\x1b[0m\n";
     cout << "Current speed\x1b[36m\t" << currentSpeed << "\x1b[0m\n\n";
   } while (true);
 
