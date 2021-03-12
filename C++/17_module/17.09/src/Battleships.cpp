@@ -22,7 +22,7 @@ void Battleships::launchBattle() {
 
   uint16_t countOne{}, countTwo{}, odd{};
   while (true) {
-    if (odd % 2 == 0) {
+    if ((odd & 1) == 1) {
       std::cout << "\x1b[2J\t\t\t   First player's move\n";
       printScreen(odd);
       shoot(playerTwo_, playerScreenTwo_, countOne);
@@ -49,7 +49,7 @@ void Battleships::launchBattle() {
 
 void Battleships::printScreen(const uint16_t& odd) {
   std::cout
-      << (odd % 2 != 0
+      << ((odd & 1) == 1
               ? "\x1b[31m\t    Player one\x1b[37m\t\t\t\t    Player two\n"
               : "\t    Player one\t\t\t\t    \x1b[31mPlayer two\n\x1b[37m");
   std::cout << "\n";
