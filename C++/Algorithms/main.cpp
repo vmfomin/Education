@@ -70,14 +70,14 @@ void quickSort(T array, int64_t last) {
  * @param     relEpsilon    relative epsilon
  * @return    true          equal
  */
-bool approximatelyEqualAbsRel(double a, double b, double absEpsilon,
-                              double relEpsilon) {
-  double diff = std::abs(a - b);
+bool isEqualFloat(double a, double b, double absEpsilon = 1e-12,
+                  double relEpsilon = 1e-8) {
+  using std::abs;
+  double diff = abs(a - b);
   if (diff <= absEpsilon) return true;
 
   // Knuth algorithm
-  return diff <=
-         ((std::abs(a) < std::abs(b) ? std::abs(b) : std::abs(a)) * relEpsilon);
+  return diff <= ((abs(a) < abs(b) ? abs(b) : abs(a)) * relEpsilon);
 }
 
 int main() {
@@ -111,8 +111,8 @@ int main() {
 
   double a = 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1;
 
-  cout << "approximatelyEqualAbsRel algorithm: " << std::boolalpha
-       << approximatelyEqualAbsRel(a - 1.0, 0.0, 1e-12, 1e-8) << "\n ";
+  cout << "isEqualFloat algorithm: " << std::boolalpha
+       << isEqualFloat(a - 1.0, 0.0) << "\n ";
 
   cout << "\n";
   cout << "\x1b[37m\n";
