@@ -29,13 +29,14 @@
  * @param     relEpsilon    relative epsilon
  * @return    true          equal
  */
-bool isEqualFloat(double a, double b, double absEpsilon, double relEpsilon) {
-  double diff = std::abs(a - b);
+bool isEqualFloat(double a, double b, double absEpsilon = 1e-12,
+                  double relEpsilon = 1e-8) {
+  using std::abs;
+  double diff = abs(a - b);
   if (diff <= absEpsilon) return true;
 
   // Knuth algorithm
-  return diff <=
-         ((std::abs(a) < std::abs(b) ? std::abs(b) : std::abs(a)) * relEpsilon);
+  return diff <= ((abs(a) < abs(b) ? abs(b) : abs(a)) * relEpsilon);
 }
 
 int main() {
@@ -51,13 +52,13 @@ int main() {
     cin >> speed;
     currentSpeed += speed;
 
-    if (currentSpeed > 150 || isEqualFloat(currentSpeed, 150., 0.01, 1e-8)) {
+    if (currentSpeed > 150 || isEqualFloat(currentSpeed, 150., 0.01)) {
       cout << "\x1b[31mThis is more than maximum speed! Slowdown!\x1b[0m\n";
       currentSpeed -= speed;
       continue;
     }
 
-    if (currentSpeed < 0 || isEqualFloat(currentSpeed, 0., 0.01, 1e-8)) {
+    if (currentSpeed < 0 || isEqualFloat(currentSpeed, 0., 0.01)) {
       speedometr << 0. << "\x1b[32m\tKm/h\x1b[0m\n";
       break;
     }
