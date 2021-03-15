@@ -21,6 +21,7 @@
    - [Алгоритмы](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Algorithms)
    - [Книги](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books)  
      - [Александреску Андрей](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Alexandrescu%20Andrei)  
+     - [Макдауэлл Лакман](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Mcdowell%20Laakman)  
      - [Мейерс Скотт](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Meyers%20Scott)  
      - [Столяров А.В.](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Stolyarov%20A.V)  
        [Сайт автора](http://www.stolyarov.info/books/programming_intro)
