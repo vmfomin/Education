@@ -142,13 +142,13 @@ bool BattleshipsAdd::fillShip(const Coordinates& begin, const Coordinates& end,
     if (begin.x_ != 0 && begin.y_ != 0 &&
         field_[begin.x_ - 1][begin.y_ - 1] == 'o') {
       return false;
-    } else if (begin.x_ != 0 && begin.y_ != 9 &&
-               field_[begin.x_ - 1][end.y_ + 1] == 'o') {
-      return false;
-    } else if (end.x_ != 9 && end.y_ != 0 &&
+    } else if (begin.x_ != 9 && begin.y_ != 0 &&
                field_[begin.x_ + 1][begin.y_ - 1] == 'o') {
       return false;
-    } else if (end.x_ != 9 && end.y_ != 9 &&
+    } else if (begin.x_ != 0 && end.y_ != 9 &&
+               field_[begin.x_ - 1][end.y_ + 1] == 'o') {
+      return false;
+    } else if (begin.x_ != 9 && end.y_ != 9 &&
                field_[begin.x_ + 1][end.y_ + 1] == 'o') {
       return false;
     } else if (begin.y_ != 0 && field_[begin.x_][begin.y_ - 1] == 'o') {
