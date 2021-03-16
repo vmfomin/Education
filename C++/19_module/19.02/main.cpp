@@ -20,7 +20,7 @@
  * @param     number        input number
  * @return    true          correct number
  */
-bool isNumber(std::string& number) {
+bool isNumber(const std::string& number) {
   for (const auto& c : number)
     if (std::isdigit(c) == 0) return false;
   return true;
