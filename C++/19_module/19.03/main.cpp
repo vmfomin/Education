@@ -14,9 +14,9 @@
  * @copyright Copyright (c) 2021
  */
 
-#include <algorithm>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 int main() {
   using std::cin;
@@ -27,19 +27,15 @@ int main() {
   std::string expression;
   cin >> expression;
 
-  auto it{std::find_if(expression.begin(), expression.end(), [](const char& c) {
-    return '+' == c || '-' == c || '*' == c || '/' == c;
-  })};
+  std::stringstream expressionStream{expression};
 
-  if (it == expression.begin() || it == expression.end()) {
-    cout << "Error operator not found!\n";
-    return 1;
-  }
-  int64_t pos = it - expression.begin();
+  char operation{};
+  double a{};
+  double b{};
 
-  char operation{expression[pos]};
-  double a{std::stod(expression.substr(0, pos))};
-  double b{std::stod(expression.substr(pos + 1, expression.length()))};
+  expressionStream >> a;
+  expressionStream >> operation;
+  expressionStream >> b;
 
   cout << std::setprecision(15);
   switch (operation) {
