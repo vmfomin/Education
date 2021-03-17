@@ -11,7 +11,6 @@
  */
 
 #include <iostream>
-#include <iterator>
 
 using std::cin;
 using std::cout;
