@@ -3,8 +3,8 @@
  * @author    vmf0min (vlifom@yandex.ru)
  * @brief     Задача 2.
  * Написать функцию, которая принимает указатель на тип int, по которому
- * размещены 10 переменных типа int. Функция должна вернуть другой указатель на
- * int, по которому лежат те же элементы, но в обратном порядке
+ * размещены 10 переменных типа int. Функция должна вернуть элементы в обратном
+ * порядке
  * @version   0.1
  * @date      17-03-2021
  * @copyright Copyright (c) 2021
@@ -16,30 +16,34 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-int* reverse(int* p_i, const size_t& length) {
+/**
+ * @brief     Reverse array function
+ * @tparam    T             type of array
+ * @param     ptr           pointer to an array
+ * @param     length        array length
+ */
+template <typename T>
+void reverse(T* ptr, const size_t& length) {
   for (int i{}; i < length / 2; ++i)
-    std::swap(*(p_i + i), *(p_i + length - i - 1));
-  return p_i;
+    std::swap(*(ptr + i), *(ptr + length - i - 1));
 }
 
 int main() {
   cout << "\x1b[2J";
+  const size_t sizeArray{10};
+  int16_t* pArray{new int16_t[sizeArray]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}};
 
-  int array[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  size_t length{sizeof(array) / sizeof(array[0])};
-  int* pArray{array};
-
-  for (const auto& i : array) cout << i << " ";
+  for (size_t i{}; i < sizeArray; ++i) cout << *(pArray + i) << " ";
   cout << endl;
 
-  int* pReversedArray{reverse(pArray, length)};
+  reverse(pArray, sizeArray);
 
-  for (const auto& i : array) cout << i << " ";
-  // ? Я похоже не правильно понял задачу, но что-то как-то смысла в возврате
-  // ? указателя нет. Одно дело сохраняем один массив и в другой пишем.
-  // ? Но раз надо -- значит надо.
-  cout << "\npArray = " << *pArray << "\npReversedArray = " << *pReversedArray
-       << endl;
+  for (size_t i{}; i < sizeArray; ++i) cout << *(pArray + i) << " ";
+  cout << endl;
+  cout << "pArray = " << *pArray;
+
+  delete[] pArray;
+  pArray = nullptr;
 
   cout << "\x1b[0m" << endl;
   return 0;
