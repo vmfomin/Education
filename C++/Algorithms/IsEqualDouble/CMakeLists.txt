@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
-project(Algorithms)
+project(IsEqualDouble)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Algorithms main.cpp)
+add_executable(IsEqualDouble main.cpp)

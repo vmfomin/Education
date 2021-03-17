@@ -7,7 +7,6 @@
  * @copyright Copyright (c) 2021
  */
 
-#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <vector>
@@ -62,24 +61,6 @@ void quickSort(T array, int64_t last) {
   if (last > i) quickSort(array + i, last - i);
 }
 
-/**
- * @brief     comparison of fractional numbers
- * @param     a             first number
- * @param     b             second number
- * @param     absEpsilon    absolute epsilon
- * @param     relEpsilon    relative epsilon
- * @return    true          equal
- */
-bool isEqualFloat(double a, double b, double absEpsilon = 1e-12,
-                  double relEpsilon = 1e-8) {
-  using std::abs;
-  double diff = abs(a - b);
-  if (diff <= absEpsilon) return true;
-
-  // Knuth algorithm
-  return diff <= ((abs(a) < abs(b) ? abs(b) : abs(a)) * relEpsilon);
-}
-
 int main() {
   using std::cout;
   cout << "\x1b[2J";
@@ -109,13 +90,7 @@ int main() {
             std::ostream_iterator<int>(std::cout, " "));
   cout << "\n";
 
-  double a = 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1;
-
-  cout << "isEqualFloat algorithm: " << std::boolalpha
-       << isEqualFloat(a - 1.0, 0.0) << "\n ";
-
-  cout << "\n";
-  cout << "\x1b[37m\n";
+  cout << "\x1b[37m" << std::endl;
 
   return 0;
 }
