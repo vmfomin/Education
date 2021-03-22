@@ -1,35 +1,41 @@
 /**
- * @file      BattleshipsAdd.h
+ * @file      BattleShipsLocation.h
  * @author    vmf0min (vlifom@yandex.ru)
- * @brief     add battle ships
- * @version   0.2
+ * @brief     Location of ships on the battlefield for each player
+ * @version   0.3
  * @date      25-02-2021
  * @copyright Copyright (c) 2021
  */
 
-#ifndef INC_BATTLESHIPS_ADD_H
-#define INC_BATTLESHIPS_ADD_H
+#ifndef INC_BATTLESHIPS_LOCATION_H
+#define INC_BATTLESHIPS_LOCATION_H
 
 #include <windows.h>
 
 #include <iostream>
 
-class BattleshipsAdd {
+class BattleShipsLocation {
  public:
   /**
-   * @brief     Construct a new BattleshipsAdd object
+   * @brief     Construct a new BattleShipsLocation object
    */
-  BattleshipsAdd() {
+  BattleShipsLocation() {
     for (size_t i{}; i < 10; ++i)
-      for (size_t j{}; j < 10; ++j) field_[i][j] = '.';
+      for (size_t j{}; j < 10; ++j) locationField_[i][j] = '.';
   }
 
   /**
-   * @brief     Destroy the BattleshipsAdd object
+   * @brief     Destroy the BattleShipsLocation object
    */
-  virtual ~BattleshipsAdd() {}
+  virtual ~BattleShipsLocation() = default;
 
-  char getLocation(uint16_t& x, uint16_t& y) { return field_[x][y]; }
+  /**
+   * @brief     Get the Location object
+   * @param     x             x coordinate on the field
+   * @param     y             y coordinate on the field
+   * @return    char          player field status
+   */
+  char getLocation(uint16_t& x, uint16_t& y) { return locationField_[x][y]; }
 
   /**
    * @brief     Print battlefield on the screen
@@ -38,13 +44,16 @@ class BattleshipsAdd {
 
   /**
    * @brief     Filling in the battlefield
-   * @param     field         battlefield
+   * @param     locationField_         battlefield
    */
   void fillField();
 
  private:
-  // the game field
-  char field_[10][10];
+  /**
+   * @brief     Location field of ships for each player.
+   * Ship elements are indicated by the symbol 'o'
+   */
+  char locationField_[10][10];
 
   // Coordinates on the field
   struct Coordinates {
@@ -80,4 +89,4 @@ class BattleshipsAdd {
                 const uint16_t& shipSize);
 };
 
-#endif  // INC_BATTLESHIPS_ADD_H
+#endif  // INC_BATTLESHIPS_LOCATION_H

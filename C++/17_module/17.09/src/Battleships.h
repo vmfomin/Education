@@ -2,7 +2,7 @@
  * @file      Battleships.h
  * @author    vmf0min (vlifom@yandex.ru)
  * @brief     The battleships game main class
- * @version   0.1
+ * @version   0.3
  * @date      09-03-2021
  * @copyright Copyright (c) 2021
  */
@@ -10,7 +10,7 @@
 #ifndef INC_BATTLESHIPS_H
 #define INC_BATTLESHIPS_H
 
-#include "BattleshipsAdd.h"
+#include "BattleShipsLocation.h"
 
 class Battleships {
  public:
@@ -20,8 +20,8 @@ class Battleships {
   Battleships() {
     for (size_t i{}; i < 10; ++i) {
       for (size_t j{}; j < 10; ++j) {
-        playerScreenOne_[i][j] = '.';
-        playerScreenTwo_[i][j] = '.';
+        playerOneDisplayConsole_[i][j] = '.';
+        playerTwoDisplayConsole_[i][j] = '.';
       }
     }
   }
@@ -29,7 +29,7 @@ class Battleships {
   /**
    * @brief     Destroy the Battleships game object
    */
-  virtual ~Battleships() {}
+  virtual ~Battleships() = default;
 
   /**
    * @brief     launch of the sea battle game
@@ -38,16 +38,19 @@ class Battleships {
 
  private:
   /**
-   * @brief     location of player ships
+   * @brief     Location of ships on the battlefield for each player
    */
-  BattleshipsAdd playerOne_;
-  BattleshipsAdd playerTwo_;
+  BattleShipsLocation playerOneShipsLocation_;
+  BattleShipsLocation playerTwoShipsLocation_;
 
   /**
-   * @brief     undefined fields before battle
+   * @brief     The player's playing field is displayed in the console:
+   * 'x' -- shot;
+   * '*' -- missed
+   * '.' -- not shooted place
    */
-  char playerScreenOne_[10][10];
-  char playerScreenTwo_[10][10];
+  char playerOneDisplayConsole_[10][10];
+  char playerTwoDisplayConsole_[10][10];
 
   /**
    * @brief     printing the game screen
@@ -57,12 +60,13 @@ class Battleships {
 
   /**
    * @brief     shooting routine
-   * @param     player        location of player ships
-   * @param     playerScreen  undefined fields before battle
-   * @param     nShoots       count of shoots for each player
+   * @param     shipsLocation        location of player ships
+   * @param     playerDisplayConsole player's playing field is displayed in
+   * the console
+   * @param     nShoots              count of shoots for each player
    */
-  void shoot(BattleshipsAdd& player, char playerScreen[10][10],
-             uint16_t& nShoots);
+  void shoot(BattleShipsLocation& shipsLocation,
+             char playerDisplayConsole[10][10], uint16_t& nShoots);
 };
 
 #endif  // INC_BATTLESHIPS_H

@@ -2,7 +2,7 @@
  * @file      Battleships.cpp
  * @author    vmf0min (vlifom@yandex.ru)
  * @brief     The battleships game main class
- * @version   0.1
+ * @version   0.3
  * @date      09-03-2021
  * @copyright Copyright (c) 2021
  */
@@ -10,26 +10,26 @@
 #include "Battleships.h"
 
 void Battleships::launchBattle() {
-  std::cout << "\x1b[2JThe first player will fill their battlefield:\n";
-  playerOne_.fillField();
-  std::cout << "\x1b[2JThe first player's battlefield:\n";
-  playerOne_.printField();
+  std::cout << "\x1b[2JThe first player places the ships on the battlefield:\n";
+  playerOneShipsLocation_.fillField();
+  std::cout << "The first player ships location's battlefield:\n";
+  playerOneShipsLocation_.printField();
 
-  std::cout << "\x1b[2JThe second player will fill their battlefield:\n";
-  playerTwo_.fillField();
-  std::cout << "The second player's battlefield:\n";
-  playerTwo_.printField();
+  std::cout << "\nThe second player places the ships on the battlefield:\n";
+  playerTwoShipsLocation_.fillField();
+  std::cout << "The second ships location's battlefield:\n";
+  playerTwoShipsLocation_.printField();
 
   uint16_t countOne{}, countTwo{}, odd{};
   while (true) {
-    if (1 == (odd & 1)) {
-      std::cout << "\x1b[2J\t\t\t  Second player's move\n";
+    if (0 == (odd & 1)) {
+      std::cout << "\x1b[2J\t\t\t   First player move\n";
       printScreen(odd);
-      shoot(playerOne_, playerScreenOne_, countTwo);
+      shoot(playerTwoShipsLocation_, playerTwoDisplayConsole_, countOne);
     } else {
-      std::cout << "\x1b[2J\t\t\t   First player's move\n";
+      std::cout << "\x1b[2J\t\t\t  Second player move\n";
       printScreen(odd);
-      shoot(playerTwo_, playerScreenTwo_, countOne);
+      shoot(playerOneShipsLocation_, playerOneDisplayConsole_, countTwo);
     }
 
     if (20 == countOne) {
@@ -62,17 +62,19 @@ void Battleships::printScreen(const uint16_t& odd) {
       std::cout << "\n";
     }
     std::cout << i << "  ";
-    for (size_t j{}; j < 10; ++j) std::cout << playerScreenOne_[i][j] << "  ";
+    for (size_t j{}; j < 10; ++j)
+      std::cout << playerOneDisplayConsole_[i][j] << "  ";
     std::cout << "  ||    " << i << "  ";
 
-    for (size_t j{}; j < 10; ++j) std::cout << playerScreenTwo_[i][j] << "  ";
+    for (size_t j{}; j < 10; ++j)
+      std::cout << playerTwoDisplayConsole_[i][j] << "  ";
     std::cout << "\n";
   }
   std::cout << "\n";
 }
 
-void Battleships::shoot(BattleshipsAdd& player, char playerScreen[10][10],
-                        uint16_t& nShoots) {
+void Battleships::shoot(BattleShipsLocation& shipsLocation,
+                        char playerDisplayConsole[10][10], uint16_t& nShoots) {
   do {
     std::cout << "Enter the coordinates to shoot: ";
     uint16_t x, y;
@@ -82,17 +84,19 @@ void Battleships::shoot(BattleshipsAdd& player, char playerScreen[10][10],
       continue;
     }
 
-    if ('o' == player.getLocation(x, y) && playerScreen[x][y] != 'x') {
-      playerScreen[x][y] = 'x';
+    if ('o' == shipsLocation.getLocation(x, y) &&
+        playerDisplayConsole[x][y] != 'x') {
+      playerDisplayConsole[x][y] = 'x';
       std::cout << "\x1b[32mYou hit him!\x1b[37m\n";
       Sleep(350);
       ++nShoots;
       break;
-    } else if ('*' == playerScreen[x][y] || 'x' == playerScreen[x][y]) {
+    } else if ('*' == playerDisplayConsole[x][y] ||
+               'x' == playerDisplayConsole[x][y]) {
       std::cout << "\x1b[31mYou've already shot at this place!\x1b[37m\n";
       continue;
     } else {
-      playerScreen[x][y] = '*';
+      playerDisplayConsole[x][y] = '*';
       std::cout << "You missed it!\n";
       Sleep(350);
       break;

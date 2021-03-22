@@ -1,15 +1,15 @@
 /**
- * @file      BattleshipsAdd.cpp
+ * @file      BattleShipsLocation.cpp
  * @author    vmf0min (vlifom@yandex.ru)
- * @brief     add battle ships
- * @version   0.2
+ * @brief     Location of ships on the battlefield for each player
+ * @version   0.3
  * @date      25-02-2021
  * @copyright Copyright (c) 2021
  */
 
-#include "BattleshipsAdd.h"
+#include "BattleShipsLocation.h"
 
-void BattleshipsAdd::printField() const {
+void BattleShipsLocation::printField() const {
   for (size_t i{}; i < 10; ++i) {
     if (0 == i) {
       std::cout << "   ";
@@ -17,13 +17,13 @@ void BattleshipsAdd::printField() const {
       std::cout << "\n";
     }
     std::cout << i << "  ";
-    for (size_t j{}; j < 10; ++j) std::cout << field_[i][j] << "  ";
+    for (size_t j{}; j < 10; ++j) std::cout << locationField_[i][j] << "  ";
     std::cout << "\n";
   }
   std::cout << "\n";
 }
 
-void BattleshipsAdd::fillField() {
+void BattleShipsLocation::fillField() {
   size_t count{};
   Coordinates coord{}, coordBegin{}, coordEnd{};
   std::cout << "Place your ships on the battlefield\n";
@@ -91,38 +91,38 @@ void BattleshipsAdd::fillField() {
   } while (count < 1);
 }
 
-bool BattleshipsAdd::fillShip(const Coordinates& coord) {
+bool BattleShipsLocation::fillShip(const Coordinates& coord) {
   if (coord.x_ > 9 || coord.y_ > 9) return false;
 
-  if (field_[coord.x_][coord.y_] == 'o') {
+  if (locationField_[coord.x_][coord.y_] == 'o') {
     return false;
-  } else if (coord.x_ != 0 && field_[coord.x_ - 1][coord.y_] == 'o') {
+  } else if (coord.x_ != 0 && locationField_[coord.x_ - 1][coord.y_] == 'o') {
     return false;
-  } else if (coord.x_ != 9 && field_[coord.x_ + 1][coord.y_] == 'o') {
+  } else if (coord.x_ != 9 && locationField_[coord.x_ + 1][coord.y_] == 'o') {
     return false;
-  } else if (coord.y_ != 0 && field_[coord.x_][coord.y_ - 1] == 'o') {
+  } else if (coord.y_ != 0 && locationField_[coord.x_][coord.y_ - 1] == 'o') {
     return false;
-  } else if (coord.y_ != 9 && field_[coord.x_][coord.y_ + 1] == 'o') {
+  } else if (coord.y_ != 9 && locationField_[coord.x_][coord.y_ + 1] == 'o') {
     return false;
   } else if (coord.x_ != 0 && coord.y_ != 0 &&
-             field_[coord.x_ - 1][coord.y_ - 1] == 'o') {
+             locationField_[coord.x_ - 1][coord.y_ - 1] == 'o') {
     return false;
   } else if (coord.x_ != 0 && coord.y_ != 9 &&
-             field_[coord.x_ - 1][coord.y_ + 1] == 'o') {
+             locationField_[coord.x_ - 1][coord.y_ + 1] == 'o') {
     return false;
   } else if (coord.x_ != 9 && coord.y_ != 0 &&
-             field_[coord.x_ + 1][coord.y_ - 1] == 'o') {
+             locationField_[coord.x_ + 1][coord.y_ - 1] == 'o') {
     return false;
   } else if (coord.x_ != 9 && coord.y_ != 9 &&
-             field_[coord.x_ + 1][coord.y_ + 1] == 'o') {
+             locationField_[coord.x_ + 1][coord.y_ + 1] == 'o') {
     return false;
   }
 
-  field_[coord.x_][coord.y_] = 'o';
+  locationField_[coord.x_][coord.y_] = 'o';
   return true;
 }
 
-bool BattleshipsAdd::fillShip(const Coordinates& begin, const Coordinates& end,
+bool BattleShipsLocation::fillShip(const Coordinates& begin, const Coordinates& end,
                               const uint16_t& shipSize) {
   if (begin.x_ > 9 || begin.y_ > 9 || end.x_ > 9 || end.y_ > 9) return false;
 
@@ -130,30 +130,30 @@ bool BattleshipsAdd::fillShip(const Coordinates& begin, const Coordinates& end,
     if (end.y_ - begin.y_ != shipSize - 1) return false;
 
     for (size_t i{begin.y_}; i <= end.y_; ++i) {
-      if (field_[begin.x_][i] == 'o') {
+      if (locationField_[begin.x_][i] == 'o') {
         return false;
-      } else if (begin.x_ != 0 && field_[begin.x_ - 1][i] == 'o') {
+      } else if (begin.x_ != 0 && locationField_[begin.x_ - 1][i] == 'o') {
         return false;
-      } else if (begin.x_ != 9 && field_[begin.x_ + 1][i] == 'o') {
+      } else if (begin.x_ != 9 && locationField_[begin.x_ + 1][i] == 'o') {
         return false;
       }
     }
 
     if (begin.x_ != 0 && begin.y_ != 0 &&
-        field_[begin.x_ - 1][begin.y_ - 1] == 'o') {
+        locationField_[begin.x_ - 1][begin.y_ - 1] == 'o') {
       return false;
     } else if (begin.x_ != 9 && begin.y_ != 0 &&
-               field_[begin.x_ + 1][begin.y_ - 1] == 'o') {
+               locationField_[begin.x_ + 1][begin.y_ - 1] == 'o') {
       return false;
     } else if (begin.x_ != 0 && end.y_ != 9 &&
-               field_[begin.x_ - 1][end.y_ + 1] == 'o') {
+               locationField_[begin.x_ - 1][end.y_ + 1] == 'o') {
       return false;
     } else if (begin.x_ != 9 && end.y_ != 9 &&
-               field_[begin.x_ + 1][end.y_ + 1] == 'o') {
+               locationField_[begin.x_ + 1][end.y_ + 1] == 'o') {
       return false;
-    } else if (begin.y_ != 0 && field_[begin.x_][begin.y_ - 1] == 'o') {
+    } else if (begin.y_ != 0 && locationField_[begin.x_][begin.y_ - 1] == 'o') {
       return false;
-    } else if (end.y_ != 9 && field_[begin.x_][end.y_ + 1] == 'o') {
+    } else if (end.y_ != 9 && locationField_[begin.x_][end.y_ + 1] == 'o') {
       return false;
     }
 
@@ -161,28 +161,28 @@ bool BattleshipsAdd::fillShip(const Coordinates& begin, const Coordinates& end,
     if (end.x_ - begin.x_ != shipSize - 1) return false;
 
     for (size_t i{begin.x_}; i <= end.x_; ++i) {
-      if (begin.y_ != 0 && field_[i][begin.y_ - 1] == 'o') {
+      if (begin.y_ != 0 && locationField_[i][begin.y_ - 1] == 'o') {
         return false;
-      } else if (begin.y_ != 9 && field_[i][begin.y_ + 1] == 'o') {
+      } else if (begin.y_ != 9 && locationField_[i][begin.y_ + 1] == 'o') {
         return false;
       }
     }
 
     if (begin.x_ != 0 && begin.y_ != 0 &&
-        field_[begin.x_ - 1][begin.y_ - 1] == 'o') {
+        locationField_[begin.x_ - 1][begin.y_ - 1] == 'o') {
       return false;
     } else if (begin.x_ != 0 && begin.y_ != 9 &&
-               field_[begin.x_ - 1][begin.y_ + 1] == 'o') {
+               locationField_[begin.x_ - 1][begin.y_ + 1] == 'o') {
       return false;
     } else if (end.x_ != 9 && end.y_ != 0 &&
-               field_[end.x_ + 1][end.y_ - 1] == 'o') {
+               locationField_[end.x_ + 1][end.y_ - 1] == 'o') {
       return false;
     } else if (end.x_ != 9 && end.y_ != 9 &&
-               field_[end.x_ + 1][end.y_ + 1] == 'o') {
+               locationField_[end.x_ + 1][end.y_ + 1] == 'o') {
       return false;
-    } else if (begin.x_ != 0 && field_[begin.x_ - 1][begin.y_] == 'o') {
+    } else if (begin.x_ != 0 && locationField_[begin.x_ - 1][begin.y_] == 'o') {
       return false;
-    } else if (begin.x_ != 9 && field_[end.x_ + 1][begin.y_] == 'o') {
+    } else if (begin.x_ != 9 && locationField_[end.x_ + 1][begin.y_] == 'o') {
       return false;
     }
   } else {
@@ -190,8 +190,8 @@ bool BattleshipsAdd::fillShip(const Coordinates& begin, const Coordinates& end,
   }
 
   if (begin.x_ == end.x_)
-    for (size_t i{begin.y_}; i <= end.y_; ++i) field_[begin.x_][i] = 'o';
+    for (size_t i{begin.y_}; i <= end.y_; ++i) locationField_[begin.x_][i] = 'o';
   else
-    for (size_t i{begin.x_}; i <= end.x_; ++i) field_[i][begin.y_] = 'o';
+    for (size_t i{begin.x_}; i <= end.x_; ++i) locationField_[i][begin.y_] = 'o';
   return true;
 }
