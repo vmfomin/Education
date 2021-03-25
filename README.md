@@ -20,6 +20,7 @@
    - [Модуль 19](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/19_module)
    - [Модуль 20](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/20_module)
    - [Модуль 21](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/21_module)
+   - [Модуль 22](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/22_module)
    - [Алгоритмы](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Algorithms)
    - [Книги](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books)  
      - [Александреску Андрей](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Alexandrescu%20Andrei)  
