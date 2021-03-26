@@ -15,6 +15,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <iterator>
 
 using std::cin;
 using std::cout;
@@ -31,6 +32,10 @@ int main() {
     cout << "Error: could not be opened for reading!";
     return 1;
   }
+
+  // std::copy(std::istream_iterator<std::string>(file),
+  //           std::istream_iterator<std::string>(),
+  //           std::ostream_iterator<std::string>(cout, " "));
 
   char text[50];
   while (file) {
