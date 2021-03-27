@@ -67,7 +67,7 @@ int main() {
 
     double maxPayment{payments[0].payment};
     for (auto i{payments.cbegin() + 1}; i != payments.cend(); ++i)
-      if ((*i).payment > maxPayment) maxPayment = (*i).payment;
+      if (i->payment > maxPayment) maxPayment = i->payment;
 
     cout << "\nMaximum payment: " << maxPayment << "\n";
   }
