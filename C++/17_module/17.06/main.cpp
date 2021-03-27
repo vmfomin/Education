@@ -51,7 +51,7 @@ template <typename T>
 void outputVector(const std::vector<std::vector<T>>& vec) {
   std::cout << "\x1b[37m";
   for (auto iter{vec.begin()}; iter != vec.end(); ++iter) {
-    std::copy((*iter).begin(), (*iter).end(),
+    std::copy(iter->begin(), iter->end(),
               std::ostream_iterator<T>(std::cout, " "));
     std::cout << "\n";
   }
