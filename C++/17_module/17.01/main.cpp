@@ -49,7 +49,7 @@ void printServe(const std::vector<std::vector<std::string>>& serve) {
     // даже использовал). Удобна запись тем, что кидает в буфер без лишних
     // итераций. Ну и в целом удобная запись копирования контейнеров.
     // (откуда.начало, откуда.конец, куда). чем-то напоминает memcpy из Си.
-    std::copy((*it).begin(), (*it).end(),
+    std::copy(it->begin(), it->end(),
               std::ostream_iterator<std::string>(std::cout, "  "));
     std::cout << "\n";
   }
