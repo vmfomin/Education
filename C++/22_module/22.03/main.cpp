@@ -9,7 +9,7 @@
     дата выплаты в формате ДД.ММ.ГГГГ.
  * На основе данных из ведомости следует подсчитать общее количество выплаченных
  * средств и определить человека с максимальной суммой выплат.
- * @version   0.1
+ * @version   0.2
  * @date      25-03-2021
  * @copyright Copyright (c) 2021
  */
@@ -17,7 +17,6 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <vector>
 
 using std::cin;
 using std::cout;
@@ -26,10 +25,10 @@ using std::cout;
  * @brief     information about payments per person
  */
 struct Payments {
-  std::string name{};
-  std::string surname{};
-  double payment{};
-  std::string paymentDate{};
+  std::string name;
+  std::string surname;
+  double payment;
+  std::string paymentDate;
 };
 
 int main() {
@@ -39,7 +38,8 @@ int main() {
     return 1;
   }
 
-  std::vector<Payments> payments;
+  double sum{};
+  double maxPayment{};
   while (paymentStatementFile) {
     std::string inputLine;
     std::getline(paymentStatementFile, inputLine);
@@ -49,30 +49,17 @@ int main() {
     paymentInfo >> personPayment.surname;
     paymentInfo >> personPayment.payment;
     paymentInfo >> personPayment.paymentDate;
+    if (!inputLine.empty())
+      cout << personPayment.name << "\t" << personPayment.surname << " "
+           << personPayment.payment << "\t" << personPayment.paymentDate
+           << std::endl;
 
-    payments.push_back(personPayment);
+    sum += personPayment.payment;
+    if (personPayment.payment > maxPayment) maxPayment = personPayment.payment;
   }
-  payments.pop_back();
-  payments.shrink_to_fit();
-
-  for (const auto &person : payments) {
-    cout << person.name << " " << person.surname << " " << person.payment << " "
-         << person.paymentDate << std::endl;
-  }
-
-  {
-    double sum{};
-    for (const auto &person : payments) sum += person.payment;
-    cout << "\nTotal of all payments: " << sum << "\n";
-
-    double maxPayment{payments[0].payment};
-    for (auto i{payments.cbegin() + 1}; i != payments.cend(); ++i)
-      if (i->payment > maxPayment) maxPayment = i->payment;
-
-    cout << "\nMaximum payment: " << maxPayment << "\n";
-  }
+  cout << "\nTotal of all payments: " << sum;
+  cout << "\nMaximum payment: " << maxPayment << std::endl;
 
   paymentStatementFile.close();
-  cout << std::endl;
   return 0;
 }
