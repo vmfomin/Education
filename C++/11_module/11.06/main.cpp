@@ -13,8 +13,8 @@
 // равна 1,496e + 11 метров).
 // Примечание: поверхность планеты считать плоской.
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 const double astronomicalUnit{1.496e11};
 
@@ -28,37 +28,24 @@ int main() {
 
   bool isPowerOff{};
   while (!isPowerOff) {
-    char command{};
-
     std::cout << "[Программа]: Марсоход находится на позиции [" << std::fixed
               << std::setprecision(0) << x << ", " << y
               << "], введите команду:\n";
     std::cout << "[Оператор]: ";
+    char command{};
     std::cin >> command;
 
-    switch (command) {
-      case 'w' :
-        y += 1;
-        break;
-
-      case 'a' :
-        x -= 1;
-        break;
-
-      case 's' :
-        y -= 1;
-        break;
-
-      case 'd' :
-        x += 1;
-        break;
-
-      case '0' :
-        isPowerOff = true;
-        std::cout << "Выключение марсохода...\n";
-        // Тут перейдет к дефолту и выполнится брейк.
-      default :
-        break;
+    if ('w' == command)
+      y += 1;
+    else if ('a' == command)
+      x -= 1;
+    else if ('s' == command)
+      y -= 1;
+    else if ('d' == command)
+      x += 1;
+    else if ('0' == command) {
+      isPowerOff = true;
+      std::cout << "Выключение марсохода...\n";
     }
   }
 
