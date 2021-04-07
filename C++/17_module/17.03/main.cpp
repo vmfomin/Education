@@ -34,10 +34,11 @@ int main() {
   size_t arrayLength{sizeof(array) / sizeof(array[0])};
 
   int16_t temp{};
+  int16_t sign{-1};
   for (size_t i{}; i < arrayLength; ++i) {
     if (i != 0) temp = array[i - 1][4] + arrayLength;
-    for (size_t j{}; j < arrayLength; ++j)
-      array[i][j] = temp + std::pow(-1, i) * j;
+    sign = ~sign + 1;
+    for (size_t j{}; j < arrayLength; ++j) array[i][j] = temp + sign * j;
   }
 
   std::cout << "\x1b[32mOutput:\x1b[37m\n";
