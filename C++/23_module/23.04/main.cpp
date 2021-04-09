@@ -36,7 +36,7 @@ using std::endl;
 void atmInitStatus(std::map<int32_t, int32_t>&, uint32_t&);
 void addCash(std::map<int32_t, int32_t>&, uint32_t&);
 void outputCash(std::map<int32_t, int32_t>&, uint32_t&);
-void computeBanknote();
+void computeBanknote(std::map<int32_t, int32_t>&, int32_t&, const int32_t&);
 void changeStatusAtm(std::map<int32_t, int32_t>&);
 
 void computeBanknote(std::map<int32_t, int32_t>& atm, int32_t& money,
