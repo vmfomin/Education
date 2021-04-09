@@ -127,8 +127,6 @@ void outputCash(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
   cout << "Enter the withdrawal amount: ";
   int32_t money;
 
-  // TODO проверка на валидность запроса
-  // TODO сделать в цикле
   do {
     cin >> money;
     if (0 == money % 100 && 0 != money)
