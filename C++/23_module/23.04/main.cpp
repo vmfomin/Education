@@ -37,7 +37,7 @@ void atmInitStatus(std::map<int32_t, int32_t>&, uint32_t&);
 void addCash(std::map<int32_t, int32_t>&, uint32_t&);
 void outputCash(std::map<int32_t, int32_t>&, uint32_t&);
 void computeBanknote(std::map<int32_t, int32_t>&, int32_t&, const int32_t&);
-void changeStatusAtm(std::map<int32_t, int32_t>&);
+void changeStatusAtm(const std::map<int32_t, int32_t>&);
 
 void computeBanknote(std::map<int32_t, int32_t>& atm, int32_t& money,
                      const int32_t& denomination) {
@@ -56,7 +56,7 @@ void computeBanknote(std::map<int32_t, int32_t>& atm, int32_t& money,
   }
 }
 
-void changeStatusAtm(std::map<int32_t, int32_t>& atm) {
+void changeStatusAtm(const std::map<int32_t, int32_t>& atm) {
   std::ofstream bank("../bank.bin", std::ios::binary);
   if (!bank) {
     cout << "Error: could not be opened!";
