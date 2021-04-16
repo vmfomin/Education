@@ -13,15 +13,41 @@ void addClient() {
   Client* client = (Client*)malloc(sizeof(Client));
   printf("Введите ФИО или наименование организации: ");
   fgets(client->name, 256, stdin);
-  client->name[strlen(client->name)] = '\0';
+  client->name[strlen(client->name) - 1] = '\0';
 
   printf("Сколько контактных данных: ");
-  scanf_s("%d", &client->nContactDetails);
+  scanf_s("%d", &client->nContacts);
   fflush(stdin);
-  for (int i = 0; i < client->nContactDetails; ++i) {
-    printf("Введите контактные данные %d лица: ", i + 1);
-    fgets(client->contactDetails[i], 512, stdin);
-    client->contactDetails[i][strlen(client->contactDetails[i])] = '\0';
+  for (int i = 0; i < client->nContacts; ++i) {
+    printf("\nВведите контактные данные %d лица:\n", i + 1);
+    printf("Введите ФИО: ");
+    fgets(client->contacts[i].name, 256, stdin);
+    client->contacts[i].name[strlen(client->contacts[i].name) - 1] = '\0';
+
+    printf("Введите адрес: ");
+    fgets(client->contacts[i].address, 256, stdin);
+    client->contacts[i].address[strlen(client->contacts[i].address) - 1] = '\0';
+
+    int isDigit = 0;
+    while (!isDigit) {
+      printf("Введите номер телефона: ");
+      fgets(client->contacts[i].phone, 256, stdin);
+      client->contacts[i].phone[strlen(client->contacts[i].phone) - 1] = '\0';
+
+      // Проверка номера на валидность
+      for (int j = 0; j < strlen(client->contacts[i].phone); ++j) {
+        if (!isdigit(client->contacts[i].phone[j])) {
+          puts("Ошибка в номере телефона! Должны быть только цифры");
+          isDigit = 0;
+          break;
+        }
+        isDigit = 1;
+      }
+    }
+
+    printf("Введите электронную почту: ");
+    fgets(client->contacts[i].email, 64, stdin);
+    client->contacts[i].email[strlen(client->contacts[i].email) - 1] = '\0';
   }
 
   printf("Сколько оказано услуг: ");
@@ -30,7 +56,7 @@ void addClient() {
   for (int i = 0; i < client->nServices; ++i) {
     printf("Введите название %d услуги: ", i + 1);
     fgets(client->services[i].service, 150, stdin);
-    client->services[i].service[strlen(client->services[i].service)] = '\0';
+    client->services[i].service[strlen(client->services[i].service) - 1] = '\0';
 
     printf("Введите дату оказания услуги: ");
     Date date;
@@ -66,7 +92,6 @@ void addClient() {
   }
 
   struct node* temp;
-  struct node* ptr;
   temp = (struct node*)malloc(sizeof(struct node));
   if (temp == NULL) {
     puts("Не достаточно памяти!!!");
@@ -77,41 +102,118 @@ void addClient() {
   if (start == NULL) {
     start = temp;
   } else {
-    ptr = start;
+    struct node* ptr = start;
     while (ptr->next != NULL) ptr = ptr->next;
     ptr->next = temp;
   }
 }
 
 void removeClient(const char* clientName) {
-  struct node* ptr;
-
   if (start == NULL) {
     printf("\nНет клиентов\n");
     return;
-  } else {
-    if (strcmp(clientName, start->data->name) == 0) {
-      ptr = start;
-      start = start->next;
-      free(ptr);
-    } else {
-      ptr = start;
-      while (ptr != NULL && strcmp(clientName, ptr->data->name) != 0) {
-        start = ptr;
-        ptr = ptr->next;
-      }
-      if (ptr == NULL) {
-        printf("\nТакой клиент не найден\n");
-        return;
-      }
+  }
 
-      start->next = ptr->next;
-      free(ptr->data);
+  struct node* ptr = start;
+  if (strcmp(clientName, start->data->name) == 0) {
+    start = start->next;
+    free(ptr);
+  } else {
+    while (ptr != NULL && strcmp(clientName, ptr->data->name) != 0) {
+      start = ptr;
+      ptr = ptr->next;
     }
+
+    if (ptr == NULL) {
+      printf("\nТакой клиент не найден\n");
+      return;
+    }
+
+    start->next = ptr->next;
+    free(ptr->data);
   }
 }
 
-void readDataClient(const char* clientName) {}
+void readDataClient(const char* clientName) {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  struct node* ptr = start;
+  while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
+    ptr = ptr->next;
+
+  if (ptr == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+  printf("ФИО или название организации: %s\n", ptr->data->name);
+
+  puts("\nКонтактные лица:");
+  for (int i = 0; i < ptr->data->nContacts; ++i) {
+    printf("%d контактное лицо:\n", i + 1);
+    printf("  ФИО: %s\n", ptr->data->contacts[i].name);
+    printf("  Адрес: %s\n", ptr->data->contacts[i].address);
+    printf("  Телефон: %s\n", ptr->data->contacts[i].phone);
+    printf("  email: %s\n", ptr->data->contacts[i].email);
+  }
+
+  puts("\nСписок оказываемых услуг:");
+  for (int i = 0; i < ptr->data->nServices; ++i) {
+    printf("Услуга %d: %s  Дата: %02u.%02u.%u %02u:%02u\n", i + 1,
+           ptr->data->services[i].service, ptr->data->services[i].date.day,
+           ptr->data->services[i].date.month, ptr->data->services[i].date.year,
+           ptr->data->services[i].date.time.hour,
+           ptr->data->services[i].date.time.minute);
+  }
+  puts("\nСостояние счета клиента:");
+  printf(
+      "Баланс: %0.2lf\nПоступления на счет: %0.2lf\nСписания за оказание "
+      "услуг: %0.2lf\nРазмер максимального кредита: %0.2lf\nСрок погашения "
+      "кредита: %02u.%02u.%u %02u:%02u\n",
+      ptr->data->balance.balance, ptr->data->balance.receiveFunds,
+      ptr->data->balance.payment, ptr->data->balance.maxCredit,
+      ptr->data->balance.date.day, ptr->data->balance.date.month,
+      ptr->data->balance.date.year, ptr->data->balance.date.time.hour,
+      ptr->data->balance.date.time.minute);
+}
+
+void editClient(const char* clientName) {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  struct node* ptr = start;
+  while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
+    ptr = ptr->next;
+
+  if (ptr == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  // TODO редактирование данных о клиенте
+  // o Добавление и удаление данных о клиенте, чтение и редактирование данных
+  // o Добавление и удаление услуги, чтение и редактирование данных о ней
+}
+
+void listOfClients() {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  struct node* ptr = start;
+  int num = 1;
+  while (ptr != NULL) {
+    printf("Клиент № %02d:\n", num);
+    readDataClient(ptr->data->name);
+    ptr = ptr->next;
+    ++num;
+  }
+}
 
 void exitProgram() {
   if (start != NULL) {

@@ -23,6 +23,7 @@
    - [Модуль 22](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/22_module)
    - [Модуль 23](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/23_module)
    - [Алгоритмы](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Algorithms)
+   - [Биллинговая база](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Billing_database)
    - [Книги](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books)  
      - [Александреску Андрей](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Alexandrescu%20Andrei)  
      - [Макдауэлл Лакман](https://github.com/vmf0min/Skillbox/tree/master/C%2B%2B/Books/Mcdowell%20Laakman)  

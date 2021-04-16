@@ -20,6 +20,7 @@
 
 typedef struct Date_t Date;
 typedef struct Hour_t Hour;
+typedef struct ContactDetails_t Contacts;
 typedef struct Services_t Services;
 typedef struct Balance_t Balance;
 
@@ -33,6 +34,13 @@ struct Date_t {
   unsigned int month;
   unsigned int year;
   Hour time;
+};
+
+struct ContactDetails_t {
+  char name[256];     // контактное лицо
+  char address[256];  // адрес
+  char phone[256];    // телефон
+  char email[64];     // e-mail
 };
 
 struct Services_t {
@@ -53,9 +61,9 @@ typedef struct {
   // Наименование или ФИО
   char name[256];
   // Количество контактных лиц.
-  int nContactDetails;
+  int nContacts;
   // контактные лица, адрес(а), телефон(ы), e-mail(ы)
-  char contactDetails[50][512];
+  Contacts contacts[50];
   // Количество оказанных услуг.
   int nServices;
   // История услуг: услуги, в какое время оказывались
@@ -83,13 +91,21 @@ void removeClient(const char*);
 /**
  * @brief     Чтение данных о клиенте.
  */
-void readDataClient(const char*);  // TODO чтение данных о клиенте
+void readDataClient(const char*);
 
-// TODO редактирование данных о клиенте
-// Добавление и удаление услуги, чтение и редактирование данных о ней
+/**
+ * @brief     Редактирование данных о клиенте
+ */
+void editClient(const char*);
+
 // TODO Получение списка клиентов в заданном интервале времени
+
 // TODO Получение списка клиентов по характеристикам их счетов
-// TODO Получение списка всех клиентов
+
+/**
+ * @brief     Получение списка всех клиентов
+ */
+void listOfClients();
 
 /**
  * @brief     Выход из программы.
