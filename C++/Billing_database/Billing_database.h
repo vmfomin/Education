@@ -39,20 +39,21 @@ struct Date_t {
 struct ContactDetails_t {
   char name[256];     // контактное лицо
   char address[256];  // адрес
-  char phone[256];    // телефон
+  char phone[12];     // телефон
   char email[64];     // e-mail
 };
 
 struct Services_t {
   char service[150];  // Название услуги
-  Date date;          // время оказания
+  // TODO номер, группа номеров, Интернет, SMS, спец.
+  // предложения
+  Date date;  // время оказания
 };
 
 struct Balance_t {
   double balance;       // Баланс
   double receiveFunds;  // Поступления на счет
   double payment;  // Списания за оказание услуг связи
-  // Ограничения:
   double maxCredit;  // размер максимального кредита
   Date date;         // сроки его погашения
 };
@@ -98,6 +99,16 @@ void readDataClient(const char*);
  */
 void editClient(const char*);
 
+/**
+ * @brief     Добавление и удаление данных о клиенте
+ */
+void removeContact(const char*);
+
+/**
+ * @brief     Добавление и удаление услуги
+ */
+void removeService(const char*);
+
 // TODO Получение списка клиентов в заданном интервале времени
 
 // TODO Получение списка клиентов по характеристикам их счетов
@@ -106,11 +117,6 @@ void editClient(const char*);
  * @brief     Получение списка всех клиентов
  */
 void listOfClients();
-
-/**
- * @brief     Выход из программы.
- */
-void exitProgram();
 
 /**
  * @brief     Проверка даты
@@ -123,5 +129,21 @@ int checkDate(const Date*);
  * @return    int          0 -- неверная дата, 1 -- верная.
  */
 int readDate(Date*);
+
+/**
+ * @brief     Проверка номера телефона на валидность
+ * @return    int           int          0 -- неверный номер, 1 -- верный.
+ */
+int checkPhone(char*, const int);
+
+/**
+ * @brief     Чтение номера телефона
+ */
+void readPhone(char*);
+
+/**
+ * @brief     Выход из программы.
+ */
+void exitProgram();
 
 #endif /* INC_BILLING_DATABASE_H_ */
