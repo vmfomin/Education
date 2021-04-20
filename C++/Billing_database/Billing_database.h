@@ -44,10 +44,13 @@ struct ContactDetails_t {
 };
 
 struct Services_t {
-  char service[150];  // Название услуги
-  // TODO номер, группа номеров, Интернет, SMS, спец.
-  // предложения
-  Date date;  // время оказания
+  char service[150];       // Название услуги
+  int numService;          // номер
+  char groupNumbers[100];  // группа номеров
+  char internet[50];       // Интернет
+  int sms;                 // SMS
+  char specialOffer[100];  // спец. предложения
+  Date date;               // время оказания
 };
 
 struct Balance_t {
@@ -100,12 +103,22 @@ void readDataClient(const char*);
 void editClient(const char*);
 
 /**
- * @brief     Добавление и удаление данных о клиенте
+ * @brief     Добавление контакта
+ */
+void addContact(const char*);
+
+/**
+ * @brief     Удаление контактов в данных о клиенте
  */
 void removeContact(const char*);
 
 /**
- * @brief     Добавление и удаление услуги
+ * @brief     Добавление услуги
+ */
+void addService(const char*);
+
+/**
+ * @brief     Удаление услуги
  */
 void removeService(const char*);
 
@@ -116,7 +129,7 @@ void removeService(const char*);
 /**
  * @brief     Получение списка всех клиентов
  */
-void listOfClients();
+void listOfAllClients();
 
 /**
  * @brief     Проверка даты

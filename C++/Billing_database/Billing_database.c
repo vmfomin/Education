@@ -16,8 +16,11 @@ void addClient() {
   client->name[strlen(client->name) - 1] = '\0';
 
   printf("Сколько контактных данных: ");
-  scanf_s("%d", &client->nContacts);
-  fflush(stdin);
+  do {
+    scanf_s("%d", &client->nContacts);
+    fflush(stdin);
+  } while (client->nContacts > 50);
+
   for (int i = 0; i < client->nContacts; ++i) {
     printf("\nВведите контактные данные %d лица:\n", i + 1);
     printf("Введите ФИО: ");
@@ -36,15 +39,39 @@ void addClient() {
     client->contacts[i].email[strlen(client->contacts[i].email) - 1] = '\0';
   }
 
-  printf("Сколько оказано услуг: ");
-  scanf_s("%d", &client->nServices);
-  fflush(stdin);
+  printf("\nСколько оказано услуг: ");
+  do {
+    scanf_s("%d", &client->nServices);
+    fflush(stdin);
+  } while (client->nServices > 50);
+
   for (int i = 0; i < client->nServices; ++i) {
-    printf("Введите название %d услуги: ", i + 1);
+    printf("\nВведите название %d услуги: ", i + 1);
     fgets(client->services[i].service, 150, stdin);
     client->services[i].service[strlen(client->services[i].service) - 1] = '\0';
 
-    // TODO Добавить другие поля
+    printf("Введите номер услуги: ");
+    scanf_s("%d", &client->services[i].numService);
+    fflush(stdin);
+
+    printf("Введите группу номеров: ");
+    fgets(client->services[i].groupNumbers, 100, stdin);
+    client->services[i]
+        .groupNumbers[strlen(client->services[i].groupNumbers) - 1] = '\0';
+
+    printf("Введите интернет тариф: ");
+    fgets(client->services[i].internet, 50, stdin);
+    client->services[i].internet[strlen(client->services[i].internet) - 1] =
+        '\0';
+
+    printf("Введите количество SMS: ");
+    scanf_s("%d", &client->services[i].sms);
+    fflush(stdin);
+
+    printf("Введите специальные предложения: ");
+    fgets(client->services[i].specialOffer, 100, stdin);
+    client->services[i]
+        .specialOffer[strlen(client->services[i].specialOffer) - 1] = '\0';
 
     printf("Введите дату оказания услуги: ");
     Date date;
@@ -60,24 +87,32 @@ void addClient() {
 
   printf("\nВведите текущий баланс: ");
   scanf_s("%lf", &client->balance.balance);
-  // printf("Введите поступления на счет: ");
-  // scanf_s("%lf", &client->balance.receiveFunds);
-  // printf("Введите списание за оказание услуг: ");
-  // scanf_s("%lf", &client->balance.payment);
-  // printf("Введите размер максимального кредита: ");
-  // scanf_s("%lf", &client->balance.maxCredit);
-  // printf("Введите сроки погашения: ");
-  // {
-  //   Date date;
-  //   while (!readDate(&date)) {
-  //   }
-  //   client->balance.date.day = date.day;
-  //   client->balance.date.month = date.month;
-  //   client->balance.date.year = date.year;
-  //   client->balance.date.time.hour = date.time.hour;
-  //   client->balance.date.time.minute = date.time.minute;
-  //   fflush(stdin);
-  // }
+  fflush(stdin);
+
+  printf("Введите поступления на счет: ");
+  scanf_s("%lf", &client->balance.receiveFunds);
+  fflush(stdin);
+
+  printf("Введите списание за оказание услуг: ");
+  scanf_s("%lf", &client->balance.payment);
+  fflush(stdin);
+
+  printf("Введите размер максимального кредита: ");
+  scanf_s("%lf", &client->balance.maxCredit);
+  fflush(stdin);
+
+  printf("Введите сроки погашения: ");
+  {
+    Date date;
+    while (!readDate(&date)) {
+    }
+    client->balance.date.day = date.day;
+    client->balance.date.month = date.month;
+    client->balance.date.year = date.year;
+    client->balance.date.time.hour = date.time.hour;
+    client->balance.date.time.minute = date.time.minute;
+    fflush(stdin);
+  }
 
   struct node* temp;
   temp = (struct node*)malloc(sizeof(struct node));
@@ -149,9 +184,17 @@ void readDataClient(const char* clientName) {
 
   puts("\nСписок оказываемых услуг:");
   for (int i = 0; i < ptr->data->nServices; ++i) {
-    printf("Услуга %d: %s  Дата: %02u.%02u.%u %02u:%02u\n", i + 1,
-           ptr->data->services[i].service, ptr->data->services[i].date.day,
-           ptr->data->services[i].date.month, ptr->data->services[i].date.year,
+    printf("Услуга № %d:\n", i + 1);
+    printf("  Название услуги: %s\n", ptr->data->services[i].service);
+    printf("  Номер услуги: %d\n", ptr->data->services[i].numService);
+    printf("  Группа номеров: %s\n", ptr->data->services[i].groupNumbers);
+    printf("  Интернет: %s\n", ptr->data->services[i].internet);
+    printf("  SMS: %d\n", ptr->data->services[i].sms);
+    printf("  Специальные предложения: %s\n",
+           ptr->data->services[i].specialOffer);
+    printf("  Дата: %02u.%02u.%u %02u:%02u\n\n",
+           ptr->data->services[i].date.day, ptr->data->services[i].date.month,
+           ptr->data->services[i].date.year,
            ptr->data->services[i].date.time.hour,
            ptr->data->services[i].date.time.minute);
   }
@@ -248,7 +291,40 @@ void editClient(const char* clientName) {
           memmove(ptr->data->services[i].service, temp, 150);
         }
 
-        // TODO Добавить изменения других полей
+        printf("Введите номер услуги: ");
+        fgets(temp, 150, stdin);
+        if (strcmp(temp, "\n") != 0) {
+          temp[strlen(temp) - 1] = '\0';
+          ptr->data->services[i].numService = atoi(temp);
+        }
+
+        printf("Введите группу номеров: ");
+        fgets(temp, 150, stdin);
+        if (strcmp(temp, "\n") != 0) {
+          temp[strlen(temp) - 1] = '\0';
+          memmove(ptr->data->services[i].groupNumbers, temp, 100);
+        }
+
+        printf("Введите интернет тариф: ");
+        fgets(temp, 150, stdin);
+        if (strcmp(temp, "\n") != 0) {
+          temp[strlen(temp) - 1] = '\0';
+          memmove(ptr->data->services[i].internet, temp, 50);
+        }
+
+        printf("Введите количество SMS: ");
+        fgets(temp, 150, stdin);
+        if (strcmp(temp, "\n") != 0) {
+          temp[strlen(temp) - 1] = '\0';
+          ptr->data->services[i].sms = atoi(temp);
+        }
+
+        printf("Введите специальные предложения: ");
+        fgets(temp, 150, stdin);
+        if (strcmp(temp, "\n") != 0) {
+          temp[strlen(temp) - 1] = '\0';
+          memmove(ptr->data->services[i].specialOffer, temp, 100);
+        }
 
         printf("Введите новую дату услуги: ");
         while (!readDate(&ptr->data->services[i].date)) {
@@ -260,16 +336,234 @@ void editClient(const char* clientName) {
     if (!found) puts("Услуга не найдена!");
   }
 
-  // TODO изменения баланса
+  printf("\nВведите новый текущий баланс: ");
+  fgets(temp, 150, stdin);
+  if (strcmp(temp, "\n") != 0) {
+    temp[strlen(temp) - 1] = '\0';
+    ptr->data->balance.balance = atoi(temp);
+  }
+
+  printf("Введите изменения поступления на счет: ");
+  fgets(temp, 150, stdin);
+  if (strcmp(temp, "\n") != 0) {
+    temp[strlen(temp) - 1] = '\0';
+    ptr->data->balance.receiveFunds = atoi(temp);
+  }
+
+  printf("Введите изменения списания за оказание услуг: ");
+  fgets(temp, 150, stdin);
+  if (strcmp(temp, "\n") != 0) {
+    temp[strlen(temp) - 1] = '\0';
+    ptr->data->balance.payment = atoi(temp);
+  }
+
+  printf("Введите изменения размера максимального кредита: ");
+  fgets(temp, 150, stdin);
+  if (strcmp(temp, "\n") != 0) {
+    temp[strlen(temp) - 1] = '\0';
+    ptr->data->balance.maxCredit = atoi(temp);
+  }
+
+  printf("Введите  изменение срока погашения: ");
+  while (!readDate(&ptr->data->balance.date)) {
+  }
 }
 
-// TODO Добавление и удаление данных о клиенте (контакты)
-void removeContact(const char* clientName) {}
+void addContact(const char* clientName) {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
 
-// TODO Добавление и удаление услуги
-void removeService(const char* clientName) {}
+  struct node* ptr = start;
+  while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
+    ptr = ptr->next;
 
-void listOfClients() {
+  if (ptr == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  if (50 == ptr->data->nContacts) {
+    printf("\nСписок контактов полностью заполнен!");
+    return;
+  }
+
+  ++ptr->data->nContacts;
+  int currentContact = ptr->data->nContacts - 1;
+  printf("Введите ФИО: ");
+  fgets(ptr->data->contacts[currentContact].name, 256, stdin);
+  ptr->data->contacts[currentContact]
+      .name[strlen(ptr->data->contacts[currentContact].name) - 1] = '\0';
+
+  printf("Введите адрес: ");
+  fgets(ptr->data->contacts[currentContact].address, 256, stdin);
+  ptr->data->contacts[currentContact]
+      .address[strlen(ptr->data->contacts[currentContact].address) - 1] = '\0';
+
+  printf("Введите номер телефона: ");
+  fgets(ptr->data->contacts[currentContact].phone, 12, stdin);
+  ptr->data->contacts[currentContact]
+      .phone[strlen(ptr->data->contacts[currentContact].phone) - 1] = '\0';
+
+  printf("Введите электронную почту: ");
+  fgets(ptr->data->contacts[currentContact].email, 64, stdin);
+  ptr->data->contacts[currentContact]
+      .email[strlen(ptr->data->contacts[currentContact].email) - 1] = '\0';
+}
+
+void removeContact(const char* clientName) {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  struct node* ptr = start;
+  while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
+    ptr = ptr->next;
+
+  if (ptr == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  if (ptr->data->nContacts <= 0) {
+    printf("\nНет контактов");
+    return;
+  }
+
+  char temp[256];
+  printf("\nВведите контактные данные лица для удаления: ");
+  fgets(temp, 256, stdin);
+  if (strcmp(temp, "\n") != 0) {
+    temp[strlen(temp) - 1] = '\0';
+    int found = 0;  // Если не нашли контактное лицо, то false.
+    for (int i = 0; i < ptr->data->nContacts; ++i) {
+      if (strcmp(ptr->data->contacts[i].name, temp) == 0) {
+        for (int j = i; j < ptr->data->nContacts; ++j) {
+          ++i;
+          if (ptr->data->nContacts == i) break;
+          memmove(&ptr->data->contacts[j], &ptr->data->contacts[i],
+                  sizeof(Contacts));
+        }
+        found = 1;
+        --ptr->data->nContacts;
+        break;
+      }
+    }
+    if (!found) puts("Контактное лицо не найдено!");
+  }
+}
+
+void addService(const char* clientName) {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  struct node* ptr = start;
+  while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
+    ptr = ptr->next;
+
+  if (ptr == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  if (50 == ptr->data->nServices) {
+    printf("\nСписок услуг полностью заполнен!");
+    return;
+  }
+
+  ++ptr->data->nServices;
+  int currentService = ptr->data->nServices - 1;
+  printf("\nВведите название услуги: ");
+  fgets(ptr->data->services[currentService].service, 150, stdin);
+  ptr->data->services[currentService]
+      .service[strlen(ptr->data->services[currentService].service) - 1] = '\0';
+
+  printf("Введите номер услуги: ");
+  scanf_s("%d", &ptr->data->services[currentService].numService);
+  fflush(stdin);
+
+  printf("Введите группу номеров: ");
+  fgets(ptr->data->services[currentService].groupNumbers, 100, stdin);
+  ptr->data->services[currentService]
+      .groupNumbers[strlen(ptr->data->services[currentService].groupNumbers) -
+                    1] = '\0';
+
+  printf("Введите интернет тариф: ");
+  fgets(ptr->data->services[currentService].internet, 50, stdin);
+  ptr->data->services[currentService]
+      .internet[strlen(ptr->data->services[currentService].internet) - 1] =
+      '\0';
+
+  printf("Введите количество SMS: ");
+  scanf_s("%d", &ptr->data->services[currentService].sms);
+  fflush(stdin);
+
+  printf("Введите специальные предложения: ");
+  fgets(ptr->data->services[currentService].specialOffer, 100, stdin);
+  ptr->data->services[currentService]
+      .specialOffer[strlen(ptr->data->services[currentService].specialOffer) -
+                    1] = '\0';
+
+  printf("Введите дату оказания услуги: ");
+  Date date;
+  while (!readDate(&date)) {
+  }
+  ptr->data->services[currentService].date.day = date.day;
+  ptr->data->services[currentService].date.month = date.month;
+  ptr->data->services[currentService].date.year = date.year;
+  ptr->data->services[currentService].date.time.hour = date.time.hour;
+  ptr->data->services[currentService].date.time.minute = date.time.minute;
+  fflush(stdin);
+}
+
+void removeService(const char* clientName) {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  struct node* ptr = start;
+  while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
+    ptr = ptr->next;
+
+  if (ptr == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+
+  if (ptr->data->nServices <= 0) {
+    printf("\nНет услуг");
+    return;
+  }
+
+  char temp[256];
+  printf("\nВведите услугу для удаления: ");
+  fgets(temp, 256, stdin);
+  if (strcmp(temp, "\n") != 0) {
+    temp[strlen(temp) - 1] = '\0';
+    int found = 0;  // Если не нашли контактное лицо, то false.
+    for (int i = 0; i < ptr->data->nServices; ++i) {
+      if (strcmp(ptr->data->services[i].service, temp) == 0) {
+        for (int j = i; j < ptr->data->nServices; ++j) {
+          ++i;
+          if (ptr->data->nServices == i) break;
+          memmove(&ptr->data->services[j], &ptr->data->services[i],
+                  sizeof(Services));
+        }
+        found = 1;
+        --ptr->data->nServices;
+        break;
+      }
+    }
+    if (!found) puts("Контактное лицо не найдено!");
+  }
+}
+
+void listOfAllClients() {
   if (start == NULL) {
     printf("\nНет данных");
     return;
@@ -308,6 +602,7 @@ int checkDate(const Date* date) {
 int readDate(Date* date) {
   scanf_s("%d %d %d %d %d", &date->day, &date->month, &date->year,
           &date->time.hour, &date->time.minute);
+  fflush(stdin);
   return checkDate(date) ? 1 : 0;
 }
 
