@@ -32,7 +32,7 @@ void addClient() {
     client->contacts[i].address[strlen(client->contacts[i].address) - 1] = '\0';
 
     printf("Введите номер телефона: ");
-    readPhone(client->contacts[i].phone);
+    readNumber(client->contacts[i].phone);
 
     printf("Введите электронную почту: ");
     fgets(client->contacts[i].email, 64, stdin);
@@ -51,8 +51,7 @@ void addClient() {
     client->services[i].service[strlen(client->services[i].service) - 1] = '\0';
 
     printf("Введите номер услуги: ");
-    scanf_s("%d", &client->services[i].numService);
-    fflush(stdin);
+    readNumber(client->services[i].numService);
 
     printf("Введите группу номеров: ");
     fgets(client->services[i].groupNumbers, 100, stdin);
@@ -74,44 +73,14 @@ void addClient() {
         .specialOffer[strlen(client->services[i].specialOffer) - 1] = '\0';
 
     printf("Введите дату оказания услуги: ");
-    Date date;
-    while (!readDate(&date)) {
+    while (!readDate(&client->services[i].date)) {
     }
-    client->services[i].date.day = date.day;
-    client->services[i].date.month = date.month;
-    client->services[i].date.year = date.year;
-    client->services[i].date.time.hour = date.time.hour;
-    client->services[i].date.time.minute = date.time.minute;
-    fflush(stdin);
   }
 
-  printf("\nВведите текущий баланс: ");
-  scanf_s("%lf", &client->balance.balance);
-  fflush(stdin);
-
-  printf("Введите поступления на счет: ");
-  scanf_s("%lf", &client->balance.receiveFunds);
-  fflush(stdin);
-
-  printf("Введите списание за оказание услуг: ");
-  scanf_s("%lf", &client->balance.payment);
-  fflush(stdin);
-
-  printf("Введите размер максимального кредита: ");
-  scanf_s("%lf", &client->balance.maxCredit);
-  fflush(stdin);
-
+  printf("\nВведите данные баланса: ");
+  readBalance(&client->balance);
   printf("Введите сроки погашения: ");
-  {
-    Date date;
-    while (!readDate(&date)) {
-    }
-    client->balance.date.day = date.day;
-    client->balance.date.month = date.month;
-    client->balance.date.year = date.year;
-    client->balance.date.time.hour = date.time.hour;
-    client->balance.date.time.minute = date.time.minute;
-    fflush(stdin);
+  while (!readDate(&client->balance.date)) {
   }
 
   struct node* temp;
@@ -259,7 +228,7 @@ void editClient(const char* clientName) {
         fgets(temp, 12, stdin);
         if (strcmp(temp, "\n") != 0) {
           temp[strlen(temp) - 1] = '\0';
-          if (!checkPhone(temp, strlen(temp))) readPhone(temp);
+          if (!checkNumber(temp, strlen(temp))) readNumber(temp);
           memmove(ptr->data->contacts[i].phone, temp, 12);
         }
 
@@ -295,7 +264,7 @@ void editClient(const char* clientName) {
         fgets(temp, 150, stdin);
         if (strcmp(temp, "\n") != 0) {
           temp[strlen(temp) - 1] = '\0';
-          ptr->data->services[i].numService = atoi(temp);
+          memmove(ptr->data->services[i].numService, temp, 12);
         }
 
         printf("Введите группу номеров: ");
@@ -316,7 +285,7 @@ void editClient(const char* clientName) {
         fgets(temp, 150, stdin);
         if (strcmp(temp, "\n") != 0) {
           temp[strlen(temp) - 1] = '\0';
-          ptr->data->services[i].sms = atoi(temp);
+          memmove(ptr->data->services[i].sms, temp, 12);
         }
 
         printf("Введите специальные предложения: ");
@@ -509,15 +478,9 @@ void addService(const char* clientName) {
                     1] = '\0';
 
   printf("Введите дату оказания услуги: ");
-  Date date;
-  while (!readDate(&date)) {
+
+  while (!readDate(&ptr->data->services[currentService].date)) {
   }
-  ptr->data->services[currentService].date.day = date.day;
-  ptr->data->services[currentService].date.month = date.month;
-  ptr->data->services[currentService].date.year = date.year;
-  ptr->data->services[currentService].date.time.hour = date.time.hour;
-  ptr->data->services[currentService].date.time.minute = date.time.minute;
-  fflush(stdin);
 }
 
 void removeService(const char* clientName) {
@@ -563,6 +526,82 @@ void removeService(const char* clientName) {
   }
 }
 
+  void listOfClientsDateRange(const Date* dateBegin, const Date* dateEnd) {
+    if (start == NULL) {
+      printf("\nНет данных");
+      return;
+    }
+
+    int found = 0;
+    int nClients = 1;
+    struct node* ptr = start;
+    while (ptr != NULL) {
+      for (int i = 0; i < ptr->data->nServices; ++i) {
+        if (ptr->data->services[i].date.year >= dateBegin->year &&
+            ptr->data->services[i].date.year <= dateEnd->year &&
+
+            ptr->data->services[i].date.month >= dateBegin->month &&
+            ptr->data->services[i].date.month <= dateEnd->month &&
+
+            ptr->data->services[i].date.day >= dateBegin->day &&
+            ptr->data->services[i].date.day <= dateEnd->day &&
+
+            ptr->data->services[i].date.time.hour >= dateBegin->time.hour &&
+            ptr->data->services[i].date.time.hour <= dateEnd->time.hour &&
+
+            ptr->data->services[i].date.time.minute >= dateBegin->time.minute &&
+            ptr->data->services[i].date.time.minute <= dateEnd->time.minute) {
+          printf("\nКлиент № %02d:\n", nClients);
+          readDataClient(ptr->data->name);
+          found = 1;
+          ++nClients;
+          break;
+        }
+      }
+      ptr = ptr->next;
+    }
+
+    if (!found) {
+      printf("\nНет клиентов удовлетворяющих условию.");
+      return;
+    }
+}
+
+void listOfClientsBalanceRange(const Balance* minimum, const Balance* maximum) {
+  if (start == NULL) {
+    printf("\nНет данных");
+    return;
+  }
+  printf("Список клиентов:\n");
+  int found = 0;
+  int nClients = 1;
+  struct node* ptr = start;
+  while (ptr != NULL) {
+    if (ptr->data->balance.balance >= minimum->balance &&
+        ptr->data->balance.balance <= maximum->balance &&
+
+        ptr->data->balance.receiveFunds >= minimum->receiveFunds &&
+        ptr->data->balance.receiveFunds <= maximum->receiveFunds &&
+
+        ptr->data->balance.payment >= minimum->payment &&
+        ptr->data->balance.payment <= maximum->payment &&
+
+        ptr->data->balance.maxCredit >= minimum->maxCredit &&
+        ptr->data->balance.maxCredit <= maximum->maxCredit) {
+      printf("\nКлиент № %02d:\n", nClients);
+      readDataClient(ptr->data->name);
+      found = 1;
+      ++nClients;
+    }
+    ptr = ptr->next;
+  }
+
+  if (!found) {
+    printf("\nНет клиентов удовлетворяющих условию.");
+    return;
+  }
+}
+
 void listOfAllClients() {
   if (start == NULL) {
     printf("\nНет данных");
@@ -570,12 +609,12 @@ void listOfAllClients() {
   }
 
   struct node* ptr = start;
-  int num = 1;
+  int nClients = 1;
   while (ptr != NULL) {
-    printf("\nКлиент № %02d:\n", num);
+    printf("\nКлиент № %02d:\n", nClients);
     readDataClient(ptr->data->name);
     ptr = ptr->next;
-    ++num;
+    ++nClients;
   }
 }
 
@@ -606,19 +645,37 @@ int readDate(Date* date) {
   return checkDate(date) ? 1 : 0;
 }
 
-int checkPhone(char* phone, const int length) {
+int checkNumber(char* number, const int length) {
   for (int j = 0; j < length; ++j) {
-    if (!isdigit(phone[j])) {
-      puts("Ошибка в номере телефона! Должны быть только цифры");
+    if (!isdigit(number[j])) {
+      puts("Ошибка! Должны быть только цифры");
       return 0;
     }
   }
   return 1;
 }
 
-void readPhone(char* phone) {
+void readNumber(char* number) {
   do {
-    fgets(phone, 12, stdin);
-    phone[strlen(phone) - 1] = '\0';
-  } while (!checkPhone(phone, strlen(phone)));
+    fgets(number, 12, stdin);
+    number[strlen(number) - 1] = '\0';
+  } while (!checkNumber(number, strlen(number)));
+}
+
+void readBalance(Balance* balance) {
+  printf("\nВведите баланс: ");
+  scanf_s("%lf", &balance->balance);
+  fflush(stdin);
+
+  printf("Введите поступления на счет: ");
+  scanf_s("%lf", &balance->receiveFunds);
+  fflush(stdin);
+
+  printf("Введите списание за оказание услуг: ");
+  scanf_s("%lf", &balance->payment);
+  fflush(stdin);
+
+  printf("Введите размер максимального кредита: ");
+  scanf_s("%lf", &balance->maxCredit);
+  fflush(stdin);
 }

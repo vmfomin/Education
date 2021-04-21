@@ -27,8 +27,8 @@
 struct node* start = NULL;
 
 int main() {
-  // SetConsoleCP(1251);
-  // SetConsoleOutputCP(1251);
+  SetConsoleCP(1251);
+  SetConsoleOutputCP(1251);
   printf("\x1b[2J");
   int command = -1;
   while (command != 0) {
@@ -56,61 +56,71 @@ int main() {
     char name[256];
     Date dateBegin;
     Date dateEnd;
+    Balance minBalance;
+    Balance maxBalance;
     switch (command) {
       case 1:  // Добавление клиента
         addClient();
         break;
-      case 2:  // удалить клиента
+      case 2:
         printf("Введите клиента для удаления: ");
         fgets(name, 256, stdin);
         name[strlen(name) - 1] = '\0';
         removeClient(name);
         break;
-      case 3:  // Чтение данных о клиенте
+      case 3:
         printf("Введите клиента для получения данных: ");
         fgets(name, 256, stdin);
         name[strlen(name) - 1] = '\0';
         readDataClient(name);
         break;
-      case 4:  // редактирование данных о клиенте
+      case 4:
         printf("Введите клиента для изменения данных: ");
         fgets(name, 256, stdin);
         name[strlen(name) - 1] = '\0';
         editClient(name);
         break;
-      case 5:  // Добавление данных о клиенте (контакты)
+      case 5:
         printf("Введите клиента для добавления контакта: ");
         fgets(name, 256, stdin);
         name[strlen(name) - 1] = '\0';
         addContact(name);
         break;
-      case 6:  // Удаление данных о клиенте (контакты)
+      case 6:
         printf("Введите клиента для удаления контакта: ");
         fgets(name, 256, stdin);
         name[strlen(name) - 1] = '\0';
         removeContact(name);
         break;
-      case 7:  // Добавление услуги
+      case 7:
         printf("Введите клиента для добавления услуги: ");
         fgets(name, 256, stdin);
         name[strlen(name) - 1] = '\0';
         addService(name);
         break;
-      case 8:  // удаление услуги
+      case 8:
         printf("Введите клиента для удаления услуги: ");
         fgets(name, 256, stdin);
         name[strlen(name) - 1] = '\0';
         removeService(name);
         break;
-      case 9:  // TODO Получение списка клиентов в заданном интервале времени
+      case 9:  // Получение списка клиентов в заданном интервале времени
         printf("Введите начальную дату интервала: ");
         while (!readDate(&dateBegin)) {
         }
+
         printf("Введите конечную дату интервала: ");
         while (!readDate(&dateEnd)) {
         }
+        listOfClientsDateRange(&dateBegin, &dateEnd);
         break;
-      case 10:  // TODO Получение списка клиентов по характеристикам их счетов
+      case 10:  // Получение списка клиентов по характеристикам их счетов
+        printf("\nВведите данные для минимального баланса: ");
+        readBalance(&minBalance);
+
+        printf("\nВведите данные для максимального баланса: ");
+        readBalance(&maxBalance);
+        listOfClientsBalanceRange(&minBalance, &maxBalance);
         break;
       case 11:  // Получение списка всех клиентов
         puts("Список всех клиентов:");

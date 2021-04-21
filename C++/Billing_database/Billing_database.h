@@ -45,12 +45,13 @@ struct ContactDetails_t {
 
 struct Services_t {
   char service[150];       // Название услуги
-  int numService;          // номер
+  char numService[12];     // номер
   char groupNumbers[100];  // группа номеров
   char internet[50];       // Интернет
-  int sms;                 // SMS
+  char sms[12];            // SMS
   char specialOffer[100];  // спец. предложения
-  Date date;               // время оказания
+  // Тарифный план
+  Date date;  // время оказания
 };
 
 struct Balance_t {
@@ -122,9 +123,15 @@ void addService(const char*);
  */
 void removeService(const char*);
 
-// TODO Получение списка клиентов в заданном интервале времени
+/**
+ * @brief     Получение списка клиентов в заданном интервале времени
+ */
+void listOfClientsDateRange(const Date*, const Date*);
 
-// TODO Получение списка клиентов по характеристикам их счетов
+/**
+ * @brief     Получение списка клиентов по характеристикам их счетов
+ */
+void listOfClientsBalanceRange(const Balance*, const Balance*);
 
 /**
  * @brief     Получение списка всех клиентов
@@ -144,15 +151,20 @@ int checkDate(const Date*);
 int readDate(Date*);
 
 /**
- * @brief     Проверка номера телефона на валидность
+ * @brief     Проверка чисел на валидность
  * @return    int           int          0 -- неверный номер, 1 -- верный.
  */
-int checkPhone(char*, const int);
+int checkNumber(char*, const int);
 
 /**
- * @brief     Чтение номера телефона
+ * @brief     Чтение цифр из консоли
  */
-void readPhone(char*);
+void readNumber(char*);
+
+/**
+ * @brief     Чтение баланса
+ */
+void readBalance(Balance*);
 
 /**
  * @brief     Выход из программы.
