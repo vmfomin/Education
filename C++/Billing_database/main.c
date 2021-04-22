@@ -24,7 +24,7 @@
 
 #include "Billing_database.h"
 
-struct node* start = NULL;
+struct node* head = NULL;
 
 int main() {
   SetConsoleCP(1251);

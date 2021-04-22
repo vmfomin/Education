@@ -91,28 +91,29 @@ void addClient() {
   }
   temp->data = client;
   temp->next = NULL;
-  if (start == NULL) {
-    start = temp;
+  if (head == NULL) {
+    head = temp;
   } else {
-    struct node* ptr = start;
+    struct node* ptr = head;
     while (ptr->next != NULL) ptr = ptr->next;
     ptr->next = temp;
   }
 }
 
 void removeClient(const char* clientName) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет клиентов\n");
     return;
   }
 
-  struct node* ptr = start;
-  if (strcmp(clientName, start->data->name) == 0) {
-    start = start->next;
+  struct node* ptr = head;
+  struct node* temp = head;
+  if (strcmp(clientName, head->data->name) == 0) {
+    head = head->next;
     free(ptr);
   } else {
     while (ptr != NULL && strcmp(clientName, ptr->data->name) != 0) {
-      start = ptr;
+      temp = ptr;
       ptr = ptr->next;
     }
 
@@ -121,18 +122,19 @@ void removeClient(const char* clientName) {
       return;
     }
 
-    start->next = ptr->next;
+    temp->next = ptr->next;
     free(ptr->data);
+    free(ptr);
   }
 }
 
 void readDataClient(const char* clientName) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
 
-  struct node* ptr = start;
+  struct node* ptr = head;
   while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
     ptr = ptr->next;
 
@@ -180,12 +182,12 @@ void readDataClient(const char* clientName) {
 }
 
 void editClient(const char* clientName) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
 
-  struct node* ptr = start;
+  struct node* ptr = head;
   while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
     ptr = ptr->next;
 
@@ -339,12 +341,12 @@ void editClient(const char* clientName) {
 }
 
 void addContact(const char* clientName) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
 
-  struct node* ptr = start;
+  struct node* ptr = head;
   while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
     ptr = ptr->next;
 
@@ -382,12 +384,12 @@ void addContact(const char* clientName) {
 }
 
 void removeContact(const char* clientName) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
 
-  struct node* ptr = start;
+  struct node* ptr = head;
   while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
     ptr = ptr->next;
 
@@ -425,12 +427,12 @@ void removeContact(const char* clientName) {
 }
 
 void addService(const char* clientName) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
 
-  struct node* ptr = start;
+  struct node* ptr = head;
   while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
     ptr = ptr->next;
 
@@ -484,12 +486,12 @@ void addService(const char* clientName) {
 }
 
 void removeService(const char* clientName) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
 
-  struct node* ptr = start;
+  struct node* ptr = head;
   while (ptr != NULL && strcmp(ptr->data->name, clientName) != 0)
     ptr = ptr->next;
 
@@ -526,56 +528,56 @@ void removeService(const char* clientName) {
   }
 }
 
-  void listOfClientsDateRange(const Date* dateBegin, const Date* dateEnd) {
-    if (start == NULL) {
-      printf("\nНет данных");
-      return;
-    }
+void listOfClientsDateRange(const Date* dateBegin, const Date* dateEnd) {
+  if (head == NULL) {
+    printf("\nНет данных");
+    return;
+  }
 
-    int found = 0;
-    int nClients = 1;
-    struct node* ptr = start;
-    while (ptr != NULL) {
-      for (int i = 0; i < ptr->data->nServices; ++i) {
-        if (ptr->data->services[i].date.year >= dateBegin->year &&
-            ptr->data->services[i].date.year <= dateEnd->year &&
+  int found = 0;
+  int nClients = 1;
+  struct node* ptr = head;
+  while (ptr != NULL) {
+    for (int i = 0; i < ptr->data->nServices; ++i) {
+      if (ptr->data->services[i].date.year >= dateBegin->year &&
+          ptr->data->services[i].date.year <= dateEnd->year &&
 
-            ptr->data->services[i].date.month >= dateBegin->month &&
-            ptr->data->services[i].date.month <= dateEnd->month &&
+          ptr->data->services[i].date.month >= dateBegin->month &&
+          ptr->data->services[i].date.month <= dateEnd->month &&
 
-            ptr->data->services[i].date.day >= dateBegin->day &&
-            ptr->data->services[i].date.day <= dateEnd->day &&
+          ptr->data->services[i].date.day >= dateBegin->day &&
+          ptr->data->services[i].date.day <= dateEnd->day &&
 
-            ptr->data->services[i].date.time.hour >= dateBegin->time.hour &&
-            ptr->data->services[i].date.time.hour <= dateEnd->time.hour &&
+          ptr->data->services[i].date.time.hour >= dateBegin->time.hour &&
+          ptr->data->services[i].date.time.hour <= dateEnd->time.hour &&
 
-            ptr->data->services[i].date.time.minute >= dateBegin->time.minute &&
-            ptr->data->services[i].date.time.minute <= dateEnd->time.minute) {
-          printf("\nКлиент № %02d:\n", nClients);
-          readDataClient(ptr->data->name);
-          found = 1;
-          ++nClients;
-          break;
-        }
+          ptr->data->services[i].date.time.minute >= dateBegin->time.minute &&
+          ptr->data->services[i].date.time.minute <= dateEnd->time.minute) {
+        printf("\nКлиент № %02d:\n", nClients);
+        readDataClient(ptr->data->name);
+        found = 1;
+        ++nClients;
+        break;
       }
-      ptr = ptr->next;
     }
+    ptr = ptr->next;
+  }
 
-    if (!found) {
-      printf("\nНет клиентов удовлетворяющих условию.");
-      return;
-    }
+  if (!found) {
+    printf("\nНет клиентов удовлетворяющих условию.");
+    return;
+  }
 }
 
 void listOfClientsBalanceRange(const Balance* minimum, const Balance* maximum) {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
   printf("Список клиентов:\n");
   int found = 0;
   int nClients = 1;
-  struct node* ptr = start;
+  struct node* ptr = head;
   while (ptr != NULL) {
     if (ptr->data->balance.balance >= minimum->balance &&
         ptr->data->balance.balance <= maximum->balance &&
@@ -603,12 +605,12 @@ void listOfClientsBalanceRange(const Balance* minimum, const Balance* maximum) {
 }
 
 void listOfAllClients() {
-  if (start == NULL) {
+  if (head == NULL) {
     printf("\nНет данных");
     return;
   }
 
-  struct node* ptr = start;
+  struct node* ptr = head;
   int nClients = 1;
   while (ptr != NULL) {
     printf("\nКлиент № %02d:\n", nClients);
@@ -619,14 +621,14 @@ void listOfAllClients() {
 }
 
 void exitProgram() {
-  if (start != NULL) {
-    while (start->next != NULL) {
-      free(start->data);
-      start = start->next;
+  if (head != NULL) {
+    while (head->next != NULL) {
+      free(head->data);
+      head = head->next;
     }
-    free(start);
+    free(head);
   }
-  start = NULL;
+  head = NULL;
 }
 
 int checkDate(const Date* date) {

@@ -81,7 +81,7 @@ struct node {
   struct node* next;
 };
 
-extern struct node* start;
+extern struct node* head;
 
 /**
  * @brief     Добавление нового клиента.
