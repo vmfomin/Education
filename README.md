@@ -22,6 +22,7 @@
    - [Модуль 21](https://github.com/vmf0min/Education/tree/master/C%2B%2B/21_module)
    - [Модуль 22](https://github.com/vmf0min/Education/tree/master/C%2B%2B/22_module)
    - [Модуль 23](https://github.com/vmf0min/Education/tree/master/C%2B%2B/23_module)
+   - [Модуль 24](https://github.com/vmf0min/Education/tree/master/C%2B%2B/24_module)
    - [Алгоритмы](https://github.com/vmf0min/Education/tree/master/C%2B%2B/Algorithms)
    - [Биллинговая база](https://github.com/vmf0min/Education/tree/master/C%2B%2B/Billing_database)
    - [Книги](https://github.com/vmf0min/Education/tree/master/C%2B%2B/Books)  
