@@ -53,22 +53,21 @@ struct LandPlot_t {
 };
 
 struct Buildings_t {
-  // гараж, сарай (бытовка) и баня
   std::string type{"House"};
-  // TODO Печь с трубой для жилого здания или бани
+  std::string pipe{""};
   double area{};
-  int32_t nFloors{1};  // TODO от 1 до 3 для жилого дома
+  int32_t nFloors{1};
   std::vector<Floors> floors;
 };
 
 struct Floors_t {
-  int32_t nRooms{1};  // TODO 2–4 комнаты
+  int32_t nRooms{2};
   double height{};
   std::vector<Rooms> rooms;
 };
 
 struct Rooms_t {
-  std::string type{"Living"};  // TODO спальня, кухня, ванная, детская, гостиная
+  std::string type{"Living"};
   double area{};
 };
 
@@ -85,39 +84,71 @@ int main() {
     cout << "Enter the area of " << i + 1 << " land plot: ";
     cin >> land.area;
     cout << "Enter the number of buildings of " << i + 1 << " land plot: ";
-    cin >> land.nBuildings;
+    do cin >> land.nBuildings;
+    while (land.nBuildings < 1);
+
     for (size_t j = 0; j < land.nBuildings; ++j) {
       Buildings build;
       cout << "  Enter the type of " << j + 1 << " building: ";
-      cin >> build.type;
+      do cin >> build.type;
+      while (build.type != "house" && build.type != "garage" &&
+             build.type != "barn" && build.type != "shed" &&
+             build.type != "bathhouse");
+
+      if ("house" == build.type || "bathhouse" == build.type) {
+        cout << "  Is there a furnace with a pipe (yes/no)? ";
+        std::string answer;
+        cin >> answer;
+        "yes" == answer ? build.pipe = "pipe" : build.pipe = "";
+      }
+
       cout << "  Enter the area of " << j + 1 << " building: ";
-      cin >> build.area;
-      // TODO проверка на размер дома, должен быть меньше участка.
-      cout << "  Enter the number of floors of " << j + 1 << " building: ";
-      cin >> build.nFloors;
-      for (size_t k{}; k < build.nFloors; ++k) {
-        Floors floor;
-        cout << "    Enter the height of rooms on the " << k + 1 << " floor:";
-        cin >> floor.height;
-        cout << "    Enter the number of rooms: on the " << k + 1 << " floor: ";
-        cin >> floor.nRooms;
-        for (size_t h = 0; h < floor.nRooms; ++h) {
-          Rooms room;
-          cout << "      Enter the type of the " << h + 1 << " room: ";
-          cin.ignore();
-          std::getline(cin, room.type);
-          cout << "      Enter the area of the " << h + 1 << " room: ";
-          cin >> room.area;
-          cout << endl;
-          // TODO проверка на размер квартиры, должена быть меньше дома.
-          floor.rooms.push_back(room);
+      do cin >> build.area;
+      while (build.area > land.area);
+
+      if ("house" == build.type) {
+        cout << "  Enter the number of floors of " << j + 1 << " building: ";
+        do cin >> build.nFloors;
+        while (build.nFloors < 1 || build.nFloors > 3);
+        for (size_t k{}; k < build.nFloors; ++k) {
+          Floors floor;
+          cout << "    Enter the height of rooms on the " << k + 1
+               << " floor: ";
+          cin >> floor.height;
+
+          cout << "    Enter the number of rooms: on the " << k + 1
+               << " floor: ";
+          do cin >> floor.nRooms;
+          while (floor.nRooms < 2 || floor.nRooms > 4);
+          for (size_t h = 0; h < floor.nRooms; ++h) {
+            Rooms room;
+            cout << "      Enter the type of the " << h + 1 << " room: ";
+            do cin >> room.type;
+            while (room.type != "bedroom" && room.type != "kitchen" &&
+                   room.type != "bathroom" && room.type != "children's" &&
+                   room.type != "living");
+            cout << "      Enter the area of the " << h + 1 << " room: ";
+            do cin >> room.area;
+            while (room.area > build.area);
+            floor.rooms.push_back(room);
+          }
+          build.floors.push_back(floor);
         }
-        build.floors.push_back(floor);
       }
       land.builds.push_back(build);
     }
     village.landPlot.push_back(land);
   }
+
+  double sumLandArea{}, sumBuildsArea{};
+  for (size_t i{}; i < village.nLandPlots; ++i) {
+    sumLandArea += village.landPlot[i].area;
+    for (size_t j{}; j < village.landPlot[i].nBuildings; ++j)
+      sumBuildsArea += village.landPlot[i].builds[j].area;
+  }
+
+  cout << "\nOccupied area of houses is " << sumBuildsArea / sumLandArea * 100
+       << "%" << endl;
 
   cout << "\x1b[0m";
   return 0;
