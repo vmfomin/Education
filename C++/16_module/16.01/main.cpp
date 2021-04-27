@@ -1,61 +1,76 @@
 /**
- * @file main.cpp
- * @author vmf0min (vlifom@yandex.ru)
- * @brief Задача 1.
- * Пользователь вводит с клавиатуры число n, далее -- n целых чисел, которые
- * нужно записать в вектор. Потом пользователь вводит ещё одно значение. Нужно
- * удалить из вектора все элементы, которые равны данному значению, и вывести
- * итоговое состояние вектора Пример: Пользователь ввёл 5, потом числа 1, 3, 3,
- * 5, 1. И потом -- число 3. Необходимо, чтобы в векторе остались числа 1, 5, 1,
- * которые надо вывести их на экран.
- * @version 0.1
- * @date 22-01-2021
+ * @file      main.cpp
+ * @author    vmf0min (vlifom@yandex.ru)
+ * @brief     Задача 1. Спидометр
+ * Надо реализовать цифровой спидометр автомобиля. Сама модель автомобиля,
+ * которую нужно будет воссоздать весьма проста. Начальная скорость - 0 км/ч.
+ * Пользователь вводит в стандартный ввод разницу (дельту) в скорости и
+ * результирующая скорость показывается на спидометре в стандартный вывод. Так
+ * происходит до той поры, пока машина снова не остановится, т.е. пока скорость
+ * не станет меньше или равна нулю (сравнение должно происходить с дельтой в
+ * 0.01). Диапазон возможных значений скорости машины от 0 до 150 км/ч. Сам
+ * показатель спидометра, вместе с единицами измерения, требуется записывать в
+ * отдельную строку-буфер, которая потом и будет показываться на экране.
+ * Точность отображения скорость до 0.1 км/ч.
+ * @version   0.1
+ * @date      04-03-2021
  * @copyright Copyright (c) 2021
  */
 
+#include <iomanip>
 #include <iostream>
-#include <vector>
+#include <sstream>
+
+/**
+ * @brief     comparison of fractional numbers
+ * @param     a             first number
+ * @param     b             second number
+ * @param     absEpsilon    absolute epsilon
+ * @param     relEpsilon    relative epsilon
+ * @return    true          equal
+ */
+bool isEqualFloat(double a, double b, double absEpsilon = 1e-12,
+                  double relEpsilon = 1e-8) {
+  using std::abs;
+  double diff = abs(a - b);
+  if (diff <= absEpsilon) return true;
+
+  // Knuth algorithm
+  return diff <= ((abs(a) < abs(b) ? abs(b) : abs(a)) * relEpsilon);
+}
 
 int main() {
-  std::cout << "\e[2J\e[37mHow many integers? ";
-  int num;
-  std::cin >> num;
+  using std::cin;
+  using std::cout;
+  cout << "\x1b[2J";
 
-  // Объявление вектора.
-  std::vector<int> vectorInt(num);
+  std::stringstream speedometr;
+  double currentSpeed{0.};
+  do {
+    cout << "Enter speed:\t";
+    double speed;
+    cin >> speed;
+    currentSpeed += speed;
 
-  std::cout << "Enter the numbers in the vector: ";
-  for (auto& vec : vectorInt) std::cin >> vec;
-
-  // Чтобы вывести на экран 2 вида решения.
-  std::vector<int> tempVector(vectorInt);
-
-  std::cout << "Enter which number should be erased? ";
-  int eraseNumber;
-  std::cin >> eraseNumber;
-
-  std::cout << "\e[32mErased by simple algorithm: ";
-  for (auto i{vectorInt.begin()}; i != vectorInt.end(); ++i) {
-    if (*i == eraseNumber) {
-      vectorInt.erase(i);
-      // т.к. итератор (указатель) начинает смотреть на следующий элемент после
-      // удаления, поэтому переношу его на 1 значение раньше, чтобы удалял
-      // повторяющиеся элементы. И если это не сделать, то будет ошибка:
-      // обращение за пределы области вектора.
-      --i;
+    if (currentSpeed > 150 || isEqualFloat(currentSpeed, 150., 0.01)) {
+      cout << "\x1b[31mThis is more than maximum speed! Slowdown!\x1b[0m\n";
+      currentSpeed -= speed;
+      continue;
     }
-  }
 
-  for (const auto &vec : vectorInt) std::cout << vec << " ";
+    if (currentSpeed < 0 || isEqualFloat(currentSpeed, 0., 0.01)) {
+      speedometr << 0. << "\x1b[32m\tKm/h\x1b[0m\n";
+      break;
+    }
 
-  vectorInt = tempVector;  // Возвращаем исходные значения.
+    speedometr << std::fixed << std::setprecision(1) << currentSpeed
+               << "\x1b[32m\tKm/h\x1b[0m\n";
+    cout << "Current speed\x1b[36m\t" << currentSpeed << "\x1b[0m\n\n";
+  } while (true);
 
-  std::cout << "\nErased by C++20:\t    ";
-  std::erase(vectorInt, eraseNumber);
+  cout << "\x1b[2JSpeedometer:\n";
+  cout << speedometr.str();
 
-  for (const auto &vec : vectorInt) std::cout << vec << " ";
-
-  std::cout << "\e[37m\n";
-
+  cout << "\n";
   return 0;
 }

@@ -1,56 +1,60 @@
 /**
- * @file main.cpp
- * @author vmf0min (vlifom@yandex.ru)
- * @brief Задача 3.
- * В базу данных, являющуюся вектором, с клавиатуры приходят целочисленные
- * значения, и помещаются в конец. Однако, эта база может хранить только 20
- * элементов, а дальше необходимо будет удалять элементы, которые лежат в базе
- * дольше всех.
- * При вводе -1 с клавиатуры необходимо вывести всё содержимое базы данных (то
- * есть 20 или менее элементов). При выводе элементы должны быть в том порядке,
- * в котором они добавлялись в базу данных. Попробуйте написать максимально
- * оптимизированное решение данной задачи, чтобы совершалось как можно меньше
- * расширений и перемещений элементов внутри вектора.
- * @version 0.1
- * @date 25-01-2021
+ * @file      main.cpp
+ * @author    vmf0min (vlifom@yandex.ru)
+ * @brief     Задача 3. Калькулятор.
+ * Требуется создать небольшую программу для вычисления простых действий с
+ * числами. При запуске программа ожидает пользовательского ввода во
+ * временную переменную строку. После ввода строки, она распарсивается на
+ * отдельные члены. Строка записывается в форме “<число-1><действие><число-2>”
+ * (без пробелов). Оба числа - это значения с плавающей точкой, повышенной
+ * точности (double). Действие может быть одним из: +, -, /, *. Результат
+ * действия выводится в стандартный вывод cout.
+ * @version   0.1
+ * @date      09-03-2021
  * @copyright Copyright (c) 2021
  */
 
+#include <iomanip>
 #include <iostream>
-#include <vector>
+#include <sstream>
 
 int main() {
-  std::cout << "\e[2J";
-  std::vector<int> vectorInt;
+  using std::cin;
+  using std::cout;
+  cout << "\x1b[2J";
 
-  int num{};
-  while (true) {
-    std::cout << "\e[37mEnter the numbers in the vector: \e[32m";
-    std::cin >> num;
-    std::cout << "\e[37m";
+  cout << "Enter expression: ";
+  std::string expression;
+  cin >> expression;
 
-    if (-1 == num) {
-      if (vectorInt.empty()) {
-        std::cout << "\e[31mThe vector is empty!\e[37m\n";
-        continue;
-      }
+  std::stringstream expressionStream{expression};
 
-      std::cout << "All elements of the vector: \e[32m";
-      for (const auto& vec : vectorInt) std::cout << vec << " ";
-      std::cout << "\e[37m";
+  char operation{};
+  double a{};
+  double b{};
+
+  expressionStream >> a;
+  expressionStream >> operation;
+  expressionStream >> b;
+
+  cout << std::setprecision(15);
+  switch (operation) {
+    case '+':
+      cout << "Sum = " << a + b;
       break;
-    }
-
-    if (vectorInt.size() < 20) {
-      vectorInt.push_back(num);
-    } else {
-      vectorInt.erase(vectorInt.begin());
-      vectorInt.push_back(num);
-      vectorInt.shrink_to_fit();
-    }
+    case '-':
+      cout << "Subtraction = " << a - b;
+      break;
+    case '*':
+      cout << "Multiplication = " << a * b;
+      break;
+    case '/':
+      cout << "Division = " << a / b;
+      break;
+    default:
+      break;
   }
 
-  std::cout << "\n";
-
+  cout << "\n";
   return 0;
 }

@@ -1,76 +1,195 @@
-/// Задача 4. Игрушечная история
-// Вы решили открыть бизнес по производству игровых деревянных кубиков для детей.
-// Вы узнали, что лучше всего продаются кубики со стороной 5 сантиметров в
-// наборах по несколько штук, причём кубиков в наборе должно быть достаточно,
-// чтобы сложить из них один большой куб. Для изготовления кубиков к вам в
-// мастерскую поступают деревянные бруски в форме прямоугольных параллелепипедов
-// любых размеров.
-// Для оптимизации бизнес-процессов напишите программу, которая по заданным
-// размерам исходного бруска определяет, сколько кубиков из него можно изготовить,
-// можно ли из них составить набор для продажи, и если можно, то максимальное
-// число кубиков в этом наборе. Все кубики должны быть из цельного дерева без
-// использования клея. Размеры бруска — вещественные числа.
-// Обеспечьте контроль ввода.
-// Пример
-/*
-Ввод:
-Введите размеры бруска
-X: 5;
-Y: 35.76;
-Z: 35.05.
-Вывод:
-Из этого бруска можно изготовить 49 кубиков.
-Из них можно составить набор из 27 кубиков.
-*/
+/**
+ * @file main.cpp
+ * @author vmf0min (vlifom@yandex.ru)
+ * @brief Задача 4. Проверка корректности IP-адреса.
+ * На этот раз вам нужно проверить, задает ли введенная пользователем строка
+ * корректный IP-адрес. IP-адрес должен представлять из себя 4 числа,
+ * разделенных точками без пробелов, причем каждое число должно быть в диапазоне
+ * от 0 до 255 включительно. Числа не должны содержать ведущих нулей. Других
+ * символов в строке, кроме вышеописанных, присутствовать не должно.
+ * Пользователь вводит строку, задающую email-адрес. Программа должна вывести
+ * слово Yes, если адрес корректен, а в противном случае - слово No.
+ * @version 0.1
+ * @date 01-02-2021
+ * @copyright Copyright (c) 2021
+ */
 
 #include <iostream>
-#include <cmath>
+#include <vector>
 
-int main() {
-  std::cout << "Ввод:\nВведите размеры бруска\n";
-  std::cout << "X: ";
-  float x;
-  std::cin >> x;
+/*****************Signatures*****************/
+/**
+ * @brief Counts of the dots and search dots in a row in IP address.
+ * @param str ip-address.
+ * @return true 3 dots and not dots in a row in the ip.
+ */
+bool dotsCheck(const std::string& str);
 
-  std::cout << "Y: ";
-  float y;
-  std::cin >> y;
+/**
+ * @brief Check ip address numbers
+ * @param strIn string to console
+ * @return true numbers correct.
+ * @return false
+ */
+bool checkIpNumbers(const std::string& strIn);
 
-  std::cout << "Z: ";
-  float z;
-  std::cin >> z;
+/**
+ * @brief check examples ip address in the loop.
+ */
+void checkIpAddress();
 
-  if (x < 5 || y < 5 || z < 5) {
-    std::cout << "Одна из сторон меньше 5 см!\n";
-    return -1;
+/**
+ * @brief check user's ip address.
+ * @param str
+ */
+void checkIpAddress(const std::string& str);
+
+/**
+ * @brief Search char in ip
+ * @param str ip
+ * @return true found
+ */
+bool isChar(const std::string& str);
+
+/*****************Functions*****************/
+
+bool dotsCheck(const std::string& str) {
+  int dots{};
+  for (auto i{str.begin()}; i != str.end(); ++i) {
+    if ('.' == *i) ++dots;
+    if (i != str.end() - 1 && '.' == *i && '.' == *(i + 1)) {
+      std::cerr << str << "\t"
+                << "\e[31mError: dots in a row.\e[37m\n";
+      return false;
+    }
   }
 
-  // Отсекаем дробную часть.
-  x = std::floor(x);
-  y = std::floor(y);
-  z = std::floor(z);
+  if (dots != 3) {
+    std::cerr << str << "\t"
+              << "\e[31mError: Not 3 dots in the IP.\e[37m\n";
+    return false;
+  }
 
-  // Учитываю лишние см для вырезания 1 кубика.
-  int excessX = static_cast<int>(x) % 5;
-  int excessY = static_cast<int>(y) % 5;
-  int excessZ = static_cast<int>(z) % 5;
+  return true;
+}
 
-  // Находим объем бруска с учетом излишков материала и делим его на
-  // кубик 5 * 5 * 5 см.
-  int cubes = static_cast<int>((x - static_cast<float>(excessX)) *
-                               (y - static_cast<float>(excessY)) *
-                               (z - static_cast<float>(excessZ)) /
-                               powf(5, 3));
-  std::cout << "Вывод:\nИз этого бруска можно изготовить " << cubes
-            << " кубиков.\n";
+bool isChar(const std::string& str) {
+  for (auto& i : str) {
+    if (i >= '0' && i <= '9' || '.' == i) {
+    } else {
+      std::cerr << str << "\t"
+                << "\e[31mError: NaN in part of IP\e[37m\n";
+      return false;
+    }
+  }
 
-  // Извлекаю кубический корень из всего количества кубиков. Отсекаю дробную
-  // часть (можно при желании статик_каст<инт>). Возвожу в куб. Получаю набор.
-  int set = std::pow(std::floor(std::cbrt(cubes)), 3);
+  return true;
+}
 
-  set <= 1 ? std::cout << "Нельзя составить набор из 1 кубика.\n"
-           : std::cout << "Из них можно составить набор из " << set
-                       << " кубиков.\n";
+bool checkIpNumbers(const std::string& strIn) {
+  std::string str{strIn};
+  std::string partOfIpStr{};
+  int partOfIp{};
+  int pos{};
+
+  while (pos != -1) {
+    pos = str.find('.');
+    partOfIpStr = str.substr(0, pos);
+
+    if (partOfIpStr.length() > 1 && '0' == partOfIpStr[0]) {
+      std::cerr << strIn << "\t"
+                << "\e[31mError: there are leading zeros\e[37m\n";
+      return false;
+    }
+
+    partOfIp = std::stoi(partOfIpStr);
+
+    if (partOfIp < 0) {
+      std::cerr << strIn << "\t"
+                << "\e[31mError: part of IP less than 0\e[37m\n";
+      return false;
+    } else if (partOfIp > 255) {
+      std::cerr << strIn << "\t"
+                << "\e[31mError: part of IP greater than 255 \e[37m\n";
+      return false;
+    }
+
+    str.erase(str.begin(), str.begin() + pos + 1);
+  }
+  return true;
+}
+
+void checkIpAddress() {
+  std::vector<std::string> ipAddresses{
+      "127.0.0.1",       "255.255.255.255", "1.2.3.4",     "55.77.213.101",
+      "255.256.257.258", "0.55.33.22.",     "10.00.000.0", "23.055.255.033",
+      "65.123..9",       "a.b.c.d",
+  };
+
+  // Check ip addresses in the loop.
+  for (auto i_ip{ipAddresses.begin()}; i_ip != ipAddresses.end(); ++i_ip) {
+    checkIpAddress(*i_ip);
+  }
+}
+
+void checkIpAddress(const std::string& str) {
+  if (str.length() > 15) {
+    std::cerr << str << "\t"
+              << "\e[31mError: ip Length more than 15 digits.\e[37m\n";
+    return;
+  }
+
+  if (!isChar(str)) return;
+
+  if (!dotsCheck(str)) return;
+
+  if (!checkIpNumbers(str)) return;
+
+  std::cout << str << "\t\e[32mYes\e[37m\n";
+}
+
+int main() {
+  std::cout << "\e[2J";
+
+  std::cout << "\e[2JDo you want to check IP-address or see examples?\n"
+            << "1 - check your IP-address.\n"
+            << "2 - see the examples.\n";
+
+  int choice;
+  do {
+    std::cout << "Enter your choice: ";
+    std::string choiceStr;
+    std::cin >> choiceStr;
+
+    try {
+      choice = std::stoi(choiceStr);
+    } catch (const std::exception& e) {
+      std::cerr << "\e[31mError in the entered number.\e[37m\n";
+    }
+
+    if (1 == choice || 2 == choice)
+      break;
+    else
+      std::cout << "\e[31mEnter the number 1 or 2\e[37m\n";
+  } while (true);
+
+  std::cout << "\n";
+  std::string ip;
+  switch (choice) {
+    case 1:
+      std::cout << "Enter the IP:\e[32m ";
+      std::cin >> ip;
+      checkIpAddress(ip);
+      std::cout << "\e[37m";
+      break;
+
+    case 2:
+      checkIpAddress();
+      break;
+
+    default:
+      break;
+  }
 
   return 0;
 }

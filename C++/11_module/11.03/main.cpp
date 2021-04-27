@@ -1,125 +1,108 @@
-/// Задача 3. Immolate Improved!
-// Мы придумываем фэнтезийную онлайн-игру в жанре RPG. В орка стреляют огненными
-// шарами разной степени мощности, но у него есть очки здоровья и показатель
-// сопротивляемости магии. Очки здоровья, сопротивляемость магии и мощность
-// огненного шара — это вещественные числа от нуля до единицы включительно. Чем
-// больше мощность, тем больше урон здоровью, но чем больше сопротивляемость магии,
-// тем урон меньше. Например, если сопротивляемость равна нулю (0%), то будет
-// нанесен урон равный мощности огненного шара. Если сопротивляемость равна единице
-// (100%), урон будет равен нулю, даже если мощность заклинания максимальна.
-// Напишите программу, в которой пользователь сначала задаёт количество здоровья
-// и сопротивляемость магии орка, а после стреляет в него огненными шарами разной
-// мощности, пока орк не погибнет. Мощность удара вводится с клавиатуры с каждым
-// выстрелом. После каждого заклинания программа выводит на экран итоговый урон
-// от удара, и оставшиеся очки здоровья орка.
-// Обеспечьте контроль ввода.
+/**
+ * @file main.cpp
+ * @author vmf0min (vlifom@yandex.ru)
+ * @brief Задача 3. Проверка корректности email-адреса.
+ * Напишите программу, которая проверяет корректность email-адреса, введенного
+ * пользователем.
+ * Согласно международным требованиям, корректный email-адрес должен состоять из
+ * двух частей, разделенных знаком @. Первая часть должна иметь длину не менее 1
+ * и не более 64 символов, вторая часть - не менее 1 и не более 63 символов. Из
+ * символов допускаются только английские буквы, цифры и знак - (дефис), а также
+ * точка. Точка не может быть первым или последним символом, а кроме того, две
+ * точки не могут идти подряд. В первой части (которая предшествует символу @),
+ * кроме вышеперечисленных, разрешены еще следующие символы: !#$%&'*+-/=?^_`{|}~
+ * Пользователь вводит строку, задающую email-адрес. Программа должна вывести
+ * слово Yes, если адрес корректен, а в противном случае - слово No.
+ * @version 0.1
+ * @date 27-01-2021
+ * @copyright Copyright (c) 2021
+ */
 
-#include <iostream>
+#include "EmailValidCheck.h"
 
-/// Статы орка и расчет влияния урона по персонажу.
-class Ork {
-public:
-    /// Констркутор по умолчанию.
-    Ork() : name_{"Thrall"}, healthPoint_{1}, magicResistance_{0} {}
+/**
+ * @brief user email address check
+ */
+void userEmailCheck() {
+  std::cout << "Enter the email address to check: \e[32m";
+  std::string email;
+  std::cin >> email;
 
-    /// Конструктор.
-    /// \param name -- имя орка
-    /// \param healthPoint -- количество hp.
-    /// \param magicResistance -- сопротивление магии.
-    // Освежил знания передачи в метод (функцию) по ссылкам и указателям, по
-    // значению.
-    Ork(std::string &name, float healthPoint, float magicResistance)
-        : name_{name},
-          healthPoint_{healthPoint},
-          magicResistance_{magicResistance} {}
+  std::cout << "\e[37m";
+  EmailValidCheck error(email);
+  std::cout << error.getEmail() << "  ";
+  if (!error.testEmail()) std::cout << "\e[32mYes\e[37m\n";
+}
 
+/**
+ * @brief example emails to check
+ */
+void examplesEmailCheck() {
+  std::vector<std::string> exampleEmails{
+      "simple@example.com",
+      "very.common@example.com",
+      "disposable.style.email.with+symbol@example.com",
+      "other.email-with-hyphen@example.com",
+      "fully-qualified-domain@example.com",
+      "user.name+tag+sorting@example.com",
+      "x@example.com",
+      "example-indeed@strange-example.com",
+      "admin@mailserver1",
+      "example@s.example",
+      "mailhost!username@example.org",
+      "user%example.com@example.org",
+      "example-indeed@strange-example.com",
+      "John..Doe@example.com",
+      "Abc.example.com",
+      "A@b@c@example.com",
+      "a\"b(c)d,e:f;g<h>i[jk]l@example.com",
+      "1234567890123456789012345678901234567890123456789012345678901234+x@"
+      "example.com",
+      "i_like_underscore@but_its_not_allow_in _this_part.example.com",
+      "18904+6@"
+      "12512557124124214124214214890123456789012345678901234567890example.com",
+  };
 
-    /// Метод расчета урона от огненого шара.
-    /// \param fireball -- входящий урон
-    // чтобы не плодить переменные исправляю (добавляю резист) значению полученному
-    // по ссылке.
-    inline void computeDamage(float &fireball) {
-      healthPoint_ -= fireball *= (1 - magicResistance_);
-      std::cout << "По орку " << name_ << " нанесено урона " << fireball * 100
-                << "\n";
-    }
-
-
-    /// Метод вывода на экран текущих характеристик орка
-    inline void printStats() const {
-      std::cout << "Орк по имени " << name_ << " имеет "
-                << healthPoint_ * 100 << " % очков здоровья и "
-                << magicResistance_ * 100 << " % сопротивления магии\n";
-    }
-
-
-    /// Метод вывода на экран титров после смерти орка.
-    void printTitre() {
-      std::cout << "\nСын Орды по имени " << name_ << " пал в бою! Он бился"
-                                                      " с честью!\n";
-
-      // Почитание предков и все такое... Но это уже мои доразмышлизмы)))
-      std::cout << "Вождем было принято решение дать ему посмертное звание! Какое "
-                   "звание дадим храброму орку? ";
-      std::string rank;
-      // Составное звание, например, " - Герой Орды".
-      std::cin.ignore(80, '\n');
-      std::getline(std::cin, rank);
-
-      name_ += " - " + rank;
-
-      std::cout << "Отныне его будут звать " << name_ << "\nЛок’тар огар!\n";
-    }
-
-
-    /// Возврат текущего здоровья орка.
-    /// \return Здоровье орка.
-    float getHealthPoint() const { return healthPoint_; }
-
-
-    /// Деструктор
-    virtual ~Ork() = default;
-
-private:
-    std::string name_; // Имя орка.
-    float healthPoint_; // Количество hp.
-    float magicResistance_; // Сопротивление магии.
-};
+  std::cout << "\nChecking for valid example emails:\n\n";
+  EmailValidCheck example(exampleEmails);
+}
 
 int main() {
-  std::cout << "Введите имя, количество здоровья и сопротивление магии орка: ";
-  std::string name;
-  float healthPoint, magicResistance;
-  std::cin >> name >> healthPoint >> magicResistance;
-  std::cout << "\n";
+  std::cout << "\e[2JDo you want to check email address or see examples?\n"
+            << "1 - check your email address.\n"
+            << "2 - see the examples.\n";
 
-  if (healthPoint > 1 || magicResistance > 1) {
-    std::cout << "Значения здоровья и сопротивления магии должны быть "
-                 "от 0 до 1!\n";
-    return -1;
-  }
-
-  // Создаю орка.
-  Ork ork{name, healthPoint, magicResistance};
-  ork.printStats();
-
-  // Цикл нанесения урона.
-  float fireball{};
+  int choice;
   do {
-    std::cout << "Введите урон от огненного шара: ";
-    std::cin >> fireball;
+    std::cout << "Enter your choice: ";
+    std::string choiceStr;
+    std::cin >> choiceStr;
+    // Т.к. могут ввести случайно строку вместо цифр, и тогда программа уходит в
+    // бесконечный цикл.
+    try {
+      choice = std::stoi(choiceStr);
+    } catch (const std::exception& e) {
+      std::cerr << "\e[31mError in the entered number.\e[37m\n";
+    }
 
-    if (fireball <= 1) {
-      ork.computeDamage(fireball);
-      // Выводим пока не убили. Как только убили перестаем выводить.
-      // И так понятно что будет или - или 0 в hp.
-      if (ork.getHealthPoint() > 0)
-        ork.printStats();
-    } else
-      std::cout << "Урон от огненного шара должен быть меньше 1!\n";
-  } while (ork.getHealthPoint() > 0);
+    if (1 == choice || 2 == choice)
+      break;
+    else
+      std::cout << "\e[31mEnter the number 1 or 2\e[37m\n";
+  } while (true);
 
-  ork.printTitre();
+  switch (choice) {
+    case 1:
+      userEmailCheck();
+      break;
+
+    case 2:
+      examplesEmailCheck();
+      break;
+
+    default:
+      break;
+  }
 
   return 0;
 }

@@ -1,73 +1,36 @@
-/// 3. Длинное вещественное число
-/*Вы решили разработать программу-калькулятор, которая складывает числа сколь
-угодно большой длины. Для этого вы планируете работать с ними как со строками.
-Первая проблема, с которой вы столкнулись, — по данной строке нужно понять,
-является она корректной записью вещественного числа или нет.
-Корректной записью считается запись, удовлетворяющая следующим условиям. Первым
-символом в ней должна быть либо цифра, либо знак минус. После этого может идти
-еще несколько цифр (возможно, ни одной). Затем может идти точка, отделяющая
-целую часть от дробной. До точки может и не быть цифр. В таком случае считается,
-что до точки стоит 0. После точки еще несколько цифр (возможно, ни одной). Хотя
-бы одна цифра в записи числа должна присутствовать. (Для простоты в этой задаче
-мы не будем рассматривать числа в экспоненциальной записи, такие как 1.2e-3.)
-Напишите программу, которая получает от пользователя строку и выводит в ответ
-Yes, если эта строка корректно задает вещественное число, в противном случае
-выводит No.
-
-Примеры корректных записей:
-0123
-00.000
-.15
-165.
-999999999999999999999999999999999.999999999999999999999
--1.0
--.35
-Примеры некорректных записей:
-1.2.3 (десятичная точка может быть только одна)
--. (должна быть хотя бы одна цифра в записи)
-11e-3 (мы не разрешаем использовать символ e в записи)
-+25 (мы не разрешаем использовать символ + в записи)*/
+/* Задача 3. Уровень самоизоляции
+В одной отдельно взятой пятиэтажке проживает N зарегистрированных жильцов -
+данное число требуется ввести с самого начала программы. На каждом из этажей
+сейчас находится Ni людей. Это число также требуется ввести вначале. Используя
+все эти данные требуется вычислить общий уровень самоизоляции в доме, как
+процентное отношение общего числа людей, которые сейчас находятся на этажах к
+общему количеству жильцов, зарегистрированных в нём. Для этого можно
+использовать формулу: (сумма Ni * 100) / N */
 
 #include <iostream>
 
 int main() {
-  std::cout << "Enter a number: ";
-  std::string number;
-  std::cin >> number;
+  std::cout << "How many residents live in a five-story building? ";
+  int residents;
+  std::cin >> residents;
 
-  // Количество плавающих точек. Должно быть максимум 1. Иначе ошибка.
-  int floatingPointCount{};
+  int peopleOnTheFloors[5]{};
 
-  // Есть ли цифры в числе.
-  bool isContainNumbers{};
-  bool isCorrectNumber{};
-  for (int i = 0; i < number.length(); ++i) {
-    if (number[i] >= '0' && number[i] <= '9') {
-      // Чтобы не переприсваивать переменную.
-      if (!isCorrectNumber) isCorrectNumber = true;
-      isContainNumbers = true;
-    } else if (number[i] == '-' && i == 0) {
-      isCorrectNumber = true;
-    } else if (number[i] == '.') {
-      ++floatingPointCount;
-      if (floatingPointCount > 1) {
-        isCorrectNumber = false;
-        break;
-      }
-      isCorrectNumber = true;
-    } else if (number[i] == '+') {
-      isCorrectNumber = false;
-      break;
-    } else if (number[i] == 'e') {
-      isCorrectNumber = false;
-      break;
-    } else {
-      isCorrectNumber = false;
-      break;
-    }
+  for (size_t i{}; i < 5; ++i) {
+    std::cout << "How many people are on the " << i + 1 << " floor right now? ";
+    std::cin >> peopleOnTheFloors[i];
   }
 
-  std::cout << (isCorrectNumber && isContainNumbers ? "Yes" : "No");
+  int sumFloorResidents{};
+  for (const int &people : peopleOnTheFloors) sumFloorResidents += people;
+
+  float selfIsolationPercent = sumFloorResidents * 100 / residents;
+
+  selfIsolationPercent > 100
+      ? std::cout << "The house has more people than residents by "
+                  << selfIsolationPercent - 100 << " percent!!!\n"
+      : std::cout << "Percentage of self-isolation in the house "
+                  << selfIsolationPercent << "\n";
 
   return 0;
 }

@@ -1,73 +1,47 @@
 /**
  * @file      main.cpp
  * @author    vmf0min (vlifom@yandex.ru)
- * @brief     Задача 3
- * С клавиатуры вводятся числа. Когда пользователь вводит -1 -- необходимо
- * выводить на экран пятое по возрастанию число среди введённых. Когда
- * пользователь вводит -2 -- программа завершает работу.
- * Пример:
- * ввод: 7 5 3 1 2 4 6 -1
- * вывод: 5 (в отсортированном виде массив выглядит так: {1,2,3,4,5,6,7})
- * ввод: 1 1 1 -1
- * вывод: 2 (в отсортированном виде массив выглядит так: {1,1,1,1,2,3,4,5,6,7})
- * ввод -2
- * завершение программы
+ * @brief     Задача 3.
+ * Кролик сидит на нулевой ступеньке большой лестницы. Он может прыгать на одну
+ * или более ступенек вверх, но не далее чем на k. Кролик хочет допрыгать до n-й
+ * ступеньки, но может сделать это большим количеством способов. Напишите
+ * рекурсивную функцию, которая принимает число n типа int и число k —
+ * максимальную длину прыжка, а возвращает количество способов, которым кролик
+ * может доскакать до n-й ступеньки. Если максимальная длина прыжка не задана —
+ * считать её равной трём.
  * @version   0.1
- * @date      03-03-2021
+ * @date      17-03-2021
  * @copyright Copyright (c) 2021
  */
 
+#include <cmath>
 #include <iostream>
-#include <vector>
 
-/**
- * @brief     Quick sorting
- * @tparam    T             Input class
- * @param     array         sorting vector
- * @param     last          length of part
- * Реализовал для практики через итератор на вход.
- */
-template <class T>
-void quickSort(T array, int64_t last) {
-  int64_t i{};
-  int64_t j{last};
-  auto pivot = *(array + (last >> 1));
+using std::cin;
+using std::cout;
+using std::endl;
 
-  while (i <= j) {
-    while (*(array + i) < pivot) ++i;
-    while (*(array + j) > pivot) --j;
-    if (i <= j) std::swap(*(array + i++), *(array + j--));
-  }
-  if (j > 0) quickSort(array, j);
-  if (last > i) quickSort(array + i, last - i);
+int rabbitStep(int32_t n, int32_t k = 3) {
+  if (0 == n) return 1;
+  int countSteps{};
+  for (int i{1}; i <= std::min(n, k); ++i) countSteps += rabbitStep(n - i, k);
+  return countSteps;
 }
 
 int main() {
-  using std::cout;
-  using std::vector;
   cout << "\x1b[2J";
+  cout << "Enter the number of steps: ";
+  int32_t n;
+  cin >> n;
+  n = std::abs(n);
+  cout << "Number of ways with default k:\t" << rabbitStep(n) << endl;
+  cout << endl;
+  
+  cout << "Enter max step: ";
+  int32_t k;
+  cin >> k;
+  cout << "Number of ways with k = " << k << ":\t" << rabbitStep(n, k) << endl;
 
-  vector<int32_t> vec;
-  cout << "Enter numbers: ";
-  do {
-    int32_t temp;
-    std::cin >> temp;
-    if (-1 == temp && vec.size() > 4) {
-      quickSort(vec.begin(), vec.size() - 1);
-      cout << "number at index [4]: " << vec[4] << "\n";
-      cout << "Enter numbers: ";
-      continue;
-    }
-
-    if (-2 == temp) {
-      cout << "Shutdown\n";
-      break;
-    }
-
-    if (temp != -1) vec.push_back(temp);
-  } while (true);
-
-  cout << "\n";
-
+  cout << endl;
   return 0;
 }

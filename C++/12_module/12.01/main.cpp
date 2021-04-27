@@ -1,102 +1,39 @@
-/// 1. Время в пути
-/* Поезд отправляется в AA часов BB минут и прибывает в пункт назначения в CC
- * часов DD минут. Сколько часов и минут он находится в пути?
- * Напишите программу, которая принимает от пользователя две строки — время
- * отправления и время прибытия поезда. Время задается строкой из 5 символов в
- * формате HH:MM. Обеспечьте контроль ввода, проверьте также, что время
- * корректно. Программа должна ответить, сколько часов и минут поезд находится в
- * пути. Если время отправления больше времени прибытия, считайте, что поезд
- * прибывает в пункт назначения на следующий день.
- * Примеры: Введите время отправления: 07:15
- * Введите время прибытия: 16:55
- * Поезд находится в пути 9 часов 40 минут
- * Введите время отправления: 21:10
- * Введите время прибытия: 08:05
- * Поезд находится в пути 10 часов 55 минут*/
+/* Задача 1. Корабли в “морском бое”
+Требуется объявить массивы для игры в морской бой и вывести их размеры в
+консоль, не используя констант с размерами. Всего таких типов 4: крошечный,
+малый, средний и большой. Для простоты, типом элементов корабля могут быть
+обычные bool (размер 1 байт). */
 
 #include <iostream>
 
-// Функция чтения времени.
-bool parseTime(std::string &timeStr, int &hours, int &minutes) {
-  for (int i = 0; i < timeStr.length(); ++i) {
-    if (timeStr[i] >= '0' && timeStr[i] <= '9') {
-      // Отделяю часы от минут и учитываю значения на своем месте.
-      if (i <= 1)
-        if (i == 0)
-          hours += (timeStr[i] - '0') * 10;
-        else
-          hours += timeStr[i] - '0';
-      else if (i == 3)
-        minutes += (timeStr[i] - '0') * 10;
-      else
-        minutes += (timeStr[i] - '0');
-    } else if (timeStr[i] == ':' || timeStr[i] == '.') {
-      continue;
-    } else {
-      return false;
-    }
-
-    if (hours > 24 || minutes > 60) {
-      std::cout << "Error! Time format is \"HH:MM\" in 24 hours.\n";
-      hours = 0;
-      minutes = 0;
-      return false;
-    }
-  }
-
-  return true;
+/**
+ * @brief  Вывод в консоль размера корабля.
+ * @note   Использовал const, чтобы нельзя было изменить значение в ссылке.
+ * Ссылку применил, чтобы не было копирования переменной в функцию.
+ * @param  &sizeStr: строка с размером массива.
+ * @param  &size: размер массива.
+ */
+inline void printSize(const std::string &sizeStr, const int &size) {
+  std::cout << "The size of " << sizeStr << "\tship in the battle is " << size
+            << "\n";
 }
 
 int main() {
-  do {
-    // время отправки.
-    int departureHours{}, departureMinutes{};
-    std::string timeStr;
-    do {
-      std::cout << "Enter the departure time: ";
-      std::cin >> timeStr;
-    } while (!parseTime(timeStr, departureHours, departureMinutes));
+  std::string sizes[]{"tiniest", "smallest", "middle", "largest"};
+  
+  bool tinyShip[]{true};
+  // Если bool, то можно деление на первый элемент массива убрать, т.к. тип bool
+  // равен 1 байту. Но тут решил оставить, мало ли какой тип будет.
+  printSize(sizes[0], sizeof(tinyShip) / sizeof(tinyShip[0]));
 
-    // время прибытия
-    int arrivalHours{}, arrivalMinutes{};
-    do {
-      std::cout << "Enter your arrival time: ";
-      std::cin >> timeStr;
-    } while (!parseTime(timeStr, arrivalHours, arrivalMinutes));
+  bool smallShip[]{true, true};
+  printSize(sizes[1], sizeof(smallShip) / sizeof(smallShip[0]));
 
-    // Время в пути
-    int wayHours;
-    int wayMinutes;
-    if (arrivalHours > departureHours) {
-      // Если время прибытия меньше по значению, чем отправки.
-      if (arrivalMinutes < departureMinutes) {
-        wayMinutes = (arrivalMinutes + 60) - departureMinutes;
-        // Отнимаем 1, т.к. взяли 1 час, чтобы сделать больше значение минут.
-        wayHours = arrivalHours - 1 - departureHours;
-      } else {
-        wayMinutes = arrivalMinutes - departureMinutes;
-        wayHours = arrivalHours - departureHours;
-      }
-    } else {
-      if (arrivalMinutes < departureMinutes) {
-        wayMinutes = (arrivalMinutes + 60) - departureMinutes;
-        // Отнимаем 1, т.к. взяли 1 час, чтобы сделать больше значение минут.
-        wayHours = (arrivalHours + 24) - 1 - departureHours;
-      } else {
-        wayMinutes = arrivalMinutes - departureMinutes;
-        wayHours = (arrivalHours + 24) - departureHours;
-      }
-    }
+  bool mediumShip[]{true, true, true};
+  printSize(sizes[2], sizeof(mediumShip) / sizeof(mediumShip[0]));
 
-    // условие для выхода из бесконечного цикла.
-    if ((0 == wayHours || 24 == wayHours) && 0 == wayMinutes) {
-      std::cout << "Exit.\n";
-      break;
-    }
-
-    std::cout << "The train is on its way for " << wayHours << " hours and "
-              << wayMinutes << " minutes\n";
-  } while (true);
+  bool largestShip[]{true, true, true, true};
+  printSize(sizes[3], sizeof(largestShip) / sizeof(largestShip[0]));
 
   return 0;
 }

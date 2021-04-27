@@ -1,195 +1,76 @@
 /**
- * @file main.cpp
- * @author vmf0min (vlifom@yandex.ru)
- * @brief Задача 4. Проверка корректности IP-адреса.
- * На этот раз вам нужно проверить, задает ли введенная пользователем строка
- * корректный IP-адрес. IP-адрес должен представлять из себя 4 числа,
- * разделенных точками без пробелов, причем каждое число должно быть в диапазоне
- * от 0 до 255 включительно. Числа не должны содержать ведущих нулей. Других
- * символов в строке, кроме вышеописанных, присутствовать не должно.
- * Пользователь вводит строку, задающую email-адрес. Программа должна вывести
- * слово Yes, если адрес корректен, а в противном случае - слово No.
- * @version 0.1
- * @date 01-02-2021
+ * @file      main.cpp
+ * @author    vmf0min (vlifom@yandex.ru)
+ * @brief     Задача 4. Равенство матриц.
+ * Требуется реализовать небольшую программу для сравнения двух двумерных матриц
+ * размерами 4х4 на предмет их полного равенства. Программа принимает на вход
+ * две целочисленные матрицы A и B, которые вводятся с помощью std::cin и
+ * сравнивает их на предмет полного равенства. Если матрицы равны, то об этом
+ * сообщается в стандартном выводе. Алгоритм должен быть по возможности
+ * оптимальным и не проводить лишних операций.
+ * @version   0.1
+ * @date      15-02-2021
  * @copyright Copyright (c) 2021
  */
 
 #include <iostream>
+#include <iterator>
 #include <vector>
 
-/*****************Signatures*****************/
 /**
- * @brief Counts of the dots and search dots in a row in IP address.
- * @param str ip-address.
- * @return true 3 dots and not dots in a row in the ip.
+ * @brief     writing the values of a vector of vectors
+ * @tparam    T             type of vector of vectors
+ * @param     vec           vector of vectors
+ * Написал шаблон, т.к. забывал менять тип данных, а эти функции переходят из
+ * задачи в задачу.
  */
-bool dotsCheck(const std::string& str);
-
-/**
- * @brief Check ip address numbers
- * @param strIn string to console
- * @return true numbers correct.
- * @return false
- */
-bool checkIpNumbers(const std::string& strIn);
-
-/**
- * @brief check examples ip address in the loop.
- */
-void checkIpAddress();
-
-/**
- * @brief check user's ip address.
- * @param str
- */
-void checkIpAddress(const std::string& str);
-
-/**
- * @brief Search char in ip
- * @param str ip
- * @return true found
- */
-bool isChar(const std::string& str);
-
-/*****************Functions*****************/
-
-bool dotsCheck(const std::string& str) {
-  int dots{};
-  for (auto i{str.begin()}; i != str.end(); ++i) {
-    if ('.' == *i) ++dots;
-    if (i != str.end() - 1 && '.' == *i && '.' == *(i + 1)) {
-      std::cerr << str << "\t"
-                << "\e[31mError: dots in a row.\e[37m\n";
-      return false;
+template <typename T>
+void inputVector(std::vector<std::vector<T>>& vec) {
+  for (size_t i{}; i < vec.size(); ++i) {
+    for (size_t j{}; j < vec.size(); ++j) {
+      int temp;
+      std::cin >> temp;
+      vec[i].push_back(temp);
     }
   }
-
-  if (dots != 3) {
-    std::cerr << str << "\t"
-              << "\e[31mError: Not 3 dots in the IP.\e[37m\n";
-    return false;
-  }
-
-  return true;
+  std::cout << "\x1b[37m";
 }
 
-bool isChar(const std::string& str) {
-  for (auto& i : str) {
-    if (i >= '0' && i <= '9' || '.' == i) {
-    } else {
-      std::cerr << str << "\t"
-                << "\e[31mError: NaN in part of IP\e[37m\n";
-      return false;
-    }
+/**
+ * @brief     output of a vector of vectors to the console
+ * @tparam    T             type of vector of vectors
+ * @param     vec           vector of vectors
+ */
+template <typename T>
+void outputVector(const std::vector<std::vector<T>>& vec) {
+  std::cout << "\x1b[37m";
+  for (auto iter{vec.begin()}; iter != vec.end(); ++iter) {
+    std::copy(iter->begin(), iter->end(),
+              std::ostream_iterator<T>(std::cout, " "));
+    std::cout << "\n";
   }
-
-  return true;
-}
-
-bool checkIpNumbers(const std::string& strIn) {
-  std::string str{strIn};
-  std::string partOfIpStr{};
-  int partOfIp{};
-  int pos{};
-
-  while (pos != -1) {
-    pos = str.find('.');
-    partOfIpStr = str.substr(0, pos);
-
-    if (partOfIpStr.length() > 1 && '0' == partOfIpStr[0]) {
-      std::cerr << strIn << "\t"
-                << "\e[31mError: there are leading zeros\e[37m\n";
-      return false;
-    }
-
-    partOfIp = std::stoi(partOfIpStr);
-
-    if (partOfIp < 0) {
-      std::cerr << strIn << "\t"
-                << "\e[31mError: part of IP less than 0\e[37m\n";
-      return false;
-    } else if (partOfIp > 255) {
-      std::cerr << strIn << "\t"
-                << "\e[31mError: part of IP greater than 255 \e[37m\n";
-      return false;
-    }
-
-    str.erase(str.begin(), str.begin() + pos + 1);
-  }
-  return true;
-}
-
-void checkIpAddress() {
-  std::vector<std::string> ipAddresses{
-      "127.0.0.1",       "255.255.255.255", "1.2.3.4",     "55.77.213.101",
-      "255.256.257.258", "0.55.33.22.",     "10.00.000.0", "23.055.255.033",
-      "65.123..9",       "a.b.c.d",
-  };
-
-  // Check ip addresses in the loop.
-  for (auto i_ip{ipAddresses.begin()}; i_ip != ipAddresses.end(); ++i_ip) {
-    checkIpAddress(*i_ip);
-  }
-}
-
-void checkIpAddress(const std::string& str) {
-  if (str.length() > 15) {
-    std::cerr << str << "\t"
-              << "\e[31mError: ip Length more than 15 digits.\e[37m\n";
-    return;
-  }
-
-  if (!isChar(str)) return;
-
-  if (!dotsCheck(str)) return;
-
-  if (!checkIpNumbers(str)) return;
-
-  std::cout << str << "\t\e[32mYes\e[37m\n";
+  std::cout << "\n";
 }
 
 int main() {
-  std::cout << "\e[2J";
+  std::cout << "\x1b[2J";
 
-  std::cout << "\e[2JDo you want to check IP-address or see examples?\n"
-            << "1 - check your IP-address.\n"
-            << "2 - see the examples.\n";
+  std::cout << "Enter the first matrix:\x1b[32m\n";
+  std::vector<std::vector<int>> first(4);
+  inputVector(first);
 
-  int choice;
-  do {
-    std::cout << "Enter your choice: ";
-    std::string choiceStr;
-    std::cin >> choiceStr;
+  std::cout << "Enter the second matrix:\x1b[32m\n";
+  std::vector<std::vector<int>> second(4);
+  inputVector(second);
 
-    try {
-      choice = std::stoi(choiceStr);
-    } catch (const std::exception& e) {
-      std::cerr << "\e[31mError in the entered number.\e[37m\n";
-    }
+  std::cout << "The first matrix:\n";
+  outputVector(first);
+  std::cout << "The second matrix:\n";
+  outputVector(second);
 
-    if (1 == choice || 2 == choice)
-      break;
-    else
-      std::cout << "\e[31mEnter the number 1 or 2\e[37m\n";
-  } while (true);
-
-  std::cout << "\n";
-  std::string ip;
-  switch (choice) {
-    case 1:
-      std::cout << "Enter the IP:\e[32m ";
-      std::cin >> ip;
-      checkIpAddress(ip);
-      std::cout << "\e[37m";
-      break;
-
-    case 2:
-      checkIpAddress();
-      break;
-
-    default:
-      break;
-  }
+  std::cout << "\x1b[36m";
+  std::cout << (first == second ? "Equal.\n" : "Not equal.\n");
+  std::cout << "\x1b[37m";
 
   return 0;
 }

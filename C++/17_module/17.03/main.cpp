@@ -1,51 +1,64 @@
 /**
  * @file      main.cpp
  * @author    vmf0min (vlifom@yandex.ru)
- * @brief     Задача 3. Проход змейкой.
- * Довольно абстрактная, но интересная задача. У нас есть двумерный массив целых
- * чисел размером 5 на 5 элементов. Его надо инициализировать и отобразить на
- * экране. Особенность именно в способе этой инициализации. Элементы должны быть
- * инициализированы не последовательно, а змейкой. Т.е. в конце каждой строки мы
- * не должны переходить к первому элементу следующей строки, но начнём наоборот
- * — с последнего элемента и так далее. В итоге, в конечном отображении нашего
- * массива числа должны быть упорядочены по возрастанию но змеевидно от строки к
- * строке. Сама же последовательность чисел — это простое линейное возрастание
- * от 0 до 24, для её учёта можно завести отдельную переменную. Попытайтесь
- * решить эту задачу, используя минимальное количество временных переменных и
- * без условных переходов if. Если вы найдёте эту самую формулу индексации —
- * будет замечательно! Предупреждаю, она может быть весьма витиеватая.
- * Итоговый результат:
- * 0 1 2 3 4
- * 9 8 7 6 5
- * 10 11 12 13 14
- * 19 18 17 16 15
- * 20 21 22 23 24
+ * @brief     Задача 3.
+ * Написать функцию, которая принимаем указатель на char, по которому лежит
+ * строка. Функция должна возвращать true, если вторая строка является
+ * подстрокой первой.
  * @version   0.1
- * @date      12-02-2021
+ * @date      17-03-2021
  * @copyright Copyright (c) 2021
  */
 
-#include <cmath>
+#include <iomanip>
 #include <iostream>
 
+using std::cin;
+using std::cout;
+using std::endl;
+
+/**
+ * @brief     substring search
+ * @param     str           string
+ * @param     sub           substring
+ * @return    true          substring found
+ * @return    false
+ */
+bool substr(char* str, char* sub) {
+  int subpos{};
+  int i{};
+  while (*(str + i) != '\0') {
+    if (*(str + i) == *sub) {
+      ++sub;
+      ++subpos;
+      if ('\0' == *sub) return true;
+    } else if (subpos != 0) {
+      sub -= subpos;
+      subpos = 0;
+    }
+    ++i;
+  }
+  return false;
+}
+
 int main() {
-  std::cout << "\x1b[2J";
-  int16_t array[5][5]{};
-  size_t arrayLength{sizeof(array) / sizeof(array[0])};
+  cout << "\x1b[2J";
+  char a[]{"Hello world!!  !!!"};
+  char b[]{"wor"};
+  char c[]{"banana"};
+  char d[]{"o w"};
+  char e[]{"! "};
+  char f[]{"!!!"};
+  char g[]{"h"};
 
-  int16_t temp{};
-  int16_t sign{-1};
-  for (size_t i{}; i < arrayLength; ++i) {
-    if (i != 0) temp = array[i - 1][4] + arrayLength;
-    sign = ~sign + 1;
-    for (size_t j{}; j < arrayLength; ++j) array[i][j] = temp + sign * j;
-  }
+  cout << std::boolalpha;
+  cout << a << " \"" << b << "\" \t" << substr(a, b) << "\n"
+       << a << " \"" << c << "\" \t" << substr(a, c) << "\n"
+       << a << " \"" << d << "\" \t" << substr(a, d) << "\n"
+       << a << " \"" << e << "\" \t" << substr(a, e) << "\n"
+       << a << " \"" << f << "\" \t" << substr(a, f) << "\n"
+       << a << " \"" << g << "\" \t\t" << substr(a, g) << "\n";
 
-  std::cout << "\x1b[32mOutput:\x1b[37m\n";
-  for (size_t i{}; i < 5; ++i) {
-    for (size_t j{}; j < 5; ++j) std::cout << array[i][j] << "\t";
-    std::cout << "\n";
-  }
-
+  cout << "\x1b[0m" << endl;
   return 0;
 }

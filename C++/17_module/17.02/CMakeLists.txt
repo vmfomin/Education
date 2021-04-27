@@ -3,7 +3,4 @@ project(17_02)
 
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB HEADERS "src/*.h")
-file(GLOB SOURCES "src/*.cpp")
-
-add_executable(17_02 main.cpp ${HEADERS} ${SOURCES})
+add_executable(17_02 main.cpp)

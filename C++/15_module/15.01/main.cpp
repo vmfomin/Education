@@ -1,39 +1,46 @@
-/* Задача 1. Корабли в “морском бое”
-Требуется объявить массивы для игры в морской бой и вывести их размеры в
-консоль, не используя констант с размерами. Всего таких типов 4: крошечный,
-малый, средний и большой. Для простоты, типом элементов корабля могут быть
-обычные bool (размер 1 байт). */
+/**
+ * @file      main.cpp
+ * @author    vmf0min (vlifom@yandex.ru)
+ * @brief     Задача 1
+ * Вам даётся массив целых чисел. Необходимо найти такие два индекса i и j в
+ * этом массиве, что сумма a[i], a[i+1], a[i+2], … a[j] будет максимально
+ * возможной и вывести их.
+ * Пример:
+ * a = {-2,1,-3,4,-1,2,1,-5,4}
+ * Тогда наибольшая сумма последовательных элементов находится между индексами 3
+ * и 6: {4,-1,2,1}, сумма = 6. Необходимо вывести 3 и 6
+ * @version   0.1
+ * @date      03-03-2021
+ * @copyright Copyright (c) 2021
+ */
 
 #include <iostream>
-
-/**
- * @brief  Вывод в консоль размера корабля.
- * @note   Использовал const, чтобы нельзя было изменить значение в ссылке.
- * Ссылку применил, чтобы не было копирования переменной в функцию.
- * @param  &sizeStr: строка с размером массива.
- * @param  &size: размер массива.
- */
-inline void printSize(const std::string &sizeStr, const int &size) {
-  std::cout << "The size of " << sizeStr << "\tship in the battle is " << size
-            << "\n";
-}
+#include <vector>
 
 int main() {
-  std::string sizes[]{"tiniest", "smallest", "middle", "largest"};
-  
-  bool tinyShip[]{true};
-  // Если bool, то можно деление на первый элемент массива убрать, т.к. тип bool
-  // равен 1 байту. Но тут решил оставить, мало ли какой тип будет.
-  printSize(sizes[0], sizeof(tinyShip) / sizeof(tinyShip[0]));
+  using std::cout;
+  using std::vector;
+  cout << "\x1b[2J";
 
-  bool smallShip[]{true, true};
-  printSize(sizes[1], sizeof(smallShip) / sizeof(smallShip[0]));
+  vector<int> vec{-2, 1, -3, 4, -1, 2, 1, -5, 4};
 
-  bool mediumShip[]{true, true, true};
-  printSize(sizes[2], sizeof(mediumShip) / sizeof(mediumShip[0]));
+  int maxSum{};
+  int indexStart{};
+  int indexEnd{};
+  for (int i{}; i < vec.size(); ++i) {
+    for (int j{}; j < vec.size() - i; ++j) {
+      int sum{};
+      for (int k{j}; k <= vec.size() - i; ++k) sum += vec[k];
+      if (sum > maxSum) {
+        maxSum = sum;
+        indexStart = j;
+        indexEnd = vec.size() - i;
+      }
+    }
+  }
 
-  bool largestShip[]{true, true, true, true};
-  printSize(sizes[3], sizeof(largestShip) / sizeof(largestShip[0]));
+  cout << "Start index = " << indexStart << ". End index = " << indexEnd
+       << ". Sum = " << maxSum << ".\n";
 
   return 0;
 }

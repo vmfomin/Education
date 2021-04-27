@@ -1,50 +1,43 @@
 /**
  * @file      main.cpp
  * @author    vmf0min (vlifom@yandex.ru)
- * @brief     Задача 2.
- * Написать функцию, которая принимает указатель на тип int, по которому
- * размещены 10 переменных типа int. Функция должна вернуть элементы в обратном
- * порядке
+ * @brief     Задание 2. Реализация рисования случайных картин.
+ * С помощью генератора случайных чисел рисуется картинка из нулей и единиц. На
+ * вход от пользователя принимается размер картины: высота и ширина в пикселях.
+ * На выходе нужно создать файл pic.txt, содержимое которого будет наполнено
+ * случайными нулями и единицами в рамках размера картины.
  * @version   0.1
- * @date      17-03-2021
+ * @date      30-03-2021
  * @copyright Copyright (c) 2021
  */
 
+#include <ctime>
+#include <fstream>
 #include <iostream>
 
 using std::cin;
 using std::cout;
 using std::endl;
 
-/**
- * @brief     Reverse array function
- * @tparam    T             type of array
- * @param     ptr           pointer to an array
- * @param     length        array length
- */
-template <typename T>
-void reverse(T* ptr, const size_t& length) {
-  for (int i{}; i < length / 2; ++i)
-    std::swap(*(ptr + i), *(ptr + length - i - 1));
-}
-
 int main() {
   cout << "\x1b[2J";
-  const size_t sizeArray{10};
-  int16_t* pArray{new int16_t[sizeArray]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}};
+  cout << "Enter the height and width: ";
+  int16_t height, width;
+  cin >> height >> width;
 
-  for (size_t i{}; i < sizeArray; ++i) cout << *(pArray + i) << " ";
-  cout << endl;
+  std::ofstream pic("../pic.txt", std::ios::binary);
+  if (!pic) {
+    cout << "Error: could not be opened for writing!";
+    return 1;
+  }
 
-  reverse(pArray, sizeArray);
+  std::srand(std::time(nullptr));
+  for (size_t i{}; i < height; ++i) {
+    for (size_t j{}; j < width; ++j) pic << rand() % 2 << " ";
+    pic << endl;
+  }
 
-  for (size_t i{}; i < sizeArray; ++i) cout << *(pArray + i) << " ";
-  cout << endl;
-  cout << "pArray = " << *pArray;
-
-  delete[] pArray;
-  pArray = nullptr;
-
+  pic.close();
   cout << "\x1b[0m" << endl;
   return 0;
 }

@@ -1,76 +1,70 @@
-/* Задача 4. Радио-приёмник
-В радио-приёмнике настроено 10 частот-каналов, представленные в виде массива.
-Каждая из настроек частоты это число с плавающей точкой. Настройка производится
-при старте приёмника. Приёмник проигрывает текущий настроенный канал,
-устанавливая текущую активную чистоту, которая и показывается пользователю.
-Требуется организовать безопасный доступ к каналам приёмника. Если канал
-набираемый пользователем находится за пределами массива каналов, приёмник не
-переключается и выводит сообщение об ошибке. Если пользователь вводит 0,
-приёмник отключается. */
+/**
+ * @file      main.cpp
+ * @author    vmf0min (vlifom@yandex.ru)
+ * @brief     Задача 4
+ * Вам даётся массив целых чисел, отсортированных по возрастанию. Необходимо
+ * вывести его на экран отсортированным в порядке возрастания модуля чисел
+ * Пример:
+ * Массив {-100,-50, -5, 1, 10, 15}
+ * Вывод: 1, -5, 10, 15, -50, -100
+ * Задание со звёздочкой: оптимизировать решение четвёртой задачи, чтобы оно
+ * совершало как можно меньше операций
+ * @version   0.1
+ * @date      03-03-2021
+ * @copyright Copyright (c) 2021
+ */
 
-#include <windows.h>
-
+#include <algorithm>
 #include <iostream>
+#include <iterator>
+#include <vector>
 
 /**
- * @brief  Проверка радиостанции на соответствие.
- * @param  &index: выбранная радиостанция.
+ * @brief     Quick sorting with using abs
+ * @tparam    T             Input class
+ * @param     array         sorting vector
+ * @param     last          length of part
  */
-bool isCorrect(const int &index) {
-  if (index < 0 || index > 10) {
-    std::cerr << "\e[31;1m"  // ! Красный цвет для ошибки
-              << "Error: selected the wrong radio station!!!\n";
-    return false;
+template <class T>
+void quickSort(T array, int64_t last) {
+  int64_t i{};
+  int64_t j{last};
+  auto pivot = std::abs(*(array + (last >> 1)));
+
+  while (i <= j) {
+    while (std::abs(*(array + i)) < pivot) ++i;
+    while (std::abs(*(array + j)) > pivot) --j;
+    if (i <= j) std::swap(*(array + i++), *(array + j--));
   }
-  return true;
+  if (j > 0) quickSort(array, j);
+  if (last > i) quickSort(array + i, last - i);
 }
 
 int main() {
-  // Каналы радио Москвы. Нашел то, что может себе бы настроил.
-  std::string radioNames[]{"Business FM",  "Авторадио",        "Relax FM",
-                           "Rock FM",      "Серебряный дождь", "Монте-Карло",
-                           "Comedy Radio", "Energy",           "Европа Плюс",
-                           "Love Радио"};
-  float frequencyChannel[]{87.5f,  90.3f,  90.8f,  95.2f,  100.1f,
-                           102.1f, 102.5f, 104.2f, 106.2f, 106.6f};
+  using std::cout;
+  using std::vector;
+  cout << "\x1b[2J";
 
-  // Очистка консоли перед следующим выбором радиостанции.
-  std::cout << "\e[2J";
-  float seconds;
-  bool isSeconds{};
-  do {
-    std::cout << "How often do I refresh the screen (seconds)? ";
-    std::cin >> seconds;
-    seconds *= 1000;
+  vector<int32_t> vec{-100, -50, -5, 1, 10, 15};
+  cout << "Before sorting:\n";
+  std::copy(vec.begin(), vec.end(), std::ostream_iterator<int32_t>(cout, " "));
 
-    if (seconds <= 0)
-      std::cerr << "\e[31;1m"  // ! Красный цвет для ошибки
-                << "Error: the time cannot be less than 0!!!\e[0m\n";
-    else
-      isSeconds = true;
-  } while (!isSeconds);
+  cout << "\n\nSorting with my quickSort() function:\n";
+  vector<int32_t> vecQuickSort(vec);
+  quickSort(vecQuickSort.begin(), vecQuickSort.size() - 1);
+  std::copy(vecQuickSort.begin(), vecQuickSort.end(),
+            std::ostream_iterator<int32_t>(cout, " "));
 
-  while (true) {
-    std::cout << "\e[2JList of available radio stations:\n";
-    for (size_t i{}; i < 10; ++i)
-      std::cout << radioNames[i] << " (" << frequencyChannel[i] << ")\n";
+  cout << "\n\nSorting with std::sort() and lambda expresion:\n";
+  vector<int32_t> vecLambda(vec);
+  std::sort(vecLambda.begin(), vecLambda.end(),
+            [](const int32_t& a, const int32_t& b) {
+              return std::abs(a) < std::abs(b);
+            });
+  std::copy(vecLambda.begin(), vecLambda.end(),
+            std::ostream_iterator<int32_t>(cout, " "));
 
-    int select;  // Выбранная радиостанция.
-    do {
-      std::cout << "\e[0m\nSelect a radio station (1 - 10): ";
-      std::cin >> select;
-      if (0 == select) {
-        std::cout << "\e[32;1mShutdown...\e[0m";
-        return 0;
-      }
+  cout << "\n";
 
-      --select;
-    } while (!isCorrect(select));
-
-    std::cout << "\e[36;1mYou have chosen this radio station \""
-              << radioNames[select] << "\" on the wave "
-              << frequencyChannel[select] << "\e[0m\n";
-
-    Sleep(seconds);  // Чтобы не стирались данные.
-  };
+  return 0;
 }
