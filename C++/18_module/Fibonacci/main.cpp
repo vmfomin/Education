@@ -8,6 +8,7 @@
  */
 
 #include <iostream>
+#include <vector>
 
 #include "Timer.h"
 
@@ -26,9 +27,12 @@ int fib(const int16_t& n) {
 }
 
 int fibRecursive(int16_t n) {
-  if (0 == n) return 0;
-  if (1 == n) return 1;
-  return fibRecursive(n - 1) + fibRecursive(n - 2);
+  static std::vector<int32_t> cache(n);
+  if (n <= 1)
+    return n;
+  else if (0 == cache[n])
+    cache[n] = fibRecursive(n - 1) + fibRecursive(n - 2);
+  return cache[n];
 }
 
 int main() {
@@ -37,7 +41,7 @@ int main() {
   do {
     cout << "Enter the number of the fibonacci sequence: ";
     cin >> n;
-  } while (n > 46);
+  } while (n > 45);
 
   {
     cout << "Iteration fibonacci:\t";
