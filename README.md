@@ -33,6 +33,7 @@
        [Сайт автора](http://www.stolyarov.info/books/programming_intro)
      - [Саттер Герб](https://github.com/vmf0min/Education/tree/master/C%2B%2B/Books/Sutter%20Herb)  
    - [Рекомендация по Emacs](https://github.com/vmf0min/Education/tree/master/C%2B%2B/Emacs_config)
+   - [Пользовательский вектор](https://github.com/vmf0min/Education/tree/master/C%2B%2B/User_vector)
    - [.vscode](https://github.com/vmf0min/Education/tree/master/C%2B%2B/vscode_settings)
 2. Как сгенерировать ключ для SSH в Windows 10 для [Git](https://github.com/vmf0min/Education/tree/master/Git)
 3. Первые 3 модуля презентации по тестированию [QA](https://github.com/vmf0min/Education/tree/master/QA)

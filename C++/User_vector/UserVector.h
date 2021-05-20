@@ -54,9 +54,20 @@ class UserVector {
     vector_ = nullptr;
   }
 
-  void push_back(int32_t);
+  void push_back(int32_t value) {
+    int32_t* newVector{new int32_t[++size_]};
+    for (size_t i{}; i < size_ - 1; ++i) newVector[i] = vector_[i];
+    newVector[size_ - 1] = value;
+    delete[] vector_;
+    vector_ = newVector;
+  }
 
-  void pop_back();
+  void pop_back() {
+    int32_t* newVector{new int32_t[--size_]};
+    for (size_t i{}; i < size_; ++i) newVector[i] = vector_[i];
+    delete[] vector_;
+    vector_ = newVector;
+  }
 
  private:
   size_t size_;

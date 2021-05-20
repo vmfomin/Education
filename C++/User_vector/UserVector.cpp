@@ -25,23 +25,6 @@ UserVector::UserVector(UserVector&& other)
   other.vector_ = nullptr;
 }
 
-void UserVector::push_back(int32_t value) {
-  int32_t* newVector{new int32_t[++size_]};
-  for (size_t i{}; i < size_ - 1; ++i) newVector[i] = vector_[i];
-  newVector[size_ - 1] = value;
-  delete[] vector_;
-  vector_ = newVector;
-}
-
-void UserVector::pop_back() {
-  int32_t* newVector{new int32_t[--size_]};
-  for (size_t i{}; i < size_; ++i) {
-    newVector[i] = vector_[i];
-  }
-  delete[] vector_;
-  vector_ = newVector;
-}
-
 std::istream& operator>>(std::istream& in, UserVector& userVector) {
   for (size_t i{}; i < userVector.size(); ++i) in >> userVector[i];
   return in;
