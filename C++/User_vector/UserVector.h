@@ -17,7 +17,8 @@
 class UserVector {
  public:
   UserVector() : size_{}, vector_{nullptr} {}
-  explicit UserVector(size_t size);
+  UserVector(size_t size);
+  UserVector(char size) = delete;
   UserVector(const UserVector& other);
   UserVector(UserVector&& other);
   UserVector(const std::initializer_list<int32_t>& list)
