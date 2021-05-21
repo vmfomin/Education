@@ -10,7 +10,7 @@
 #include "UserVector.h"
 
 int main() {
-  // system("cls");
+  system("cls");
 
   std::cout << "Enter vector size: ";
   size_t size;
@@ -48,9 +48,6 @@ int main() {
   UserVector user_v_move(std::move(user_v_copy));
   std::cout << "\nVector as std::move of user_v_copy: " << user_v_move << "\n";
   std::cout << "Vectors normalize: " << user_v_move.normalize() << "\n";
-
-  std::cout << "\n!!!Assert Test for index valid check!!!\n"
-            << user_initList_v[20];
 
   return 0;
 }

@@ -17,7 +17,7 @@
 class UserVector {
  public:
   UserVector() : size_{}, vector_{nullptr} {}
-  UserVector(size_t size);
+  explicit UserVector(size_t size);
   UserVector(char size) = delete;
   UserVector(const UserVector& other);
   UserVector(UserVector&& other);
@@ -42,10 +42,14 @@ class UserVector {
     assert(index >= 0 && index < size_);
     return vector_[index];
   }
+
   const auto& operator[](const size_t index) const {
     assert(index >= 0 && index < size_);
     return vector_[index];
   }
+
+  UserVector& operator=(const UserVector& other);
+  UserVector& operator=(const UserVector&& other);
 
   /**
    * @brief     Destroy the User Vector object
@@ -56,18 +60,22 @@ class UserVector {
   }
 
   void push_back(int32_t value) {
-    int32_t* newVector{new int32_t[++size_]};
-    for (size_t i{}; i < size_ - 1; ++i) newVector[i] = vector_[i];
-    newVector[size_ - 1] = value;
+    int32_t* tmp{new int32_t[++size_]};
+    if (tmp == nullptr) return;
+
+    for (size_t i{}; i < size_ - 1; ++i) tmp[i] = vector_[i];
+    tmp[size_ - 1] = value;
     delete[] vector_;
-    vector_ = newVector;
+    vector_ = tmp;
   }
 
   void pop_back() {
-    int32_t* newVector{new int32_t[--size_]};
-    for (size_t i{}; i < size_; ++i) newVector[i] = vector_[i];
+    int32_t* tmp{new int32_t[--size_]};
+    if (tmp == nullptr) return;
+
+    for (size_t i{}; i < size_; ++i) tmp[i] = vector_[i];
     delete[] vector_;
-    vector_ = newVector;
+    vector_ = tmp;
   }
 
  private:
