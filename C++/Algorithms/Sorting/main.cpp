@@ -43,22 +43,23 @@ void bubbleSort(T& array) {
 /**
  * @brief     Quick sorting
  * @tparam    T             Input class
- * @param     array         sorting vector
- * @param     last          length of part
+ * @param     begin         container begin
+ * @param     end           container end
  */
 template <class T>
-void quickSort(T array, int64_t last) {
-  int64_t i{};
-  int64_t j{last};
-  auto pivot = *(array + (last >> 1));
+void quickSort(T begin, T end) {
+  T i{begin};
+  T j{end};
+  auto pivot = *(begin + ((end - begin) >> 1));
 
   while (i <= j) {
-    while (*(array + i) < pivot) ++i;
-    while (*(array + j) > pivot) --j;
-    if (i <= j) std::swap(*(array + i++), *(array + j--));
+    while (*(i) < pivot) ++i;
+    while (*(j) > pivot) --j;
+    if (i <= j) std::swap(*(i++), *(j--));
   }
-  if (j > 0) quickSort(array, j);
-  if (last > i) quickSort(array + i, last - i);
+
+  if (j > begin) quickSort(begin, j);
+  if (end > i) quickSort(i, end);
 }
 
 int main() {
@@ -85,7 +86,7 @@ int main() {
 
   cout << "\nQuick sorting:     ";
   vector<int> q_sortVec(array);
-  quickSort(q_sortVec.begin(), array.size() - 1);
+  quickSort(q_sortVec.begin(), q_sortVec.end());
   std::copy(q_sortVec.begin(), q_sortVec.end(),
             std::ostream_iterator<int>(std::cout, " "));
   cout << "\n";
