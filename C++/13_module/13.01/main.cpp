@@ -25,7 +25,7 @@ int main() {
   std::vector<int> vectorInt(num);
 
   std::cout << "Enter the numbers in the vector: ";
-  for (auto& vec : vectorInt) std::cin >> vec;
+  for (auto &vec : vectorInt) std::cin >> vec;
 
   // Чтобы вывести на экран 2 вида решения.
   std::vector<int> tempVector(vectorInt);
@@ -35,16 +35,10 @@ int main() {
   std::cin >> eraseNumber;
 
   std::cout << "\e[32mErased by simple algorithm: ";
-  for (auto i{vectorInt.begin()}; i != vectorInt.end(); ++i) {
-    if (*i == eraseNumber) {
-      vectorInt.erase(i);
-      // т.к. итератор (указатель) начинает смотреть на следующий элемент после
-      // удаления, поэтому переношу его на 1 значение раньше, чтобы удалял
-      // повторяющиеся элементы. И если это не сделать, то будет ошибка:
-      // обращение за пределы области вектора.
-      --i;
-    }
-  }
+  auto iterOut{vectorInt.begin()};
+  for (auto i{vectorInt.begin()}; i != vectorInt.end(); ++i)
+    if (*i != eraseNumber) std::swap(*(iterOut++), *i);
+  vectorInt.resize(vectorInt.size() - (vectorInt.end() - iterOut));
 
   for (const auto &vec : vectorInt) std::cout << vec << " ";
 
