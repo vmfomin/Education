@@ -16,7 +16,7 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-int fib(const int16_t& n) {
+constexpr int fib(const int16_t n) {
   int fibonacci{}, fibonacciFirst{0}, fibonacciSecond{1};
   for (size_t i{}; i < n - 1; ++i) {
     fibonacci = fibonacciFirst + fibonacciSecond;
@@ -26,12 +26,11 @@ int fib(const int16_t& n) {
   return fibonacci;
 }
 
-int fibRecursive(int16_t n) {
-  static std::vector<int32_t> cache(n);
-  if (n <= 1)
-    return n;
-  else if (0 == cache[n])
-    cache[n] = fibRecursive(n - 1) + fibRecursive(n - 2);
+std::vector<int32_t> cache(45);
+
+constexpr int32_t fibRecursive(const int16_t n) {
+  if (n <= 1) return n;
+  if (0 == cache[n]) cache[n] = fibRecursive(n - 1) + fibRecursive(n - 2);
   return cache[n];
 }
 
