@@ -41,17 +41,12 @@ int main() {
       break;
     }
 
-    // Счетчик слов.
-    int counter{};
+    int counter{};  // Счетчик слов.
     if (!str.empty()) {
-      // Проверка 1 символа.
       if (!isspace(str[0])) ++counter;
-
       for (int i = 0; i < str.length(); ++i)
         if (isspace(str[i]) && i != str.length() - 1 && !isspace(str[i + 1]))
           ++counter;
-    } else {
-      counter = 0;
     }
 
     std::cout << "Answer: " << counter << '\n';
