@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <iterator>
+#include <random>
 #include <vector>
 
 using std::vector;
@@ -47,12 +48,13 @@ void bubbleSort(T& array) {
  * @param     end           container end
  */
 template <class T>
-void quickSort(T begin, T end) {
+void quickSort(T begin, T end) noexcept {
   T i{begin};
   T j{end};
-  auto pivot = *(begin + ((end - begin) >> 1));
+  std::mt19937 gen{std::random_device()()};
+  auto pivot = *(begin + gen() % (end - begin));
 
-  while (i <= j) {
+  while (i < j) {
     while (*(i) < pivot) ++i;
     while (*(j) > pivot) --j;
     if (i <= j) std::swap(*(i++), *(j--));
