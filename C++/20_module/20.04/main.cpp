@@ -177,9 +177,8 @@ void outputCash(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
         cout << "Amount of funds withdrawn: " << money;
         for (auto&& iter : isWithdrawBanknotes) iter.second = false;
       } else {
-        auto isWithdrawBanknote{
-            isWithdrawBanknotes.find(currentBanknoteToWithdraw)};
-        isWithdrawBanknote->second = false;
+        auto findBanknote{isWithdrawBanknotes.find(currentBanknoteToWithdraw)};
+        findBanknote->second = false;
 
         for (auto&& iter : isWithdrawBanknotes)
           if (iter.first < currentBanknoteToWithdraw) iter.second = true;
