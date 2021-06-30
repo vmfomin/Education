@@ -39,6 +39,8 @@ void outputCash(std::map<int32_t, int32_t>&, uint32_t&);
 void computeBanknote(std::map<int32_t, int32_t>&, int32_t&, const int32_t);
 void changeStatusAtm(const std::map<int32_t, int32_t>&);
 bool isWithdrawAtmCheck(std::map<int32_t, bool>&);
+void withdraw(int32_t&, int32_t&, const int32_t, std::map<int32_t, bool>&,
+              std::map<int32_t, int32_t>&);
 
 void computeBanknote(std::map<int32_t, int32_t>& atm, int32_t& money,
                      const int32_t denomination) {
@@ -58,7 +60,8 @@ void computeBanknote(std::map<int32_t, int32_t>& atm, int32_t& money,
 }
 
 void changeStatusAtm(const std::map<int32_t, int32_t>& atm) {
-  std::ofstream bank("../bank.bin", std::ios::binary);
+  // std::ofstream bank("../bank.bin", std::ios::binary);
+  std::ofstream bank("bank.bin", std::ios::binary);
   if (!bank) {
     cout << "Error: could not be opened!";
     return;
@@ -69,7 +72,8 @@ void changeStatusAtm(const std::map<int32_t, int32_t>& atm) {
 }
 
 void atmInitStatus(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
-  std::ifstream bank("../bank.bin", std::ios::binary);
+  // std::ifstream bank("../bank.bin", std::ios::binary);
+  std::ifstream bank("bank.bin", std::ios::binary);
   if (!bank) {
     cout << "Error: could not be opened!";
     return;
@@ -119,6 +123,19 @@ bool isWithdrawAtmCheck(std::map<int32_t, bool>& isWithdrawBanknotes) {
   return isCash;
 }
 
+void withdraw(int32_t& money, int32_t& currentBanknoteToWithdraw,
+              const int32_t denomination,
+              std::map<int32_t, bool>& isWithdrawBanknotes,
+              std::map<int32_t, int32_t>& atm) {
+  if (money >= denomination && isWithdrawBanknotes[denomination] &&
+      atm[denomination] != 0) {
+    computeBanknote(atm, money, denomination);
+    currentBanknoteToWithdraw = denomination;
+  } else {
+    isWithdrawBanknotes[denomination] = false;
+  }
+}
+
 void outputCash(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
   if (0 == nBanknotes) {
     cout << "Sorry. The ATM is empty. Please, select another operation";
@@ -150,41 +167,12 @@ void outputCash(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
   while (isWithdrawAtmCheck(isWithdrawBanknotes)) {
     if (money <= maxSumAtm) {
       int32_t tempMoney{money};
-      if (tempMoney >= 5000 && isWithdrawBanknotes[100] && atm[5000] != 0) {
-        computeBanknote(atm, tempMoney, 5000);
-        currentBanknoteToWithdraw = 5000;
-      } else
-        isWithdrawBanknotes[5000] = false;
-
-      if (tempMoney >= 2000 && isWithdrawBanknotes[2000] && atm[2000] != 0) {
-        computeBanknote(atm, tempMoney, 2000);
-        currentBanknoteToWithdraw = 2000;
-      } else
-        isWithdrawBanknotes[2000] = false;
-
-      if (tempMoney >= 1000 && isWithdrawBanknotes[1000] && atm[1000] != 0) {
-        computeBanknote(atm, tempMoney, 1000);
-        currentBanknoteToWithdraw = 1000;
-      } else
-        isWithdrawBanknotes[1000] = false;
-
-      if (tempMoney >= 500 && isWithdrawBanknotes[500] && atm[500] != 0) {
-        computeBanknote(atm, tempMoney, 500);
-        currentBanknoteToWithdraw = 500;
-      } else
-        isWithdrawBanknotes[500] = false;
-
-      if (tempMoney >= 200 && isWithdrawBanknotes[200] && atm[200] != 0) {
-        computeBanknote(atm, tempMoney, 200);
-        currentBanknoteToWithdraw = 200;
-      } else
-        isWithdrawBanknotes[200] = false;
-
-      if (tempMoney >= 100 && isWithdrawBanknotes[100] && atm[100] != 0) {
-        computeBanknote(atm, tempMoney, 100);
-        currentBanknoteToWithdraw = 100;
-      } else
-        isWithdrawBanknotes[100] = false;
+      for (auto iter{atm.rbegin()}; iter != atm.rend() && tempMoney != 0;
+           ++iter) {
+        if (isWithdrawBanknotes[iter->first])
+          withdraw(tempMoney, currentBanknoteToWithdraw, iter->first,
+                   isWithdrawBanknotes, atm);
+      }
 
       if (0 == tempMoney) {
         changeStatusAtm(atm);
