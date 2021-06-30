@@ -36,11 +36,12 @@ using std::endl;
 void atmInitStatus(std::map<int32_t, int32_t>&, uint32_t&);
 void addCash(std::map<int32_t, int32_t>&, uint32_t&);
 void outputCash(std::map<int32_t, int32_t>&, uint32_t&);
-void computeBanknote(std::map<int32_t, int32_t>&, int32_t&, const int32_t&);
+void computeBanknote(std::map<int32_t, int32_t>&, int32_t&, const int32_t);
 void changeStatusAtm(const std::map<int32_t, int32_t>&);
+bool isWithdrawAtmCheck(std::map<int32_t, bool>&);
 
 void computeBanknote(std::map<int32_t, int32_t>& atm, int32_t& money,
-                     const int32_t& denomination) {
+                     const int32_t denomination) {
   if (0 == denomination) return;
 
   auto banknoteKey{atm.find(denomination)};
@@ -112,22 +113,21 @@ void addCash(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
   changeStatusAtm(atm);
 }
 
+bool isWithdrawAtmCheck(std::map<int32_t, bool>& isWithdrawBanknotes) {
+  bool isCash{};
+  for (auto&& i : isWithdrawBanknotes) isCash += i.second;
+  return isCash;
+}
+
 void outputCash(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
   if (0 == nBanknotes) {
     cout << "Sorry. The ATM is empty. Please, select another operation";
     return;
   }
 
-  std::ifstream bank("../bank.bin", std::ios::binary);
-  if (!bank) {
-    cout << "Error: could not be opened!";
-    return;
-  }
-
   cout << "Enter the withdrawal amount: ";
   int32_t money;
-
-  do {
+  while (true) {
     cin >> money;
     if (0 == money % 100 && 0 != money)
       break;
@@ -135,31 +135,78 @@ void outputCash(std::map<int32_t, int32_t>& atm, uint32_t& nBanknotes) {
       std::cout
           << "Invalid amount, the amount of the requested funds must be a "
              "multiple of 100\n";
-  } while (true);
+  }
 
   int32_t maxSumAtm{};
   for (auto& i : atm) maxSumAtm += i.first * i.second;
 
-  if (money <= maxSumAtm) {
-    int32_t tempMoney{money};
-    if (tempMoney >= 5000) computeBanknote(atm, tempMoney, 5000);
-    if (tempMoney >= 2000) computeBanknote(atm, tempMoney, 2000);
-    if (tempMoney >= 1000) computeBanknote(atm, tempMoney, 1000);
-    if (tempMoney >= 500) computeBanknote(atm, tempMoney, 500);
-    if (tempMoney >= 200) computeBanknote(atm, tempMoney, 200);
-    if (tempMoney >= 100) computeBanknote(atm, tempMoney, 100);
+  std::map<int32_t, int32_t> stableAtm(atm);
 
-    bank.close();
-    if (0 == tempMoney) {
-      changeStatusAtm(atm);
-      cout << "Amount of funds withdrawn: " << money;
+  std::map<int32_t, bool> isWithdrawBanknotes{
+      {100, true},  {200, true},  {500, true},
+      {1000, true}, {2000, true}, {5000, true},
+  };
+  int32_t currentBanknoteToWithdraw{};
+  while (isWithdrawAtmCheck(isWithdrawBanknotes)) {
+    if (money <= maxSumAtm) {
+      int32_t tempMoney{money};
+      if (tempMoney >= 5000 && isWithdrawBanknotes[100] && atm[5000] != 0) {
+        computeBanknote(atm, tempMoney, 5000);
+        currentBanknoteToWithdraw = 5000;
+      } else
+        isWithdrawBanknotes[5000] = false;
+
+      if (tempMoney >= 2000 && isWithdrawBanknotes[2000] && atm[2000] != 0) {
+        computeBanknote(atm, tempMoney, 2000);
+        currentBanknoteToWithdraw = 2000;
+      } else
+        isWithdrawBanknotes[2000] = false;
+
+      if (tempMoney >= 1000 && isWithdrawBanknotes[1000] && atm[1000] != 0) {
+        computeBanknote(atm, tempMoney, 1000);
+        currentBanknoteToWithdraw = 1000;
+      } else
+        isWithdrawBanknotes[1000] = false;
+
+      if (tempMoney >= 500 && isWithdrawBanknotes[500] && atm[500] != 0) {
+        computeBanknote(atm, tempMoney, 500);
+        currentBanknoteToWithdraw = 500;
+      } else
+        isWithdrawBanknotes[500] = false;
+
+      if (tempMoney >= 200 && isWithdrawBanknotes[200] && atm[200] != 0) {
+        computeBanknote(atm, tempMoney, 200);
+        currentBanknoteToWithdraw = 200;
+      } else
+        isWithdrawBanknotes[200] = false;
+
+      if (tempMoney >= 100 && isWithdrawBanknotes[100] && atm[100] != 0) {
+        computeBanknote(atm, tempMoney, 100);
+        currentBanknoteToWithdraw = 100;
+      } else
+        isWithdrawBanknotes[100] = false;
+
+      if (0 == tempMoney) {
+        changeStatusAtm(atm);
+        cout << "Amount of funds withdrawn: " << money;
+        for (auto&& iter : isWithdrawBanknotes) iter.second = false;
+      } else {
+        auto isWithdrawBanknote{
+            isWithdrawBanknotes.find(currentBanknoteToWithdraw)};
+        isWithdrawBanknote->second = false;
+
+        for (auto&& iter : isWithdrawBanknotes)
+          if (iter.first < currentBanknoteToWithdraw) iter.second = true;
+
+        atm = stableAtm;
+        if (!isWithdrawAtmCheck(isWithdrawBanknotes))
+          cout << "The operation cannot be performed: there are not enough "
+                  "banknotes of the required denomination!\n";
+      }
     } else {
-      cout << "The operation cannot be performed: there are not enough "
-              "banknotes of the required denomination!\n";
+      cout << "Insufficient funds at the ATM to withdraw cash";
+      break;
     }
-  } else {
-    cout << "Insufficient funds at the ATM to withdraw cash";
-    bank.close();
   }
 }
 
