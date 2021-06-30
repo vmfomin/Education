@@ -10,6 +10,7 @@
  */
 
 #include <iostream>
+#include <memory>
 
 #include "Timer.h"
 
@@ -19,17 +20,17 @@ using std::endl;
 
 template <typename T>
 void swap(T* a, T* b) {
-  T temp = *a;
-  *a = *b;
-  *b = temp;
+  T temp = std::move(*a);
+  *a = std::move(*b);
+  *b = std::move(temp);
 }
 
 int main() {
   cout << "\x1b[2J";
 
-  cout << "Before:\n";
   int* a{new int{15}};
   int* b{new int{7}};
+  cout << "Before:\n";
   cout << "a = " << *a << "; b = " << *b << "\n" << endl;
 
   {
@@ -48,9 +49,7 @@ int main() {
     cout << "Time elapsed: " << t.elapsed() << "\n" << endl;
   }
 
-  delete a;
   a = nullptr;
-  delete b;
   b = nullptr;
 
   return 0;
