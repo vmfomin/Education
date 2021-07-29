@@ -3,8 +3,8 @@
 	"tasks": [
 		{
 			"type": "cppbuild",
-			"label": "C/C++: clang++.exe сборка активного файла",
-			"command": "C:\\msys64\\mingw64\\bin\\clang++.exe",
+			"label": "C/C++: g++.exe сборка активного файла",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
 			"args": [
 				"-g",
 				"${workspaceFolder}/*.cpp"
@@ -16,7 +16,7 @@
 				"$gcc"
 			],
 			"group": "build",
-			"detail": "компилятор: C:\\msys64\\mingw64\\bin\\clang++.exe"
-		},
+			"detail": "компилятор: C:\\msys64\\mingw64\\bin\\g++.exe"
+		}
 	]
 }
