@@ -10,8 +10,10 @@
 #ifndef _INC_EMAIL_VALID_CHECK_H_
 #define _INC_EMAIL_VALID_CHECK_H_
 
+#include <algorithm>
 #include <iostream>
 #include <map>
+#include <unordered_set>
 #include <vector>
 
 /****Коды ошибок при тестированнии email.****/
@@ -73,15 +75,10 @@ class EmailValidCheck {
    * @return true full length more than 127
    * @return false
    */
-  virtual bool computeLength();
-
-  /**
-   * @brief Check for Latin letters and Arabic numerals as default
-   * @param symbol the symbol being checked
-   * @return true
-   * @return false
-   */
-  virtual bool validLetters(const char& symbol);
+  virtual bool computeLength() {
+    if (email_.size() > 126) return true;
+    return false;
+  }
 
   /**
    * @brief Get the email address
@@ -95,7 +92,7 @@ class EmailValidCheck {
    * @return std::string error message.
    */
 
-  std::string getErrorStr(const int& error) {
+  std::string getErrorStr(const int error) {
     auto it{errorsMap_.find(error)};
     if (it != errorsMap_.end()) {
       return it->second;
@@ -154,10 +151,7 @@ class EmailValidCheck {
    * @return false
    */
   bool countAtInEmail() {
-    size_t count{};
-    for (auto& c : email_)
-      if ('@' == c) ++count;
-
+    auto count = std::count(email_.begin(), email_.end(), '@');
     if (count > 1 || 0 == count) return true;
     return false;
   }
@@ -169,7 +163,15 @@ class EmailValidCheck {
    * @return true incorrect length
    * @return false
    */
-  bool computeLength(size_t& pos, const size_t& lengthPart);
+  bool computeLength(size_t& pos, const size_t lengthPart);
+
+  /**
+   * @brief Check for Latin letters and Arabic numerals as default
+   * @param symbol the symbol being checked
+   * @return true
+   * @return false
+   */
+  bool validLetters(const char symbol);
 
   /**
    * @brief Check for Latin letters and Arabic numerals and allowed symbols for
@@ -178,7 +180,7 @@ class EmailValidCheck {
    * @return true incorrect letters found.
    * @return false
    */
-  bool validSymbols(const size_t& pos);
+  bool validSymbols(const size_t pos);
 };
 
 #endif /* _INC_EMAIL_VALID_CHECK_H_ */

@@ -74,19 +74,10 @@ bool EmailValidCheck::findDotAtFirstPosition() {
   return false;
 }
 
-bool EmailValidCheck::computeLength() {
-  for (auto i{email_.begin()}; i != email_.end(); ++i) {
-    int length = i - email_.begin();
-
-    if (length > 126) return true;
-  }
-  return false;
-}
-
-bool EmailValidCheck::computeLength(size_t& pos, const size_t& lengthPart) {
-  int count{};
+bool EmailValidCheck::computeLength(size_t& pos, const size_t lengthPart) {
+  size_t count{};
   for (auto i{email_.begin() + pos}; i != email_.end(); ++i) {
-    count = static_cast<int>(i - email_.begin() - pos);
+    count = i - email_.begin() - pos;
 
     if (('@' == *i || email_.end() - 1 == i) && count < lengthPart) {
       pos = ++count;
@@ -96,7 +87,7 @@ bool EmailValidCheck::computeLength(size_t& pos, const size_t& lengthPart) {
   return true;
 }
 
-bool EmailValidCheck::validLetters(const char& symbol) {
+bool EmailValidCheck::validLetters(const char symbol) {
   if (symbol >= 'a' && symbol <= 'z')
     return true;
   else if (symbol >= 'A' && symbol <= 'Z')
@@ -111,23 +102,15 @@ bool EmailValidCheck::validLetters(const char& symbol) {
   return false;
 }
 
-bool EmailValidCheck::validSymbols(const size_t& pos) {
+bool EmailValidCheck::validSymbols(const size_t pos) {
+  std::string symbols{"!#$%&'*+-/=?^_`{|}~"};
+  std::unordered_set<char> hash_symbols;
+  for (auto&& i : symbols) hash_symbols.insert(i);
+
   for (auto i{email_.begin() + pos}; i != email_.end(); ++i) {
     if (validLetters(*i)) continue;
-    /* !#$%&'*+-/=?^_`{|}~ */  // allowed characters for 1 part
-    else if (0 == pos && ('!' == *i || *i >= '#' && *i <= '\''))
-      continue;
-    else if (0 == pos && (*i >= '*' && *i <= '+'))
-      continue;
-    else if (0 == pos && ('/' == *i || '=' == *i || '?' == *i))
-      continue;
-    else if (0 == pos && (*i >= '^' && *i <= '`'))
-      continue;
-    else if (0 == pos && (*i >= '{' && *i <= '~'))
-      continue;
-    else
-      return true;
+    if (pos == 0 && hash_symbols.find(*i) != hash_symbols.end()) continue;
+    return true;
   }
-
   return false;
 }
