@@ -16,47 +16,28 @@
  */
 
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 
-using std::cout;
-using std::vector;
+std::pair<size_t, size_t> SumTwoDigitsInArray(const std::vector<int32_t>& vec,
+                                              const int32_t target) {
+  std::unordered_map<int32_t, size_t> hash_map;
+  std::pair<size_t, size_t> ans;
 
-/**
- * @brief     The sum of two digits in the array
- * @tparam    T             type of vector
- * @param     vec           vector<T>
- * @param     result        the sum need to find
- */
-template <typename T>
-void sumTwoDigitsInArray(const vector<T>& vec, const T& result) {
-  for (size_t i{}; i < vec.size() - 1; ++i)
-    for (size_t j{i + 1}; j < vec.size(); ++j)
-      if (vec[i] + vec[j] == result) {
-        cout << vec[i] << " + " << vec[j] << " = " << result << "\n";
-        return;
-      }
-  cout << "No matching condition found!\n";
+  for (size_t i{}; i < vec.size(); ++i) {
+    auto iter{hash_map.find(target - vec[i])};
+    if (iter != hash_map.end()) ans = std::make_pair(iter->second, i);
+    hash_map[vec[i]] = i;
+  }
+  return ans;
 }
 
 int main() {
-  cout << "\x1b[2J";
+  system("cls");
 
-  vector<int32_t> vec_1{11, 15, 2, 7};
-  int32_t result_1{9};
-  cout << "vec_1: ";
-  sumTwoDigitsInArray(vec_1, result_1);
+  std::vector<int32_t> vec{11, 2, 15, 13, 7, 12};
+  int32_t result{9};
+  auto ans{SumTwoDigitsInArray(vec, result)};
 
-  vector<int32_t> vec_2{11, 15, 2, 3};
-  int32_t result_2{7};
-  cout << "vec_2: ";
-  sumTwoDigitsInArray(vec_2, result_2);
-
-  vector<double> vec_3{11.5, 2.5, 110.1, 2.45, 2.44, 3.175, 22.3};
-  double result_3{5.615};
-  cout << "vec_3: ";
-  sumTwoDigitsInArray(vec_3, result_3);
-
-  cout << "\n";
-
-  return 0;
+  std::cout << ans.first << " " << ans.second << "\n";
 }
