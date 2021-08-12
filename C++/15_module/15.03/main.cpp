@@ -17,57 +17,32 @@
  * @copyright Copyright (c) 2021
  */
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
-/**
- * @brief     Quick sorting
- * @tparam    T             Input class
- * @param     array         sorting vector
- * @param     last          length of part
- * Реализовал для практики через итератор на вход.
- */
-template <class T>
-void quickSort(T array, int64_t last) {
-  int64_t i{};
-  int64_t j{last};
-  auto pivot = *(array + (last >> 1));
-
-  while (i <= j) {
-    while (*(array + i) < pivot) ++i;
-    while (*(array + j) > pivot) --j;
-    if (i <= j) std::swap(*(array + i++), *(array + j--));
-  }
-  if (j > 0) quickSort(array, j);
-  if (last > i) quickSort(array + i, last - i);
-}
-
 int main() {
-  using std::cout;
-  using std::vector;
-  cout << "\x1b[2J";
+  std::cout << "\x1b[2J";
 
-  vector<int32_t> vec;
-  cout << "Enter numbers: ";
+  std::vector<int32_t> vec;
+  std::cout << "Enter numbers: ";
   do {
     int32_t temp;
     std::cin >> temp;
     if (-1 == temp && vec.size() > 4) {
-      quickSort(vec.begin(), vec.size() - 1);
-      cout << "number at index [4]: " << vec[4] << "\n";
-      cout << "Enter numbers: ";
+      std::sort(vec.begin(), vec.end());
+      std::cout << "number at index [4]: " << vec[4] << "\n";
+      std::cout << "Enter numbers: ";
       continue;
     }
 
     if (-2 == temp) {
-      cout << "Shutdown\n";
+      std::cout << "Shutdown\n";
       break;
     }
 
     if (temp != -1) vec.push_back(temp);
   } while (true);
 
-  cout << "\n";
-
-  return 0;
+  std::cout << std::endl;
 }
