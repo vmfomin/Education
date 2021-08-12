@@ -51,8 +51,8 @@ template <class T>
 void quickSort(T begin, T end) noexcept {
   T i{begin};
   T j{end};
-  std::mt19937 gen{std::random_device()()};
-  auto pivot = *(begin + gen() % (end - begin));
+  auto pivot{std::max(*(begin + ((end - begin) >> 1)),
+                      std::max(*(begin), *(end - 1)))};
 
   while (i < j) {
     while (*(i) < pivot) ++i;
