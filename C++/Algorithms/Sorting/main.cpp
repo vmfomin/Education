@@ -25,7 +25,7 @@ constexpr void InsertSort(T& array) noexcept;
 
 template <typename T>
 constexpr void quickSort(T begin, T end) noexcept {
-  if (end - begin < 64) {
+  if (end - begin < 10) {
     size_t size{static_cast<size_t>(end - begin)};
     for (int i = 1; i < size; ++i) {
       for (int j = i; j > 0 && begin[j - 1] > begin[j]; --j)
