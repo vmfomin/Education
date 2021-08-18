@@ -7,21 +7,33 @@
  * @copyright Copyright (c) 2021
  */
 
+#include <algorithm>
 #include <iostream>
-#include <iterator>
 #include <random>
 #include <vector>
 
-using std::vector;
+#include "Timer.h"
 
 /**
- * @brief     Quick sorting
- * @tparam    T             Input class
- * @param     begin         container begin
- * @param     end           container end
+ * @brief     QuickSort with insertion sort
  */
-template <class T>
+template <typename T>
+constexpr void quickSort(T begin, T end) noexcept;
+
+template <typename T>
+constexpr void InsertSort(T& array) noexcept;
+
+template <typename T>
 constexpr void quickSort(T begin, T end) noexcept {
+  if (end - begin < 64) {
+    size_t size{static_cast<size_t>(end - begin)};
+    for (int i = 1; i < size; ++i) {
+      for (int j = i; j > 0 && begin[j - 1] > begin[j]; --j)
+        std::swap(begin[j - 1], begin[j]);
+    }
+    return;
+  }
+
   T i{begin};
   T j{end};
   auto pivot{std::max(*(begin + ((end - begin) >> 1)),
@@ -37,13 +49,16 @@ constexpr void quickSort(T begin, T end) noexcept {
   if (end > i) quickSort(i, end);
 }
 
-/**
- * @brief     Selection sorting
- * @tparam    T             type of vector
- * @param     array           sorting vector
- */
-template <class T>
-constexpr void selectSort(T& array) {
+template <typename T>
+constexpr void InsertSort(T& array) noexcept {
+  for (int i = 1; i < array.size(); ++i) {
+    for (int j = i; j > 0 && array[j - 1] > array[j]; --j)
+      std::swap(array[j - 1], array[j]);
+  }
+}
+
+template <typename T>
+constexpr void selectSort(T& array) noexcept {
   for (int i = array.size() - 1; i >= 0; --i) {
     int max_index{};
     for (int j{}; j <= i; ++j)
@@ -52,48 +67,44 @@ constexpr void selectSort(T& array) {
   }
 }
 
-/**
- * @brief     Bubble sorting
- * @tparam    T             type of vector
- * @param     array           sorting vector
- */
-template <class T>
-constexpr void bubbleSort(T& array) {
+template <typename T>
+constexpr void bubbleSort(T& array) noexcept {
   for (int i{}; i < array.size(); ++i)
     for (int j{}; j < array.size() - i - 1; ++j)
       if (array[j] > array[j + 1]) std::swap(array[j], array[j + 1]);
 }
 
 int main() {
-  using std::cout;
-  cout << "\x1b[2J";
+  system("cls");
 
-  const vector<int> array{7, 1, 5,  4,  6, -20, 100, 5, 3, 10,
-                          4, 2, 14, 67, 2, 11,  33,  1, 15};
-  cout << "Before sorting:    ";
-  std::copy(array.begin(), array.end(),
-            std::ostream_iterator<int>(std::cout, " "));
+  std::vector<int32_t> array(1000000);
+  for (auto&& i : array) i = std::random_device()();
 
-  cout << "\nSelection sorting: ";
-  vector<int> s_sortVec(array);
-  selectSort(s_sortVec);
-  std::copy(s_sortVec.begin(), s_sortVec.end(),
-            std::ostream_iterator<int>(std::cout, " "));
+  {
+    Timer t;
+    std::cout << "\nstd::sort:         ";
+    std::vector<int32_t> sort_vec(array);
+    std::sort(sort_vec.begin(), sort_vec.end());
+    std::cout << "\nTime elapsed:       " << t.elapsed() << "\n";
+  }
 
-  cout << "\nBubble sorting:    ";
-  vector<int> b_sortVec(array);
-  bubbleSort(b_sortVec);
-  std::copy(b_sortVec.begin(), b_sortVec.end(),
-            std::ostream_iterator<int>(std::cout, " "));
+  {
+    Timer t;
+    std::cout << "\nQuick sorting:     ";
+    std::vector<int32_t> q_sortVec(array);
+    quickSort(q_sortVec.begin(), q_sortVec.end());
+    std::cout << "\nTime elapsed:       " << t.elapsed() << "\n";
+  }
 
-  cout << "\nQuick sorting:     ";
-  vector<int> q_sortVec(array);
-  quickSort(q_sortVec.begin(), q_sortVec.end());
-  std::copy(q_sortVec.begin(), q_sortVec.end(),
-            std::ostream_iterator<int>(std::cout, " "));
-  cout << "\n";
+  // {
+  //   Timer t;
+  //   std::cout << "\nInsert sorting:    ";
+  //   std::vector<int32_t> insert_sort_vec(array);
+  //   InsertSort(insert_sort_vec);
+  //   std::cout << "\nTime elapsed:       " << t.elapsed() << "\n";
+  // }
 
-  cout << "\x1b[37m" << std::endl;
+  std::cout << "\x1b[37m" << std::endl;
 
   return 0;
 }
