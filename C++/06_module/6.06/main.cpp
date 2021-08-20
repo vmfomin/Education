@@ -6,35 +6,12 @@
 /// вариантов через if не будет засчитано.
 
 #include <iostream>
+#include <limits>
 
 int main() {
-    int number;
+  system("cls");
 
-    std::cout << "Введите число: ";
-    std::cin >> number;
-
-    // Число для вывода в консоль, т.к. изменяю входящее число.
-    int numberForPrint = number;
-
-    int degree = 0;        // Счетчик степени.
-    bool isDegree = false; // Проверка степени.
-
-    // 2 / 2 = 1, поэтому использую, как граничное условие. Если изначально
-    // number = 1, то 1 = 2 ^ 0;
-    while (1 != number) {
-        isDegree = number % 2 == 0;
-
-        if (!isDegree || 0 == number) {
-            std::cout << "Число " << numberForPrint << " НЕ является степенью 2!\n";
-            return -1;
-        }
-
-        number /= 2;
-        degree++;
-    }
-
-    std::cout << "Число " << numberForPrint << " является степенью 2!\n"
-              << numberForPrint << " = 2 в " << degree << " степени.\n";
-
-    return 0;
+  int32_t number{16};
+  bool is_degree{number > 0 && (number & (number - 1)) == 0};
+  std::cout << (is_degree ? "degree of 2" : "not degree of 2");
 }
